@@ -1,14 +1,24 @@
-import { BigNumber, ethers } from 'ethers';
+import reddio from '../core';
 
-export const computeNonMintableVaultID = (
-  contractAddress: string,
-  starkKey: string,
-  tokenId: string
-) => {
-  return BigNumber.from(
-    ethers.utils.solidityKeccak256(
-      ['address', 'uint256', 'uint256'],
-      [contractAddress, starkKey, tokenId]
-    )
-  );
+interface VaultParams {
+  contractAddress: string;
+  starkKey: string;
+  tokenId?: string;
+}
+
+interface VaultResponse {
+  vault_id: number;
+}
+
+const getVaultID = async (params: VaultParams) => {
+  const { contractAddress, starkKey, tokenId } = params;
+  return reddio.request.get<VaultResponse>('/api/v1/vault', {
+    params: {
+      contract: contractAddress,
+      stark_key: starkKey,
+      token_id: tokenId,
+    },
+  });
 };
+
+export { getVaultID };

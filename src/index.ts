@@ -1,6 +1,3 @@
-export const sum = (a: number, b: number) => {
-  if ('development' === process.env.NODE_ENV) {
-    console.log('boop');
-  }
-  return a + b;
-};
+export * from './core';
+export * from './utils/asset';
+export * from './utils/vault';
