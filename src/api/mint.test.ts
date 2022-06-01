@@ -9,6 +9,6 @@ describe('mint', () => {
       amount: 10,
     });
     expect(data.status).toEqual('OK');
-    expect(data.data.txid).toBeTruthy();
+    expect(data.data.txid).toBeDefined();
   });
 });

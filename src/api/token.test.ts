@@ -8,6 +8,6 @@ describe('token', () => {
     });
 
     expect(data.status).toEqual('OK');
-    expect(data.data.tx_hash).toBeTruthy();
+    expect(data.data.tx_hash).toBeDefined();
   });
 });

@@ -11,6 +11,6 @@ describe('vault', () => {
     const { data } = await getVaultID(params);
 
     expect(data.status).toEqual('OK');
-    expect(data.data.vault_id).toBeTruthy();
+    expect(data.data.vault_id).toBeDefined();
   });
 });
