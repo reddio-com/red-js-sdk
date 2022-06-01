@@ -1,20 +1,20 @@
 import { BigNumber, ethers } from 'ethers';
 import BN from 'bn.js';
-import { Type } from './enum';
+import { Types } from './enum';
 
-export const getAssetInfo = (type: Type, address: string) => {
+export const getAssetInfo = (type: Types, address: string) => {
   const value = address.substring(2).padStart(64, '0');
   switch (type) {
-    case Type.ETH: {
+    case Types.ETH: {
       return '0x8322fff2';
     }
-    case Type.ERC20: {
+    case Types.ERC20: {
       return '0xf47261b0' + value;
     }
-    case Type.ERC721: {
+    case Types.ERC721: {
       return '0x02571792' + value;
     }
-    case Type.ERC721M: {
+    case Types.ERC721M: {
       return '0xb8b86672' + value;
     }
     default: {
@@ -23,7 +23,7 @@ export const getAssetInfo = (type: Type, address: string) => {
   }
 };
 
-export const getAssetType = (type: Type, address: string, quantum: number) => {
+export const getAssetType = (type: Types, address: string, quantum: number) => {
   const assetInfo = getAssetInfo(type, address);
   const blobHash = new BN(
     BigNumber.from(
@@ -45,13 +45,13 @@ export const getAssetType = (type: Type, address: string, quantum: number) => {
 };
 
 export const getAssetID = (
-  type: Type,
+  type: Types,
   address: string,
   quantum: number,
   tokenId: number
 ) => {
   let assetId = getAssetType(type, address, quantum);
-  if (type === Type.ERC721) {
+  if (type === Types.ERC721) {
     const blobHash = new BN(
       BigNumber.from(
         ethers.utils.solidityKeccak256(
@@ -73,7 +73,7 @@ export const getAssetID = (
         .toString('hex')
     );
   }
-  if (type === Type.ERC721M) {
+  if (type === Types.ERC721M) {
     let blobHash = new BN(
       BigNumber.from(
         ethers.utils.solidityKeccak256(['string'], ['NFT:'])
