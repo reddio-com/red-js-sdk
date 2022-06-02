@@ -1,19 +1,17 @@
 import reddio from '../core';
 import { RequestCommonParams, Response } from '../types/common';
+import { parseParams } from '../utils/common';
 
 interface MintParams extends RequestCommonParams {
   amount: number;
 }
 
 interface MintResponse {
-  txid: number;
+  transaction_id: number;
 }
 
-export const mintERC20 = async (data: MintParams) => {
-  const { address, starkKey, amount } = data;
+export const mintERC20 = async (params: MintParams) => {
   return reddio.request.post<Response<MintResponse>>('/api/v1/mint', {
-    address,
-    amount,
-    stark_key: starkKey,
+    ...parseParams(params),
   });
 };

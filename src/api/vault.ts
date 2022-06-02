@@ -1,5 +1,6 @@
 import reddio from '../core';
 import { RequestCommonParams, Response } from '../types/common';
+import { parseParams } from '../utils/common';
 
 interface VaultParams extends RequestCommonParams {
   tokenId?: string;
@@ -10,12 +11,9 @@ interface VaultResponse {
 }
 
 const getVaultID = async (params: VaultParams) => {
-  const { address, starkKey, tokenId } = params;
   return reddio.request.get<Response<VaultResponse>>('/api/v1/vault', {
     params: {
-      address,
-      stark_key: starkKey,
-      token_id: tokenId,
+      ...parseParams(params),
     },
   });
 };

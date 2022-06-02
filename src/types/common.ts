@@ -8,3 +8,8 @@ export interface Response<T> {
   status: string;
   error: string;
 }
+
+export type SignatureLike = {
+  r: string;
+  s: string;
+};

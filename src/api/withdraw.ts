@@ -1,5 +1,6 @@
 import reddio from '../core';
 import { RequestCommonParams, Response } from '../types/common';
+import { parseParams } from '../utils/common';
 
 interface WithdrawParams extends RequestCommonParams {
   amount: number;
@@ -7,15 +8,11 @@ interface WithdrawParams extends RequestCommonParams {
 }
 
 interface WithdrawResponse {
-  txid: number;
+  transaction_id: number;
 }
 
 export const withdraw = async (data: WithdrawParams) => {
-  const { address, starkKey, amount, tokenId } = data;
   return reddio.request.post<Response<WithdrawResponse>>('/api/v1/withdraw', {
-    address,
-    amount,
-    stark_key: starkKey,
-    token_id: tokenId,
+    ...parseParams(data),
   });
 };
