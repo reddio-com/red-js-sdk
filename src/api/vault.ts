@@ -1,17 +1,10 @@
-import reddio from '../core';
-import { RequestCommonParams, Response } from '../types/common';
+import { AxiosInstance } from 'axios';
+import { Response } from '../types/common';
 import { parseParams } from '../utils/common';
+import { VaultParams, VaultResponse } from '../types/api';
 
-interface VaultParams extends RequestCommonParams {
-  tokenId?: string;
-}
-
-interface VaultResponse {
-  vault_id: number;
-}
-
-const getVaultID = async (params: VaultParams) => {
-  return reddio.request.get<Response<VaultResponse>>('/api/v1/vault', {
+const getVaultID = async (request: AxiosInstance, params: VaultParams) => {
+  return request.get<Response<VaultResponse>>('/api/v1/vault', {
     params: {
       ...parseParams(params),
     },

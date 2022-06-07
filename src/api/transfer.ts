@@ -1,25 +1,13 @@
-import reddio from '../core';
-import { Response, SignatureLike } from '../types/common';
+import { AxiosInstance } from 'axios';
+import { Response } from '../types/common';
 import { parseParams } from '../utils/common';
+import { TransferParams, TransferResponse } from '../types/api';
 
-interface TransferParams {
-  starkKey: string;
-  tokenId: string;
-  amount: number;
-  nonce: number;
-  vaultId: number;
-  receiver: string;
-  receiverVaultId: number;
-  expirationTimestamp: number;
-  signature: SignatureLike;
-}
-
-interface TransferResponse {
-  transaction_id: number;
-}
-
-export const transfer = async (data: TransferParams) => {
-  return reddio.request.post<Response<TransferResponse>>('/api/v1/transfer', {
+export const transfer = async (
+  request: AxiosInstance,
+  data: TransferParams
+) => {
+  return request.post<Response<TransferResponse>>('/api/v1/transfer', {
     ...parseParams(data),
   });
 };
