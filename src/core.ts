@@ -9,6 +9,7 @@ import {
   mintERC20,
   registerToken,
 } from './api';
+import { generateFromEthSignature } from './utils/keypair';
 import {
   MintParams,
   NonceParams,
@@ -53,6 +54,12 @@ class ReddioCore {
     },
     withdraw: (args: WithdrawParams) => {
       return withdraw(this.request, args);
+    },
+  };
+
+  public readonly keypair = {
+    generateFromEthSignature: (msgParams: any) => {
+      return generateFromEthSignature(this.provider, msgParams);
     },
   };
 }

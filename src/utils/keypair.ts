@@ -1,10 +1,14 @@
 // @ts-ignore
 import { keyDerivation } from '@starkware-industries/starkware-crypto-utils';
-import reddio from '../core';
+import { JsonRpcProvider } from '@ethersproject/providers';
 
-export const getKeys = async (from: string, msgParams: any) => {
+export const generateFromEthSignature = async (
+  provider: JsonRpcProvider,
+  msgParams: any
+) => {
   const method = 'eth_signTypedData_v4';
-  const result = await reddio.provider.send(method, [from, msgParams]);
+  const from = await provider.getSigner().getAddress();
+  const result = await provider.send(method, [from, msgParams]);
   const privateKey = keyDerivation.getPrivateKeyFromEthSignature(result);
   const publicKey = '0x' + keyDerivation.privateToStarkKey(privateKey);
   return { privateKey, publicKey };
