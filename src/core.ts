@@ -1,17 +1,17 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, {AxiosInstance} from 'axios';
 import config from './config';
-import { JsonRpcProvider } from '@ethersproject/providers';
+import {JsonRpcProvider} from '@ethersproject/providers';
 import {
   depositERC20,
-  getVaultID,
+  getContractAddress,
   getNonce,
-  transfer,
-  withdraw,
+  getVaultID,
   mintERC20,
   registerToken,
-  getContractAddress,
+  transfer,
+  withdraw,
 } from './api';
-import { generateFromEthSignature } from './utils/keypair';
+import {generateFromEthSignature} from './utils/keypair';
 import {
   DepositERC20Params,
   MintParams,
@@ -21,7 +21,7 @@ import {
   VaultParams,
   WithdrawParams,
 } from './types/api';
-import { Env } from "./utils/enum";
+import {Env} from "./utils/enum";
 
 interface ReddioCoreOptions {
   env?: `${Env}`;
@@ -37,10 +37,14 @@ class ReddioCore {
 
   constructor(options: ReddioCoreOptions) {
     this.options = options;
-    this.request = axios.create({
-      baseURL: config.baseUrl[options.env || 'test'],
-    });
     this.provider = options.provider;
+    this.request = this.initRequest(options);
+  }
+
+  private initRequest = (options: ReddioCoreOptions) => {
+    return axios.create({
+      baseURL: config.baseUrl[options.env || 'test'],
+    })
   }
 
   public readonly apis = {
