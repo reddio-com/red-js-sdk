@@ -1,3 +1,4 @@
+export * from './balance';
 export * from './deposit';
 export * from './mint';
 export * from './nonce';

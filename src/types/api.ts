@@ -2,6 +2,19 @@ import { RequestCommonParams, SignatureLike } from './common';
 import { Types } from '../utils/enum';
 
 /**
+ * Balance
+ */
+export interface BalanceResponse {
+  address: string;
+  balance: number;
+  currency: string;
+  symbol: string;
+  type: `${Types}`;
+  website: string;
+  logo: string;
+}
+
+/**
  * Deposit
  */
 export interface DepositERC20Params {

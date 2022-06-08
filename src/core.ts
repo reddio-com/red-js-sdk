@@ -2,7 +2,7 @@ import axios, {AxiosInstance} from 'axios';
 import config from './config';
 import {JsonRpcProvider} from '@ethersproject/providers';
 import {
-  depositERC20,
+  depositERC20, getBalance,
   getContractAddress,
   getNonce,
   getVaultID,
@@ -70,6 +70,9 @@ class ReddioCore {
       await this.getContractAddress();
       return depositERC20(this.provider, this.contractAddress!, args);
     },
+    getBalance: async () => {
+      return getBalance(this.request)
+    }
   };
 
   public readonly keypair = {
