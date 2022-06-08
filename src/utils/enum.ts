@@ -5,3 +5,8 @@ export enum Types {
   ERC721 = 'ERC721',
   ERC721M = 'ERC721M',
 }
+
+export enum Env {
+  Test = 'test',
+  Main = 'main',
+}
