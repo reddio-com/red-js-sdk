@@ -2,6 +2,16 @@ import { RequestCommonParams, SignatureLike } from './common';
 import { Types } from '../utils/enum';
 
 /**
+ * Deposit
+ */
+export interface DepositERC20Params {
+  starkKey: string;
+  assetType: string;
+  vaultId: string;
+  quantizedAmount: number | string;
+}
+
+/**
  * Mint
  */
 export interface MintParams extends RequestCommonParams {
@@ -73,4 +83,12 @@ export interface WithdrawParams extends RequestCommonParams {
 
 export interface WithdrawResponse {
   transaction_id: number;
+}
+
+/**
+ * Starkex
+ */
+export interface ContractsAddressResponse {
+  mainnet: string;
+  testnet: string;
 }
