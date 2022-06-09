@@ -11,6 +11,9 @@ export const getAssetInfo = (type: Types, address: string) => {
     case Types.ERC20: {
       return '0xf47261b0' + value;
     }
+    case Types.ERC20M: {
+      return '0x68646e2d' + value;
+    }
     case Types.ERC721: {
       return '0x02571792' + value;
     }
@@ -73,7 +76,7 @@ export const getAssetID = (
         .toString('hex')
     );
   }
-  if (type === Types.ERC721M) {
+  if (type === Types.ERC721M || type === Types.ERC20M) {
     let blobHash = new BN(
       BigNumber.from(
         ethers.utils.solidityKeccak256(['string'], ['NFT:'])
