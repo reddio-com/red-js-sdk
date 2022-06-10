@@ -19,7 +19,6 @@ const Process2 = () => {
     setRegisterHash(data.data.tx_hash);
   };
   const deposit = async () => {
-    // @ts-ignore
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     await provider.send('eth_requestAccounts', []);
     const assetType = reddio.utils.getAssetType(
