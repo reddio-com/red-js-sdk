@@ -1,11 +1,11 @@
 {
   "version": "0.1.0",
+  "name": "@reddio/js-sdk",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "engines": {
     "node": ">=10"
@@ -31,7 +31,6 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "mylib",
   "author": "xuwu",
   "module": "dist/mylib.esm.js",
   "size-limit": [
