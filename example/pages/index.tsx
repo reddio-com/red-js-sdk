@@ -1,19 +1,12 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
-import { ethers } from "ethers";
-import { Reddio } from '@reddio/js-sdk'
+import { initReddio } from "./utils/config";
 
 const Home: NextPage = () => {
-  if (typeof window !== "undefined") {
-    // @ts-ignore
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const reddio = new Reddio({
-      provider,
-    });
-    console.log(reddio);
-  }
+  initReddio()
   return (
     <div className={styles.container}>
       <Head>
@@ -28,33 +21,19 @@ const Home: NextPage = () => {
         </h1>
 
         <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+          <Link href="/process1">
+            <a className={styles.card}>
+              <h2>流程 1 &rarr;</h2>
+              <p>Deposit/Transfer/Withdraw ETH between L1 and L2.</p>
+            </a>
+          </Link>
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+          <Link href="/process2">
+            <a className={styles.card}>
+              <h2>流程 2 &rarr;</h2>
+              <p>Deposit/Transfer/Withdraw ERC20 between L1 and L2.</p>
+            </a>
+          </Link>
         </div>
       </main>
 

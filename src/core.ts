@@ -85,14 +85,14 @@ class ReddioCore {
 
   public readonly utils = {
     getAssetID: (
-      type: Types,
+      type: `${Types}`,
       address: string,
       quantum: number,
       tokenId: number
     ) => {
       return getAssetID(type, address, quantum, tokenId);
     },
-    getAssetType: (type: Types, address: string, quantum: number) => {
+    getAssetType: (type: `${Types}`, address: string, quantum: number) => {
       return getAssetType(type, address, quantum);
     },
   };

@@ -44,6 +44,7 @@
     }
   ],
   "devDependencies": {
+    "@babel/plugin-transform-template-literals": "^7.18.2",
     "@depay/web3-blockchains": "^5.0.1",
     "@depay/web3-mock": "^11.8.1",
     "@size-limit/preset-small-lib": "^7.0.8",
@@ -64,5 +65,12 @@
     "setupFiles": [
       "<rootDir>/tests/setup.ts"
     ]
+  },
+  "resolutions": {
+    "**/@typescript-eslint/eslint-plugin": "^4.11.1",
+    "**/@typescript-eslint/parser": "^4.11.1",
+    "**/jest": "^26.6.3",
+    "**/ts-jest": "^26.4.4",
+    "**/typescript": "^4.1.3"
   }
 }

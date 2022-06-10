@@ -2,7 +2,7 @@ import { BigNumber, ethers } from 'ethers';
 import BN from 'bn.js';
 import { Types } from './enum';
 
-export const getAssetInfo = (type: Types, address: string) => {
+export const getAssetInfo = (type: `${Types}`, address: string) => {
   const value = address.substring(2).padStart(64, '0');
   switch (type) {
     case Types.ETH: {
@@ -27,7 +27,7 @@ export const getAssetInfo = (type: Types, address: string) => {
 };
 
 export const getAssetType = (
-  type: Types,
+  type: `${Types}`,
   address: string,
   quantum: number | string
 ) => {
@@ -55,7 +55,7 @@ export const getAssetType = (
 };
 
 export const getAssetID = (
-  type: Types,
+  type: `${Types}`,
   address: string,
   quantum: number,
   tokenId: number
