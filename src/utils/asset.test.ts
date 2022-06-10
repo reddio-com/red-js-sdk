@@ -23,16 +23,16 @@ describe('getAssetType', () => {
     const tokenAddress = '0x20a36B174dfb726A33a8416eD2E4894719236140';
     const quantum = 1;
     expect(getAssetType(Types.ETH, tokenAddress, quantum)).toEqual(
-      '0x1142460171646987f20c714eda4b92812b22b811f56f27130937c267e29bd9e'
+      '0x32e4fb4bbff54367e9a3f929c3ac66533f81dc9bb70d2dc358528db962aa7fb'
     );
     expect(getAssetType(Types.ERC20, tokenAddress, quantum)).toEqual(
-      '0x11ab3af6727fcd73565816e286a2ee5008c230ac36a9d7f8de9cc9494bb95d'
+      '0x319af4c45f3ae095fffb5b6fd3fba7f7904e317d5e20c5640a051f6629703f7'
     );
     expect(getAssetType(Types.ERC721, tokenAddress, quantum)).toEqual(
-      '0x39e2cce8afb88142a6affa0da853055331826b7f8ddc9ef890edc4dd57ee07f'
+      '0x3dff5712501e64edea722c4b7f60c53b7e02d479f7f3209c453e46a5db8a956'
     );
     expect(getAssetType(Types.ERC721M, tokenAddress, quantum)).toEqual(
-      '0xe4e7390a3d8762570fce723533098772f6e0d575a54420e39296a13c525f23'
+      '0x3d5c37a13a77b5b73e13aef0ab9cb9edb736215ec1a84dc1f1a011490cd4285'
     );
   });
 });
@@ -43,16 +43,16 @@ describe('getAssetID', () => {
     const quantum = 1;
     const tokenID = 1;
     expect(getAssetID(Types.ETH, tokenAddress, quantum, tokenID)).toEqual(
-      '0x1142460171646987f20c714eda4b92812b22b811f56f27130937c267e29bd9e'
+      '0x32e4fb4bbff54367e9a3f929c3ac66533f81dc9bb70d2dc358528db962aa7fb'
     );
     expect(getAssetID(Types.ERC20, tokenAddress, quantum, tokenID)).toEqual(
-      '0x11ab3af6727fcd73565816e286a2ee5008c230ac36a9d7f8de9cc9494bb95d'
+      '0x319af4c45f3ae095fffb5b6fd3fba7f7904e317d5e20c5640a051f6629703f7'
     );
     expect(getAssetID(Types.ERC721, tokenAddress, quantum, tokenID)).toEqual(
-      '0x5246492af646a71bf84cefbadab94b33859a337fd379567be4df9b2bd0dea3'
+      '0x12ff625d7ac239bc60583147dde4e292442bfacd5bc89505ec62c16598ab1b4'
     );
     expect(getAssetID(Types.ERC721M, tokenAddress, quantum, tokenID)).toEqual(
-      '0x40087ca0cc1398725048f799e8751b6689b3533204989d93d8a018d6103fa77'
+      '0x40002eed4acd33d69352784f2186354746fcf8b0d9aabbc4116d66cf32fa7fe'
     );
   });
 });

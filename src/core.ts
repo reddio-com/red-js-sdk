@@ -1,8 +1,9 @@
-import axios, {AxiosInstance} from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import config from './config';
-import {JsonRpcProvider} from '@ethersproject/providers';
+import { JsonRpcProvider } from '@ethersproject/providers';
 import {
-  depositERC20, getBalance,
+  depositERC20,
+  getBalance,
   getContractAddress,
   getNonce,
   getVaultID,
@@ -11,7 +12,7 @@ import {
   transfer,
   withdraw,
 } from './api';
-import {generateFromEthSignature} from './utils/keypair';
+import { generateFromEthSignature } from './utils/keypair';
 import {
   DepositERC20Params,
   MintParams,
@@ -21,10 +22,11 @@ import {
   VaultParams,
   WithdrawParams,
 } from './types/api';
-import {Env} from "./utils/enum";
+import { Env, Types } from './utils/enum';
+import { getAssetID, getAssetType } from './utils/asset';
 
 interface ReddioCoreOptions {
-  env?: `${Env}`;
+  env?: 'test' | 'main';
   provider: JsonRpcProvider;
   network?: string;
 }
@@ -44,8 +46,8 @@ class ReddioCore {
   private initRequest = (options: ReddioCoreOptions) => {
     return axios.create({
       baseURL: config.baseUrl[options.env || 'test'],
-    })
-  }
+    });
+  };
 
   public readonly apis = {
     mintERC20: (args: MintParams) => {
@@ -71,13 +73,27 @@ class ReddioCore {
       return depositERC20(this.provider, this.contractAddress!, args);
     },
     getBalance: async () => {
-      return getBalance(this.request)
-    }
+      return getBalance(this.request);
+    },
   };
 
   public readonly keypair = {
     generateFromEthSignature: (msgParams: any) => {
       return generateFromEthSignature(this.provider, msgParams);
+    },
+  };
+
+  public readonly utils = {
+    getAssetID: (
+      type: Types,
+      address: string,
+      quantum: number,
+      tokenId: number
+    ) => {
+      return getAssetID(type, address, quantum, tokenId);
+    },
+    getAssetType: (type: Types, address: string, quantum: number) => {
+      return getAssetType(type, address, quantum);
     },
   };
 

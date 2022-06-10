@@ -26,11 +26,18 @@ export const getAssetInfo = (type: Types, address: string) => {
   }
 };
 
-export const getAssetType = (type: Types, address: string, quantum: number) => {
+export const getAssetType = (
+  type: Types,
+  address: string,
+  quantum: number | string
+) => {
   const assetInfo = getAssetInfo(type, address);
   const blobHash = new BN(
     BigNumber.from(
-      ethers.utils.solidityKeccak256(['bytes', 'uint256'], [assetInfo, quantum])
+      ethers.utils.solidityKeccak256(
+        ['bytes', 'uint256'],
+        [assetInfo, ethers.utils.parseUnits(quantum.toString(), 18).toString()]
+      )
     ).toString(),
     10
   );

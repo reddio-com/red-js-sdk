@@ -1,1 +1,1 @@
-export * from './core';
+export { default as Reddio } from './core';
