@@ -1,8 +1,7 @@
 import { ethers } from 'ethers';
 import { Reddio } from '@reddio/js-sdk';
-import ReddioCore from '../../../dist/core';
 
-let reddio: ReddioCore;
+let reddio: Reddio;
 
 const initReddio = () => {
   console.log(111);

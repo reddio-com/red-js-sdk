@@ -53,7 +53,7 @@ export interface RegisterParams {
 }
 
 export interface TokenResponse {
-  tx_hash: number;
+  tx_hash: string;
 }
 
 /**
@@ -83,7 +83,7 @@ export interface VaultParams extends RequestCommonParams {
 }
 
 export interface VaultResponse {
-  vault_id: number;
+  vault_id: string;
 }
 
 /**
