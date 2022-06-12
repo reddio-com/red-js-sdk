@@ -21,14 +21,18 @@ const Process2 = () => {
   const deposit = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     await provider.send('eth_requestAccounts', []);
+    await reddio.erc20.approve({
+      tokenAddress: '0x4240e8b8c0b6e6464a13f555f6395bbfe1c4bdf1',
+      amount: 30,
+    });
     const assetType = reddio.utils.getAssetType(
       'ERC20',
-      '0x60b2d64dd6f00c9cae947587ee97de72fb5a2f4c',
+      '0x4240e8b8c0b6e6464a13f555f6395bbfe1c4bdf1',
       1
     );
     const tokenId = reddio.utils.getAssetID(
       'ERC20',
-      '0x60b2d64dd6f00c9cae947587ee97de72fb5a2f4c',
+      '0x4240e8b8c0b6e6464a13f555f6395bbfe1c4bdf1',
       1,
       1
     );
@@ -39,7 +43,8 @@ const Process2 = () => {
       tokenId,
     });
     await reddio.apis.depositERC20({
-      starkKey: '0x4240e8b8c0b6E6464a13F555F6395BbfE1c4bdf1',
+      starkKey:
+        '0x761f1709a72a7e1d9a503faf2a1067686f315acdc825a804e1281fbd39accda',
       assetType,
       vaultId: data.data.vault_id,
       quantizedAmount: 1,
