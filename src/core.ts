@@ -12,6 +12,7 @@ import {
   transfer,
   withdraw,
 } from './api';
+import {allowance, approve} from "./contract";
 import { generateFromEthSignature } from './utils/keypair';
 import {
   DepositERC20Params,
@@ -22,6 +23,7 @@ import {
   VaultParams,
   WithdrawParams,
 } from './types/api';
+import { ApproveErc20Params, Erc20CommonParams } from "./types/erc20";
 import { Env, Types } from './utils/enum';
 import { getAssetID, getAssetType } from './utils/asset';
 
@@ -74,6 +76,17 @@ class ReddioCore {
     },
     getBalance: async () => {
       return getBalance(this.request);
+    },
+  };
+
+  public readonly erc20 = {
+    approve: async (args: ApproveErc20Params) => {
+      await this.getContractAddress();
+      return approve(this.provider, this.contractAddress!, args);
+    },
+    allowance: async (args: Erc20CommonParams) => {
+      await this.getContractAddress();
+      return allowance(this.provider, this.contractAddress!, args);
     },
   };
 
