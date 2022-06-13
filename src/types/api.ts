@@ -61,7 +61,7 @@ export interface TokenResponse {
  */
 export interface TransferParams {
   starkKey: string;
-  tokenId: string;
+  assetId: string;
   amount: number;
   nonce: number;
   vaultId: number;
@@ -79,7 +79,7 @@ export interface TransferResponse {
  * Vault
  */
 export interface VaultParams extends RequestCommonParams {
-  tokenId?: string;
+  assetId?: string;
 }
 
 export interface VaultResponse {
@@ -91,7 +91,7 @@ export interface VaultResponse {
  */
 export interface WithdrawParams extends RequestCommonParams {
   amount: number;
-  tokenId: string;
+  assetId: string;
 }
 
 export interface WithdrawResponse {

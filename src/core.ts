@@ -12,7 +12,7 @@ import {
   transfer,
   withdraw,
 } from './api';
-import {allowance, approve} from "./contract";
+import { allowance, approve } from './contract';
 import { generateFromEthSignature } from './utils/keypair';
 import {
   DepositERC20Params,
@@ -23,9 +23,10 @@ import {
   VaultParams,
   WithdrawParams,
 } from './types/api';
-import { ApproveErc20Params, Erc20CommonParams } from "./types/erc20";
-import { Env, Types } from './utils/enum';
-import { getTokenTypeAndId } from './utils/token';
+import { ApproveErc20Params, Erc20CommonParams } from './types/erc20';
+import { Env } from './utils/enum';
+import { getAssetTypeAndId } from './utils/asset';
+import { Asset } from './types/asset';
 
 interface ReddioCoreOptions {
   env?: 'test' | 'main';
@@ -97,13 +98,8 @@ class ReddioCore {
   };
 
   public readonly utils = {
-    getTokenTypeAndId: (
-      type: `${Types}`,
-      address: string,
-      quantum: number,
-      tokenId: number
-    ) => {
-      return getTokenTypeAndId(type, address, quantum, tokenId);
+    getAssetTypeAndId: (args: Asset) => {
+      return getAssetTypeAndId(args);
     },
   };
 
