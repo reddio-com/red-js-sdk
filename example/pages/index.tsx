@@ -2,11 +2,31 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
+import {Button, Text, Spacer} from '@nextui-org/react';
 import styles from '../styles/Home.module.css'
-import { initReddio } from "./utils/config";
+import {ethers} from "ethers";
+import { useState, useEffect } from "react";
 
 const Home: NextPage = () => {
-  initReddio()
+  const [account, setAccount] = useState('');
+
+  useEffect(() => {
+    getAccount()
+  })
+
+  const getAccount = async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = await provider.getSigner();
+    const account = await signer.getAddress();
+    setAccount(account)
+  }
+
+  const connect = async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    await provider.send('eth_requestAccounts', [])
+    getAccount()
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -19,6 +39,11 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>
           Welcome to SDK Examples!
         </h1>
+
+        <Text>将私钥「90bd2cc1472d255677a10b98234692c7210ffaaf56feaea99e3fe7b4fa4291f0」导入钱包</Text>
+        <Spacer y={1} />
+        { account ? <Button disabled>{account}</Button> : <Button onPress={connect}>connect</Button> }
+        <Spacer y={1} />
 
         <div className={styles.grid}>
           <Link href="/process1">

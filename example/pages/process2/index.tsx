@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Text, Spacer, Button, Loading } from '@nextui-org/react';
 import styles from './index.module.css';
 import { reddio } from '../utils/config';
-import { ethers } from 'ethers';
 
 const Process2 = () => {
   const [registerHash, setRegisterHash] = useState(
@@ -19,18 +18,11 @@ const Process2 = () => {
     setRegisterHash(data.data.tx_hash);
   };
   const deposit = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    await provider.send('eth_requestAccounts', []);
     await reddio.erc20.approve({
       tokenAddress: '0x4240e8b8c0b6e6464a13f555f6395bbfe1c4bdf1',
       amount: 30,
     });
-    const assetType = reddio.utils.getAssetType(
-      'ERC20',
-      '0x4240e8b8c0b6e6464a13f555f6395bbfe1c4bdf1',
-      1
-    );
-    const tokenId = reddio.utils.getAssetID(
+    const { tokenType, tokenId } = reddio.utils.getTokenTypeAndId(
       'ERC20',
       '0x4240e8b8c0b6e6464a13f555f6395bbfe1c4bdf1',
       1,
@@ -45,7 +37,7 @@ const Process2 = () => {
     await reddio.apis.depositERC20({
       starkKey:
         '0x761f1709a72a7e1d9a503faf2a1067686f315acdc825a804e1281fbd39accda',
-      assetType,
+      assetType: tokenType,
       vaultId: data.data.vault_id,
       quantizedAmount: 1,
     });
