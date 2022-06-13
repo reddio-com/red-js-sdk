@@ -2,7 +2,7 @@ import { BigNumber, ethers } from 'ethers';
 import BN from 'bn.js';
 import { Types } from './enum';
 
-export const getAssetInfo = (type: `${Types}`, address: string) => {
+export const getTokenInfo = (type: `${Types}`, address: string) => {
   const value = address.substring(2).padStart(64, '0');
   switch (type) {
     case Types.ETH: {
@@ -26,12 +26,12 @@ export const getAssetInfo = (type: `${Types}`, address: string) => {
   }
 };
 
-export const getAssetType = (
+export const getTokenType = (
   type: `${Types}`,
   address: string,
   quantum: number | string
 ) => {
-  const assetInfo = getAssetInfo(type, address);
+  const assetInfo = getTokenInfo(type, address);
   const blobHash = new BN(
     BigNumber.from(
       ethers.utils.solidityKeccak256(
@@ -60,13 +60,13 @@ export const getAssetID = (
   quantum: number,
   tokenId: number
 ) => {
-  let assetId = getAssetType(type, address, quantum);
+  let assetType = getTokenType(type, address, quantum);
   if (type === Types.ERC721) {
     const blobHash = new BN(
       BigNumber.from(
         ethers.utils.solidityKeccak256(
           ['string', 'uint256', 'uint256'],
-          ['NFT:', assetId, tokenId]
+          ['NFT:', assetType, tokenId]
         )
       ).toString(),
       10
@@ -94,7 +94,7 @@ export const getAssetID = (
       BigNumber.from(
         ethers.utils.solidityKeccak256(
           ['string', 'uint256', 'uint256'],
-          ['MINTABLE:', assetId, blobHash.toString()]
+          ['MINTABLE:', assetType, blobHash.toString()]
         )
       ).toString(),
       10
@@ -117,5 +117,14 @@ export const getAssetID = (
         .toString('hex')
     );
   }
-  return assetId;
+  return assetType;
 };
+
+export const getTokenTypeAndId = (type: `${Types}`,
+                                  address: string,
+                                  quantum: number,
+                                  tokenId: number) => {
+    const newTokenId = getAssetID(type, address, quantum, tokenId);
+    const tokenType = getTokenType(type, address, quantum);
+    return { tokenId: newTokenId, tokenType };
+}

@@ -1,20 +1,20 @@
-import { getAssetInfo, getAssetType, getAssetID } from './asset';
+import { getTokenInfo, getTokenType, getAssetID } from './token';
 import { Types } from './enum';
 
 describe('getAssetInfo', () => {
   it('should get current info', function() {
     const tokenAddress = '0x20a36B174dfb726A33a8416eD2E4894719236140';
-    expect(getAssetInfo(Types.ETH, tokenAddress)).toEqual('0x8322fff2');
-    expect(getAssetInfo(Types.ERC20, tokenAddress)).toEqual(
+    expect(getTokenInfo(Types.ETH, tokenAddress)).toEqual('0x8322fff2');
+    expect(getTokenInfo(Types.ERC20, tokenAddress)).toEqual(
       '0xf47261b000000000000000000000000020a36B174dfb726A33a8416eD2E4894719236140'
     );
-    expect(getAssetInfo(Types.ERC721, tokenAddress)).toEqual(
+    expect(getTokenInfo(Types.ERC721, tokenAddress)).toEqual(
       '0x0257179200000000000000000000000020a36B174dfb726A33a8416eD2E4894719236140'
     );
-    expect(getAssetInfo(Types.ERC721M, tokenAddress)).toEqual(
+    expect(getTokenInfo(Types.ERC721M, tokenAddress)).toEqual(
       '0xb8b8667200000000000000000000000020a36B174dfb726A33a8416eD2E4894719236140'
     );
-    expect(getAssetInfo('' as Types, tokenAddress)).toEqual(null);
+    expect(getTokenInfo('' as Types, tokenAddress)).toEqual(null);
   });
 });
 
@@ -22,16 +22,16 @@ describe('getAssetType', () => {
   it('should get current type', function() {
     const tokenAddress = '0x20a36B174dfb726A33a8416eD2E4894719236140';
     const quantum = 1;
-    expect(getAssetType(Types.ETH, tokenAddress, quantum)).toEqual(
+    expect(getTokenType(Types.ETH, tokenAddress, quantum)).toEqual(
       '0x32e4fb4bbff54367e9a3f929c3ac66533f81dc9bb70d2dc358528db962aa7fb'
     );
-    expect(getAssetType(Types.ERC20, tokenAddress, quantum)).toEqual(
+    expect(getTokenType(Types.ERC20, tokenAddress, quantum)).toEqual(
       '0x319af4c45f3ae095fffb5b6fd3fba7f7904e317d5e20c5640a051f6629703f7'
     );
-    expect(getAssetType(Types.ERC721, tokenAddress, quantum)).toEqual(
+    expect(getTokenType(Types.ERC721, tokenAddress, quantum)).toEqual(
       '0x3dff5712501e64edea722c4b7f60c53b7e02d479f7f3209c453e46a5db8a956'
     );
-    expect(getAssetType(Types.ERC721M, tokenAddress, quantum)).toEqual(
+    expect(getTokenType(Types.ERC721M, tokenAddress, quantum)).toEqual(
       '0x3d5c37a13a77b5b73e13aef0ab9cb9edb736215ec1a84dc1f1a011490cd4285'
     );
   });

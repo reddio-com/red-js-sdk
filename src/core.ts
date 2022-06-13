@@ -25,7 +25,7 @@ import {
 } from './types/api';
 import { ApproveErc20Params, Erc20CommonParams } from "./types/erc20";
 import { Env, Types } from './utils/enum';
-import { getAssetID, getAssetType } from './utils/asset';
+import { getTokenTypeAndId } from './utils/token';
 
 interface ReddioCoreOptions {
   env?: 'test' | 'main';
@@ -97,16 +97,13 @@ class ReddioCore {
   };
 
   public readonly utils = {
-    getAssetID: (
+    getTokenTypeAndId: (
       type: `${Types}`,
       address: string,
       quantum: number,
       tokenId: number
     ) => {
-      return getAssetID(type, address, quantum, tokenId);
-    },
-    getAssetType: (type: `${Types}`, address: string, quantum: number) => {
-      return getAssetType(type, address, quantum);
+      return getTokenTypeAndId(type, address, quantum, tokenId);
     },
   };
 
