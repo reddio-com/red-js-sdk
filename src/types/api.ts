@@ -1,4 +1,4 @@
-import { RequestCommonParams, SignatureLike } from './common';
+import {RequestCommonParams, SignatureLike} from './common';
 import { Types } from '../utils/enum';
 
 /**
@@ -61,14 +61,18 @@ export interface TokenResponse {
  */
 export interface TransferParams {
   starkKey: string;
+  privateKey: string;
   assetId: string;
-  amount: number;
-  nonce: number;
-  vaultId: number;
+  amount: number | string;
+  vaultId: string;
   receiver: string;
-  receiverVaultId: number;
+  receiverVaultId: string;
   expirationTimestamp: number;
-  signature: SignatureLike;
+}
+
+export interface TransferRequestParams extends Partial<TransferParams> {
+  nonce: number;
+  signature: SignatureLike
 }
 
 export interface TransferResponse {
