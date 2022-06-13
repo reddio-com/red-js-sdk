@@ -4,10 +4,10 @@ import styles from './index.module.css';
 import { reddio } from '../utils/config';
 import Layout from '../../components/layout';
 
-const tokenAddress = '0x4240e8b8c0b6e6464a13f555f6395bbfe1c4bdf1';
+const tokenAddress = '0x66Cd45449B36f1102FD368Aad9223fcAE30E4dB5';
 
 const starkKey =
-  '0x514c761d08a8a8100fcc0a3d1364ede9bef6337927dd5f81e2786ff8302b767';
+  '0x7d459f9c3ff9fda3073a4f793f809e1edcb6e4ef27a9a385f7e2b414d5d8e41';
 
 const Process2 = () => {
   const [registerHash, setRegisterHash] = useState(
@@ -31,7 +31,7 @@ const Process2 = () => {
     const { assetType, assetId } = reddio.utils.getAssetTypeAndId({
       type: 'ERC20',
       tokenAddress,
-      quantum: 1,
+      quantum: `${10 ** 18}`,
     });
     const { data } = await reddio.apis.getVaultID({
       address: tokenAddress,
