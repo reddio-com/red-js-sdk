@@ -4,6 +4,11 @@ import styles from './index.module.css';
 import { reddio } from '../utils/config';
 import Layout from '../../components/layout';
 
+const tokenAddress = '0x4240e8b8c0b6e6464a13f555f6395bbfe1c4bdf1';
+
+const starkKey =
+  '0x514c761d08a8a8100fcc0a3d1364ede9bef6337927dd5f81e2786ff8302b767';
+
 const Process2 = () => {
   const [registerHash, setRegisterHash] = useState(
     '0x3364f0cb41c0c53e81c8b85319acbce69c6dd103c3a0040d682384928e85b6d6'
@@ -12,7 +17,7 @@ const Process2 = () => {
   const register = async () => {
     setLoading(true);
     const { data } = await reddio.apis.registerToken({
-      address: '0x4240e8b8c0b6e6464a13f555f6395bbfe1c4bdf1',
+      address: tokenAddress,
       type: 'ERC20',
     });
     setLoading(false);
@@ -20,23 +25,21 @@ const Process2 = () => {
   };
   const deposit = async () => {
     await reddio.erc20.approve({
-      tokenAddress: '0x4240e8b8c0b6e6464a13f555f6395bbfe1c4bdf1',
+      tokenAddress,
       amount: 30,
     });
     const { assetType, assetId } = reddio.utils.getAssetTypeAndId({
       type: 'ERC20',
-      tokenAddress: '0x4240e8b8c0b6E6464a13F555F6395BbfE1c4bdf1',
+      tokenAddress,
       quantum: 1,
     });
     const { data } = await reddio.apis.getVaultID({
-      address: '0x4240e8b8c0b6E6464a13F555F6395BbfE1c4bdf1',
-      starkKey:
-        '0x761f1709a72a7e1d9a503faf2a1067686f315acdc825a804e1281fbd39accda',
+      address: tokenAddress,
+      starkKey,
       assetId,
     });
     await reddio.apis.depositERC20({
-      starkKey:
-        '0x761f1709a72a7e1d9a503faf2a1067686f315acdc825a804e1281fbd39accda',
+      starkKey,
       assetType,
       vaultId: data.data.vault_id,
       quantizedAmount: 1,
@@ -45,17 +48,29 @@ const Process2 = () => {
   const transfer = async () => {
     const { assetId } = reddio.utils.getAssetTypeAndId({
       type: 'ERC20',
-      tokenAddress: '0x4240e8b8c0b6E6464a13F555F6395BbfE1c4bdf1',
+      tokenAddress,
       quantum: 1,
     });
+    const { data } = await reddio.apis.getVaultID({
+      address: tokenAddress,
+      starkKey,
+      assetId,
+    });
+    const { data: receiverData } = await reddio.apis.getVaultID({
+      address: tokenAddress,
+      starkKey: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
+      assetId,
+    });
     await reddio.apis.transfer({
-      starkKey:
-        '0x761f1709a72a7e1d9a503faf2a1067686f315acdc825a804e1281fbd39accda',
+      starkKey,
+      privateKey:
+        '26b3a29d2fee24b566a74bd6b3dbabdcb371c7f0bf83708ad840af66de91353',
       assetId,
       amount: 1,
-      receiver: '',
-      receiverVaultId: '',
-      expirationTimestamp: 1,
+      vaultId: data.data.vault_id,
+      receiver: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
+      receiverVaultId: receiverData.data.vault_id,
+      expirationTimestamp: 4194303,
     });
   };
   return (
@@ -65,7 +80,7 @@ const Process2 = () => {
         <Spacer y={1} />
         <Text>
           Fake token contract address:
-          0x4240e8b8c0b6e6464a13f555f6395bbfe1c4bdf1
+          {tokenAddress}
         </Text>
         <Spacer y={1} />
         <Text h3>2. Register the ERC20 token to starkex</Text>
@@ -85,7 +100,7 @@ const Process2 = () => {
         <Spacer y={1} />
         <Text h3>4. Transfer the ERC20 token between two starkex accounts</Text>
         <Spacer y={1} />
-        <Button onClick={transfer}>Deposit</Button>
+        <Button onClick={transfer}>Transfer</Button>
         <Spacer y={1} />
       </div>
     </Layout>
