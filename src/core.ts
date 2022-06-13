@@ -13,20 +13,18 @@ import {
   withdraw,
 } from './api';
 import { allowance, approve } from './contract';
-import { generateFromEthSignature } from './utils/keypair';
 import {
   DepositERC20Params,
   MintParams,
   NonceParams,
   RegisterParams,
-  TransferParams,
+  SignParams,
   VaultParams,
-  WithdrawParams,
-} from './types/api';
-import { ApproveErc20Params, Erc20CommonParams } from './types/erc20';
-import { Env } from './utils/enum';
-import { getAssetTypeAndId } from './utils/asset';
-import { Asset } from './types/asset';
+  ApproveErc20Params,
+  Erc20CommonParams,
+  Asset,
+} from './types';
+import { Env, getAssetTypeAndId, generateFromEthSignature } from './utils';
 
 interface ReddioCoreOptions {
   env?: 'test' | 'main';
@@ -62,13 +60,13 @@ class ReddioCore {
     registerToken: (args: RegisterParams) => {
       return registerToken(this.request, args);
     },
-    transfer: (args: TransferParams) => {
+    transfer: (args: SignParams) => {
       return transfer(this.request, args);
     },
     getVaultID: (args: VaultParams) => {
       return getVaultID(this.request, args);
     },
-    withdraw: (args: WithdrawParams) => {
+    withdraw: (args: SignParams) => {
       return withdraw(this.request, args);
     },
     depositERC20: async (args: DepositERC20Params) => {
