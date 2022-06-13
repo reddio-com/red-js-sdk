@@ -1,7 +1,6 @@
 import { AxiosInstance } from 'axios';
-import { Response } from '../types/common';
-import { parseParams } from '../utils/common';
-import { VaultParams, VaultResponse } from '../types/api';
+import { Response, VaultParams, VaultResponse } from '../types';
+import { parseParams } from '../utils';
 
 const getVaultID = async (request: AxiosInstance, params: VaultParams) => {
   return request.get<Response<VaultResponse>>('/api/v1/vault', {

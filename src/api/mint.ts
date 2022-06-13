@@ -1,7 +1,6 @@
 import { AxiosInstance } from 'axios';
-import { Response } from '../types/common';
-import { parseParams } from '../utils/common';
-import { MintResponse, MintParams } from '../types/api';
+import { Response, MintResponse, MintParams } from '../types';
+import { parseParams } from '../utils';
 
 export async function mintERC20(request: AxiosInstance, params: MintParams) {
   return request.post<Response<MintResponse>>('/api/v1/mint', {

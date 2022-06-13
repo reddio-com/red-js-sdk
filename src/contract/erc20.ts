@@ -11,7 +11,10 @@ export const approve = (
   const signer = provider.getSigner();
   const { tokenAddress, amount } = params;
   const contract = new ethers.Contract(tokenAddress, abi, signer);
-  return contract.approve(contractAddress, amount);
+  return contract.approve(
+    contractAddress,
+    ethers.utils.parseUnits(amount.toString(), 18)
+  );
 };
 
 export const allowance = (

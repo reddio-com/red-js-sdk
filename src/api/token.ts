@@ -1,6 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { Response } from '../types/common';
-import { RegisterParams, TokenResponse } from '../types/api';
+import { Response, RegisterParams, TokenResponse } from '../types';
 
 export const registerToken = async (
   request: AxiosInstance,

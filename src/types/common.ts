@@ -13,3 +13,14 @@ export type SignatureLike = {
   r: string;
   s: string;
 };
+
+export interface SignParams {
+  starkKey: string;
+  privateKey: string;
+  assetId: string;
+  amount: number | string;
+  vaultId: string;
+  receiver: string;
+  receiverVaultId: string;
+  expirationTimestamp: number;
+}

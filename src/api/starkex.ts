@@ -1,6 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { Response } from '../types/common';
-import { ContractsAddressResponse } from '../types/api';
+import { Response, ContractsAddressResponse } from '../types';
 
 export const getContractAddress = (request: AxiosInstance) => {
   return request.get<Response<ContractsAddressResponse>>(

@@ -1,6 +1,6 @@
 // @ts-ignore
 import { asset } from '@starkware-industries/starkware-crypto-utils';
-import { Asset } from '../types/asset';
+import { Asset } from '../types';
 
 export const getAssetType = (args: Omit<Asset, 'tokenId' | 'blob'>) => {
   const { type, ...data } = args;

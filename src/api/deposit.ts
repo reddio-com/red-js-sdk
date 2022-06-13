@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { JsonRpcProvider } from '@ethersproject/providers';
-import { DepositERC20Params } from '../types/api';
+import { DepositERC20Params } from '../types';
 import abi from '../abi/Deposits.json';
 
 export const depositERC20 = (
