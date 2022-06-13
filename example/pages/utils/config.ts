@@ -4,8 +4,11 @@ import { Reddio } from '@reddio/js-sdk';
 let reddio: Reddio;
 
 const initReddio = () => {
-  if (typeof window !== 'undefined') {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+  if (typeof window !== 'undefined' && !reddio) {
+    const provider = new ethers.providers.Web3Provider(window.ethereum, {
+      name: 'Goerli 测试网络',
+      chainId: 5,
+    });
     reddio = new Reddio({
       provider,
     });
