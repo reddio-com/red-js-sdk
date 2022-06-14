@@ -10,9 +10,7 @@ const starkKey =
   '0x7d459f9c3ff9fda3073a4f793f809e1edcb6e4ef27a9a385f7e2b414d5d8e41';
 
 const Process2 = () => {
-  const [registerHash, setRegisterHash] = useState(
-    '0x3364f0cb41c0c53e81c8b85319acbce69c6dd103c3a0040d682384928e85b6d6'
-  );
+  const [registerHash, setRegisterHash] = useState('');
   const [loading, setLoading] = useState(false);
   const register = async () => {
     setLoading(true);
