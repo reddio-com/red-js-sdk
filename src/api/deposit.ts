@@ -13,6 +13,7 @@ export const depositERC20 = (
       const signer = provider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi, signer);
       const { starkKey, vaultId, quantizedAmount, assetType } = params;
+      console.log(params);
       contract.depositERC20(starkKey, assetType, vaultId, quantizedAmount);
 
       contract.on('LogDeposit', (...args) => {

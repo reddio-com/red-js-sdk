@@ -84,6 +84,7 @@ export interface TransferResponse {
  */
 export interface VaultParams extends RequestCommonParams {
   assetId?: string;
+  type: `${Types}`
 }
 
 export interface VaultResponse {
@@ -93,9 +94,10 @@ export interface VaultResponse {
 /**
  * Withdraw
  */
-export interface WithdrawParams extends RequestCommonParams {
-  amount: number;
-  assetId: string;
+export interface WithdrawParams extends SignParams {
+  address: string;
+  // erc20 不传
+  tokenId?: string;
 }
 
 export interface WithdrawResponse {

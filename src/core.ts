@@ -23,6 +23,7 @@ import {
   ApproveErc20Params,
   Erc20CommonParams,
   Asset,
+  WithdrawParams,
 } from './types';
 import { Env, getAssetTypeAndId, generateFromEthSignature } from './utils';
 
@@ -66,7 +67,7 @@ class ReddioCore {
     getVaultID: (args: VaultParams) => {
       return getVaultID(this.request, args);
     },
-    withdraw: (args: SignParams) => {
+    withdraw: (args: WithdrawParams) => {
       return withdraw(this.request, args);
     },
     depositERC20: async (args: DepositERC20Params) => {
@@ -96,8 +97,8 @@ class ReddioCore {
   };
 
   public readonly utils = {
-    getAssetTypeAndId: (args: Asset) => {
-      return getAssetTypeAndId(args);
+    getAssetTypeAndId: async (args: Asset) => {
+      return getAssetTypeAndId(this.request, args);
     },
   };
 
