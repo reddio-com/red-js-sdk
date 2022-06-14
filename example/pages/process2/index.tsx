@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Text, Spacer, Button, Loading } from '@nextui-org/react';
 import styles from './index.module.css';
-import { reddio } from '../utils/config';
+import { reddio } from '../../utils/config';
 import Layout from '../../components/layout';
 
 const tokenAddress = '0x66Cd45449B36f1102FD368Aad9223fcAE30E4dB5';
