@@ -28,15 +28,15 @@ const Process2 = () => {
       tokenAddress,
       amount: 30,
     });
-    const { assetType, assetId } = reddio.utils.getAssetTypeAndId({
+    const { assetType, assetId } = await reddio.utils.getAssetTypeAndId({
       type: 'ERC20',
       tokenAddress,
-      quantum: `${10 ** 18}`,
     });
     const { data } = await reddio.apis.getVaultID({
       address: tokenAddress,
       starkKey,
       assetId,
+      type: 'ERC20',
     });
     await reddio.apis.depositERC20({
       starkKey,
@@ -46,20 +46,21 @@ const Process2 = () => {
     });
   };
   const transfer = async () => {
-    const { assetId } = reddio.utils.getAssetTypeAndId({
+    const { assetId } = await reddio.utils.getAssetTypeAndId({
       type: 'ERC20',
       tokenAddress,
-      quantum: 1,
     });
     const { data } = await reddio.apis.getVaultID({
       address: tokenAddress,
       starkKey,
       assetId,
+      type: 'ERC20',
     });
     const { data: receiverData } = await reddio.apis.getVaultID({
       address: tokenAddress,
       starkKey: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
       assetId,
+      type: 'ERC20',
     });
     await reddio.apis.transfer({
       starkKey,
@@ -71,6 +72,36 @@ const Process2 = () => {
       receiver: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
       receiverVaultId: receiverData.data.vault_id,
       expirationTimestamp: 4194303,
+    });
+  };
+  const withdraw = async () => {
+    const { assetId } = await reddio.utils.getAssetTypeAndId({
+      type: 'ERC20',
+      tokenAddress,
+    });
+    const { data } = await reddio.apis.getVaultID({
+      address: tokenAddress,
+      starkKey,
+      assetId,
+      type: 'ERC20',
+    });
+    const { data: receiverData } = await reddio.apis.getVaultID({
+      address: tokenAddress,
+      starkKey: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
+      assetId,
+      type: 'ERC20',
+    });
+    await reddio.apis.withdraw({
+      starkKey,
+      privateKey:
+        '26b3a29d2fee24b566a74bd6b3dbabdcb371c7f0bf83708ad840af66de91353',
+      assetId,
+      amount: 1,
+      vaultId: data.data.vault_id,
+      receiver: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
+      receiverVaultId: receiverData.data.vault_id,
+      expirationTimestamp: 4194303,
+      address: tokenAddress,
     });
   };
   return (
@@ -102,6 +133,9 @@ const Process2 = () => {
         <Spacer y={1} />
         <Button onClick={transfer}>Transfer</Button>
         <Spacer y={1} />
+        <Text h3>5. Withdraw the ERC20 from L2</Text>
+        <Spacer y={1} />
+        <Button onClick={withdraw}>Withdraw</Button>
       </div>
     </Layout>
   );
