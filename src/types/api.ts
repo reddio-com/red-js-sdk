@@ -15,6 +15,16 @@ export interface BalanceResponse {
 }
 
 /**
+ * Balance
+ */
+export interface ContractInfoParams {
+  contractAddress: string
+}
+export interface ContractInfoResponse {
+  quantum: string
+}
+
+/**
  * Deposit
  */
 export interface DepositERC20Params {
