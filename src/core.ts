@@ -3,6 +3,7 @@ import config from './config';
 import { JsonRpcProvider } from '@ethersproject/providers';
 import {
   depositERC20,
+  depositETH,
   getBalance,
   getContractAddress,
   getNonce,
@@ -14,7 +15,7 @@ import {
 } from './api';
 import { allowance, approve } from './contract';
 import {
-  DepositERC20Params,
+  DepositParams,
   MintParams,
   NonceParams,
   RegisterParams,
@@ -70,9 +71,13 @@ class ReddioCore {
     withdraw: (args: WithdrawParams) => {
       return withdraw(this.request, args);
     },
-    depositERC20: async (args: DepositERC20Params) => {
+    depositERC20: async (args: DepositParams) => {
       await this.getContractAddress();
       return depositERC20(this.provider, this.contractAddress!, args);
+    },
+    depositETH: async (args: DepositParams) => {
+      await this.getContractAddress();
+      return depositETH(this.provider, this.contractAddress!, args);
     },
     getBalance: async () => {
       return getBalance(this.request);

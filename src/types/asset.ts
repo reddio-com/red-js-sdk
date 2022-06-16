@@ -2,8 +2,9 @@ import {Types} from "../utils";
 
 export interface Asset {
     type: `${Types}`,
-    tokenAddress: string,
-    quantum?: number | string,
+    // ETH 可不传
+    tokenAddress?: string,
     tokenId?: number,
+    quantum?: number | string,
     blob?: string
 }

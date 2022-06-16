@@ -27,7 +27,7 @@ export interface ContractInfoResponse {
 /**
  * Deposit
  */
-export interface DepositERC20Params {
+export interface DepositParams {
   starkKey: string;
   assetType: string;
   vaultId: string;
@@ -58,7 +58,8 @@ export interface NonceResponse {
  * Token
  */
 export interface RegisterParams {
-  address: string;
+  // ETH 不需要传
+  address?: string;
   type: keyof typeof Types;
 }
 

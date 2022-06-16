@@ -5,7 +5,7 @@ import { getContractInfo } from '../api/contractInfo';
 import { AxiosInstance } from 'axios';
 
 const setQuantum = async (request: AxiosInstance, data: Asset) => {
-  if (!data.quantum) {
+  if (!data.quantum && data.tokenAddress) {
     const { data: res } = await getContractInfo(request, {
       contractAddress: data.tokenAddress,
     });
