@@ -1,9 +1,9 @@
 import { ethers } from 'ethers';
 import { JsonRpcProvider } from '@ethersproject/providers';
-import { ApproveErc20Params, Erc20CommonParams } from '../types';
+import { ApproveErc20Params, ErcCommonParams } from '../types';
 import abi from '../abi/Erc20.abi.json';
 
-export const approve = async (
+export const erc20Approve = async (
   provider: JsonRpcProvider,
   contractAddress: string,
   params: ApproveErc20Params
@@ -18,10 +18,10 @@ export const approve = async (
   );
 };
 
-export const allowance = (
+export const erc20Allowance = (
   provider: JsonRpcProvider,
   contractAddress: string,
-  params: Erc20CommonParams
+  params: ErcCommonParams
 ) => {
   const signer = provider.getSigner();
   const account = signer.getAddress();
