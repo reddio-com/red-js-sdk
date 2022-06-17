@@ -7,11 +7,16 @@ import {
   Response,
   SignParams,
 } from '../types';
+import { ethers } from 'ethers';
 
-export const transfer = async (request: AxiosInstance, data: SignParams) => {
+export const getTransferParams = async (
+  request: AxiosInstance,
+  data: SignParams
+) => {
   const { starkKey, receiver } = data;
   const { data: result } = await getNonce(request, { starkKey });
   const nonce = result.data.nonce;
+  data.amount = ethers.utils.parseUnits(data.amount.toString(), 6).toString();
   const params: TransferRequestParams = {
     ...data,
     receiver: receiver.toLowerCase(),
@@ -19,6 +24,11 @@ export const transfer = async (request: AxiosInstance, data: SignParams) => {
     nonce,
   };
   delete params.privateKey;
+  return params;
+};
+
+export const transfer = async (request: AxiosInstance, data: SignParams) => {
+  const params = await getTransferParams(request, data);
   return request.post<Response<TransferResponse>>('/api/v1/transfer', {
     ...parseParams(params),
   });

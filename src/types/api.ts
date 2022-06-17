@@ -83,20 +83,22 @@ export interface TransferResponse {
 /**
  * Vault
  */
-export interface VaultParams extends RequestCommonParams {
+export interface VaultParams extends Omit<RequestCommonParams, 'starkKey'> {
   assetId?: string;
   type: `${Types}`
+  starkKey: string | string[];
 }
 
 export interface VaultResponse {
-  vault_id: string;
+  vault_id: string | string[];
 }
 
 /**
  * Withdraw
  */
 export interface WithdrawParams extends SignParams {
-  address: string;
+  // ETH 不传
+  address?: string;
   // erc20 不传
   tokenId?: string;
 }
