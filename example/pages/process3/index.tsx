@@ -84,7 +84,7 @@ const Process3 = () => {
       assetId,
       type: 'ERC721',
     });
-    await reddio.apis.withdraw({
+    await reddio.apis.withdrawFromL2({
       starkKey,
       privateKey:
         '26b3a29d2fee24b566a74bd6b3dbabdcb371c7f0bf83708ad840af66de91353',
