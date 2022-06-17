@@ -32,14 +32,14 @@ const Process2 = () => {
     });
     const { data } = await reddio.apis.getVaultID({
       address: tokenAddress,
-      starkKey,
+      starkKeys: starkKey,
       assetId,
       type: 'ERC20',
     });
     await reddio.apis.depositERC20({
       starkKey,
       assetType,
-      vaultId: data.data.vault_id.toString(),
+      vaultId: data.data.vault_ids.toString(),
       quantizedAmount: 1,
     });
   };
@@ -50,7 +50,7 @@ const Process2 = () => {
     });
     const { data } = await reddio.apis.getVaultID({
       address: tokenAddress,
-      starkKey: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
+      starkKeys: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
       assetId,
       type: 'ERC20',
     });
@@ -60,9 +60,9 @@ const Process2 = () => {
         '26b3a29d2fee24b566a74bd6b3dbabdcb371c7f0bf83708ad840af66de91353',
       assetId,
       amount: 1,
-      vaultId: data.data.vault_id[0],
+      vaultId: data.data.vault_ids[0],
       receiver: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
-      receiverVaultId: data.data.vault_id[1],
+      receiverVaultId: data.data.vault_ids[1],
       expirationTimestamp: 4194303,
     });
   };
@@ -73,7 +73,7 @@ const Process2 = () => {
     });
     const { data } = await reddio.apis.getVaultID({
       address: tokenAddress,
-      starkKey: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
+      starkKeys: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
       assetId,
       type: 'ERC20',
     });
@@ -83,9 +83,9 @@ const Process2 = () => {
         '26b3a29d2fee24b566a74bd6b3dbabdcb371c7f0bf83708ad840af66de91353',
       assetId,
       amount: 1,
-      vaultId: data.data.vault_id[0],
+      vaultId: data.data.vault_ids[0],
       receiver: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
-      receiverVaultId: data.data.vault_id[1],
+      receiverVaultId: data.data.vault_ids[1],
       expirationTimestamp: 4194303,
       address: tokenAddress,
     });

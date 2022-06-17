@@ -23,13 +23,13 @@ const Process1 = () => {
       type: 'ETH',
     });
     const { data } = await reddio.apis.getVaultID({
-      starkKey,
+      starkKeys: starkKey,
       type: 'ETH',
     });
     await reddio.apis.depositETH({
       starkKey,
       assetType,
-      vaultId: data.data.vault_id.toString(),
+      vaultId: data.data.vault_ids.toString(),
       quantizedAmount: 0.01,
     });
   };
@@ -38,7 +38,7 @@ const Process1 = () => {
       type: 'ETH',
     });
     const { data } = await reddio.apis.getVaultID({
-      starkKey: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
+      starkKeys: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
       type: 'ETH',
     });
     await reddio.apis.transfer({
@@ -47,9 +47,9 @@ const Process1 = () => {
         '26b3a29d2fee24b566a74bd6b3dbabdcb371c7f0bf83708ad840af66de91353',
       assetId,
       amount: 0.01,
-      vaultId: data.data.vault_id[0],
+      vaultId: data.data.vault_ids[0],
       receiver: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
-      receiverVaultId: data.data.vault_id[1],
+      receiverVaultId: data.data.vault_ids[1],
       expirationTimestamp: 4194303,
     });
   };
@@ -58,7 +58,7 @@ const Process1 = () => {
       type: 'ETH',
     });
     const { data } = await reddio.apis.getVaultID({
-      starkKey: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
+      starkKeys: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
       type: 'ETH',
     });
     await reddio.apis.withdraw({
@@ -67,9 +67,9 @@ const Process1 = () => {
         '26b3a29d2fee24b566a74bd6b3dbabdcb371c7f0bf83708ad840af66de91353',
       assetId,
       amount: 0.01,
-      vaultId: data.data.vault_id[0],
+      vaultId: data.data.vault_ids[0],
       receiver: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
-      receiverVaultId: data.data.vault_id[1],
+      receiverVaultId: data.data.vault_ids[1],
       expirationTimestamp: 4194303,
     });
   };

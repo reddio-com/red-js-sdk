@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Text, Spacer, Button, Loading } from '@nextui-org/react';
+import { Button, Loading, Spacer, Text } from '@nextui-org/react';
 import styles from './index.module.css';
 import { reddio } from '../../utils/config';
 import Layout from '../../components/layout';
@@ -21,26 +21,30 @@ const Process3 = () => {
     setLoading(false);
     setRegisterHash(data.data.tx_hash);
   };
-  const deposit = async () => {
-    await reddio.erc721.approve({
+  const approve = async () => {
+    let transaction = await reddio.erc721.approve({
       tokenAddress,
-      tokenId: 1,
+      tokenId: 40,
     });
+    await transaction.wait();
+    console.log(transaction);
+  };
+  const deposit = async () => {
     const { assetType, assetId } = await reddio.utils.getAssetTypeAndId({
       type: 'ERC721',
       tokenAddress,
-      tokenId: 1,
+      tokenId: 39,
     });
     const { data } = await reddio.apis.getVaultID({
       address: tokenAddress,
-      starkKey,
+      starkKeys: starkKey,
       assetId,
       type: 'ERC721',
     });
     await reddio.apis.depositERC721({
       starkKey,
       assetType,
-      vaultId: data.data.vault_id.toString(),
+      vaultId: data.data.vault_ids.toString(),
       quantizedAmount: 1,
     });
   };
@@ -48,11 +52,11 @@ const Process3 = () => {
     const { assetId } = await reddio.utils.getAssetTypeAndId({
       type: 'ERC721',
       tokenAddress,
-      tokenId: 1,
+      tokenId: 39,
     });
     const { data } = await reddio.apis.getVaultID({
       address: tokenAddress,
-      starkKey: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
+      starkKeys: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
       assetId,
       type: 'ERC721',
     });
@@ -62,9 +66,9 @@ const Process3 = () => {
         '26b3a29d2fee24b566a74bd6b3dbabdcb371c7f0bf83708ad840af66de91353',
       assetId,
       amount: 1,
-      vaultId: data.data.vault_id[0],
+      vaultId: data.data.vault_ids[0],
       receiver: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
-      receiverVaultId: data.data.vault_id[1],
+      receiverVaultId: data.data.vault_ids[1],
       expirationTimestamp: 4194303,
     });
   };
@@ -72,11 +76,11 @@ const Process3 = () => {
     const { assetId } = await reddio.utils.getAssetTypeAndId({
       type: 'ERC721',
       tokenAddress,
-      tokenId: 1,
+      tokenId: 39,
     });
     const { data } = await reddio.apis.getVaultID({
       address: tokenAddress,
-      starkKey: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
+      starkKeys: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
       assetId,
       type: 'ERC721',
     });
@@ -86,9 +90,9 @@ const Process3 = () => {
         '26b3a29d2fee24b566a74bd6b3dbabdcb371c7f0bf83708ad840af66de91353',
       assetId,
       amount: 1,
-      vaultId: data.data.vault_id[0],
+      vaultId: data.data.vault_ids[0],
       receiver: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
-      receiverVaultId: data.data.vault_id[1],
+      receiverVaultId: data.data.vault_ids[1],
       expirationTimestamp: 4194303,
       address: tokenAddress,
     });
@@ -96,6 +100,7 @@ const Process3 = () => {
   return (
     <Layout>
       <div className={styles.container}>
+        <Text h3>该流程需要使用正确的 TokenId</Text>
         <Text h3>1. Create a new ERC721 token</Text>
         <Spacer y={1} />
         <Text>
@@ -115,6 +120,8 @@ const Process3 = () => {
         {registerHash ? <Text>Hash: {registerHash}</Text> : null}
         <Spacer y={1} />
         <Text h3>3. Deposit the ERC721 token to starkex</Text>
+        <Spacer y={1} />
+        <Button onClick={approve}>Approve</Button>
         <Spacer y={1} />
         <Button onClick={deposit}>Deposit</Button>
         <Spacer y={1} />
