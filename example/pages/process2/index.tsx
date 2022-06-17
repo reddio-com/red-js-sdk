@@ -39,7 +39,7 @@ const Process2 = () => {
     await reddio.apis.depositERC20({
       starkKey,
       assetType,
-      vaultId: data.data.vault_id,
+      vaultId: data.data.vault_id.toString(),
       quantizedAmount: 1,
     });
   };
@@ -50,13 +50,7 @@ const Process2 = () => {
     });
     const { data } = await reddio.apis.getVaultID({
       address: tokenAddress,
-      starkKey,
-      assetId,
-      type: 'ERC20',
-    });
-    const { data: receiverData } = await reddio.apis.getVaultID({
-      address: tokenAddress,
-      starkKey: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
+      starkKey: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
       assetId,
       type: 'ERC20',
     });
@@ -66,9 +60,9 @@ const Process2 = () => {
         '26b3a29d2fee24b566a74bd6b3dbabdcb371c7f0bf83708ad840af66de91353',
       assetId,
       amount: 1,
-      vaultId: data.data.vault_id,
+      vaultId: data.data.vault_id[0],
       receiver: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
-      receiverVaultId: receiverData.data.vault_id,
+      receiverVaultId: data.data.vault_id[1],
       expirationTimestamp: 4194303,
     });
   };
@@ -79,13 +73,7 @@ const Process2 = () => {
     });
     const { data } = await reddio.apis.getVaultID({
       address: tokenAddress,
-      starkKey,
-      assetId,
-      type: 'ERC20',
-    });
-    const { data: receiverData } = await reddio.apis.getVaultID({
-      address: tokenAddress,
-      starkKey: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
+      starkKey: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
       assetId,
       type: 'ERC20',
     });
@@ -95,9 +83,9 @@ const Process2 = () => {
         '26b3a29d2fee24b566a74bd6b3dbabdcb371c7f0bf83708ad840af66de91353',
       assetId,
       amount: 1,
-      vaultId: data.data.vault_id,
+      vaultId: data.data.vault_id[0],
       receiver: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
-      receiverVaultId: receiverData.data.vault_id,
+      receiverVaultId: data.data.vault_id[1],
       expirationTimestamp: 4194303,
       address: tokenAddress,
     });

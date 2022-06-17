@@ -14,10 +14,14 @@ const Home: NextPage = () => {
   })
 
   const getAccount = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = await provider.getSigner();
-    const account = await signer.getAddress();
-    setAccount(account)
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = await provider.getSigner();
+      const account = await signer.getAddress();
+      setAccount(account)
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   const connect = async () => {
