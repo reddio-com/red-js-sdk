@@ -4,6 +4,7 @@ import { JsonRpcProvider } from '@ethersproject/providers';
 import {
   depositERC20,
   depositETH,
+  depositERC721,
   getBalance,
   getContractAddress,
   getNonce,
@@ -13,7 +14,7 @@ import {
   transfer,
   withdraw,
 } from './api';
-import { allowance, approve } from './contract';
+import { erc20Approve, erc20Allowance, erc721Approve } from './contract';
 import {
   DepositParams,
   MintParams,
@@ -22,9 +23,10 @@ import {
   SignParams,
   VaultParams,
   ApproveErc20Params,
-  Erc20CommonParams,
+  ErcCommonParams,
   Asset,
   WithdrawParams,
+  ApproveErc721Params,
 } from './types';
 import { Env, getAssetTypeAndId, generateFromEthSignature } from './utils';
 
@@ -79,6 +81,10 @@ class ReddioCore {
       await this.getContractAddress();
       return depositETH(this.provider, this.contractAddress!, args);
     },
+    depositERC721: async (args: DepositParams) => {
+      await this.getContractAddress();
+      return depositERC721(this.provider, this.contractAddress!, args);
+    },
     getBalance: async () => {
       return getBalance(this.request);
     },
@@ -87,11 +93,18 @@ class ReddioCore {
   public readonly erc20 = {
     approve: async (args: ApproveErc20Params) => {
       await this.getContractAddress();
-      return approve(this.provider, this.contractAddress!, args);
+      return erc20Approve(this.provider, this.contractAddress!, args);
     },
-    allowance: async (args: Erc20CommonParams) => {
+    allowance: async (args: ErcCommonParams) => {
       await this.getContractAddress();
-      return allowance(this.provider, this.contractAddress!, args);
+      return erc20Allowance(this.provider, this.contractAddress!, args);
+    },
+  };
+
+  public readonly erc721 = {
+    approve: async (args: ApproveErc721Params) => {
+      await this.getContractAddress();
+      return erc721Approve(this.provider, this.contractAddress!, args);
     },
   };
 

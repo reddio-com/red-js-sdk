@@ -31,6 +31,7 @@ export interface DepositParams {
   starkKey: string;
   assetType: string;
   vaultId: string;
+  // 721 可不传
   quantizedAmount: number | string;
 }
 

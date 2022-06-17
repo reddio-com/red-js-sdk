@@ -52,3 +52,24 @@ export const depositETH = (
     }
   });
 };
+
+export const depositERC721 = (
+  provider: JsonRpcProvider,
+  contractAddress: string,
+  params: DepositParams
+) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(contractAddress, abi, signer);
+      const { starkKey, vaultId, quantizedAmount, assetType } = params;
+      contract.depositNft(starkKey, assetType, vaultId, quantizedAmount);
+
+      contract.on('LogDeposit', (...args) => {
+        resolve(args);
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
