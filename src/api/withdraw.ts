@@ -4,7 +4,7 @@ import { parseParams } from '../utils';
 import { WithdrawResponse } from '../types';
 import { getTransferParams } from './transfer';
 
-export const withdraw = async (
+export const withdrawFromL2 = async (
   request: AxiosInstance,
   data: WithdrawParams
 ) => {

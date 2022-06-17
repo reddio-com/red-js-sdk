@@ -1,3 +1,5 @@
+import {Types} from "../utils";
+
 export interface ErcCommonParams {
   tokenAddress: string;
 }
@@ -10,4 +12,10 @@ export interface ApproveErc20Params extends ErcCommonParams {
 
 export interface ApproveErc721Params extends ErcCommonParams {
   tokenId: string | number;
+}
+
+export interface WithdrawFromL1Params {
+  starkKey: string;
+  assetType: string;
+  type: `${Types}`
 }

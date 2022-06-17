@@ -12,9 +12,14 @@ import {
   mintERC20,
   registerToken,
   transfer,
-  withdraw,
+  withdrawFromL2,
 } from './api';
-import { erc20Approve, erc20Allowance, erc721Approve } from './contract';
+import {
+  erc20Approve,
+  erc20Allowance,
+  erc721Approve,
+  withdrawFromL1,
+} from './contract';
 import {
   DepositParams,
   MintParams,
@@ -27,6 +32,7 @@ import {
   Asset,
   WithdrawParams,
   ApproveErc721Params,
+  WithdrawFromL1Params,
 } from './types';
 import { Env, getAssetTypeAndId, generateFromEthSignature } from './utils';
 
@@ -70,8 +76,12 @@ class ReddioCore {
     getVaultID: (args: VaultParams) => {
       return getVaultID(this.request, args);
     },
-    withdraw: (args: WithdrawParams) => {
-      return withdraw(this.request, args);
+    withdrawFromL2: (args: WithdrawParams) => {
+      return withdrawFromL2(this.request, args);
+    },
+    withdrawFromL1: async (args: WithdrawFromL1Params) => {
+      await this.getContractAddress();
+      return withdrawFromL1(this.provider, this.contractAddress!, args);
     },
     depositERC20: async (args: DepositParams) => {
       await this.getContractAddress();
