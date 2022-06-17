@@ -62,6 +62,13 @@ const Home: NextPage = () => {
               <p>Deposit/Transfer/Withdraw ERC20 between L1 and L2.</p>
             </a>
           </Link>
+
+          <Link href="/process3">
+            <a className={styles.card}>
+              <h2>流程 3 &rarr;</h2>
+              <p>Deposit/Transfer/Withdraw ERC721 between L1 and L2.</p>
+            </a>
+          </Link>
         </div>
       </main>
     </div>
