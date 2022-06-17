@@ -87,11 +87,11 @@ export interface TransferResponse {
 export interface VaultParams extends Omit<RequestCommonParams, 'starkKey'> {
   assetId?: string;
   type: `${Types}`
-  starkKey: string | string[];
+  starkKeys: string | string[];
 }
 
 export interface VaultResponse {
-  vault_id: string | string[];
+  vault_ids: string | string[];
 }
 
 /**

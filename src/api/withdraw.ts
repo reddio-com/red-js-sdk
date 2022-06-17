@@ -8,7 +8,8 @@ export const withdraw = async (
   request: AxiosInstance,
   data: WithdrawParams
 ) => {
-  const params = getTransferParams(request, data);
+  const params = await getTransferParams(request, data);
+  console.log(params);
   return request.post<Response<WithdrawResponse>>('/api/v1/withdrawto', {
     ...parseParams(params),
   });
