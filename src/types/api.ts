@@ -39,11 +39,12 @@ export interface DepositParams {
  * Mint
  */
 export interface MintParams extends RequestCommonParams {
-  amount: number;
+  amount: number | string;
 }
 
 export interface MintResponse {
   transaction_id: number;
+  token_id: number;
 }
 
 /**
