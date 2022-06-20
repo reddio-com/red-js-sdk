@@ -42,6 +42,8 @@ export interface MintParams extends RequestCommonParams {
   amount: number | string;
 }
 
+export type MintOneParams = Omit<MintParams, 'amount'>
+
 export interface MintResponse {
   transaction_id: number;
   token_id: number;

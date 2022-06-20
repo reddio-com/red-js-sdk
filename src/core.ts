@@ -9,7 +9,7 @@ import {
   getContractAddress,
   getNonce,
   getVaultID,
-  mint,
+  mintOne,
   registerToken,
   transfer,
   withdrawFromL2,
@@ -22,7 +22,6 @@ import {
 } from './contract';
 import {
   DepositParams,
-  MintParams,
   NonceParams,
   RegisterParams,
   SignParams,
@@ -33,6 +32,7 @@ import {
   WithdrawParams,
   ApproveErc721Params,
   WithdrawFromL1Params,
+  MintOneParams,
 } from './types';
 import { Env, getAssetTypeAndId, generateFromEthSignature } from './utils';
 
@@ -61,8 +61,8 @@ class ReddioCore {
   };
 
   public readonly apis = {
-    mint: (args: MintParams) => {
-      return mint(this.request, args);
+    mintOne: (args: MintOneParams) => {
+      return mintOne(this.request, args);
     },
     getNonce: (args: NonceParams) => {
       return getNonce(this.request, args);

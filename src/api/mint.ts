@@ -1,10 +1,10 @@
 import { AxiosInstance } from 'axios';
-import { Response, MintResponse, MintParams } from '../types';
+import { Response, MintResponse, MintOneParams } from '../types';
 import { parseParams } from '../utils';
 
-export async function mint(request: AxiosInstance, params: MintParams) {
-  params.amount = params.amount.toString();
+export async function mintOne(request: AxiosInstance, params: MintOneParams) {
   return request.post<Response<MintResponse>>('/api/v1/mint', {
+    amount: '1',
     ...parseParams(params),
   });
 }
