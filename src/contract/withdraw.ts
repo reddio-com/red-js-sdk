@@ -1,4 +1,5 @@
 import { JsonRpcProvider } from '@ethersproject/providers';
+import assert from 'assert';
 import { WithdrawFromL1Params } from '../types';
 import { ethers } from 'ethers';
 import abi from '../abi/Withdraw.abi.json';
@@ -10,7 +11,7 @@ export const withdrawFromL1 = async (
   params: WithdrawFromL1Params
 ) => {
   const signer = provider.getSigner();
-  const { starkKey, type, assetType, mintingBlob } = params;
+  const { starkKey, type, assetType, tokenId } = params;
   const contract = new ethers.Contract(contractAddress, abi, signer);
   if (type === Types.ETH || type === Types.ERC20) {
     return contract.withdraw(starkKey, assetType);
@@ -19,6 +20,11 @@ export const withdrawFromL1 = async (
     return contract.withdrawNft(starkKey, assetType);
   }
   if (type === Types.MINTABLE_ERC721) {
-    return contract.withdrawAndMint(starkKey, assetType, mintingBlob);
+    assert(tokenId, 'tokenId is required');
+    return contract.withdrawAndMint(
+      starkKey,
+      assetType,
+      ethers.utils.formatBytes32String(tokenId.toString())
+    );
   }
 };
