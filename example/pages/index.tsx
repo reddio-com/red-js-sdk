@@ -131,6 +131,8 @@ const Home: NextPage = () => {
             <Spacer y={1} />
             <Text>stark key: {keys.publicKey}</Text>
             <Spacer y={1} />
+            <Text>private key: {keys.privateKey}</Text>
+            <Spacer y={1} />
 
             <div className={styles.grid}>
               <Link href="/process1">
