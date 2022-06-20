@@ -18,4 +18,5 @@ export interface WithdrawFromL1Params {
   starkKey: string;
   assetType: string;
   type: `${Types}`
+  mintingBlob?: string;
 }

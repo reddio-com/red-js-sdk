@@ -10,12 +10,15 @@ export const withdrawFromL1 = async (
   params: WithdrawFromL1Params
 ) => {
   const signer = provider.getSigner();
-  const { starkKey, type, assetType } = params;
+  const { starkKey, type, assetType, mintingBlob } = params;
   const contract = new ethers.Contract(contractAddress, abi, signer);
   if (type === Types.ETH || type === Types.ERC20) {
     return contract.withdraw(starkKey, assetType);
   }
   if (type === Types.ERC721) {
     return contract.withdrawNft(starkKey, assetType);
+  }
+  if (type === Types.MINTABLE_ERC721) {
+    return contract.withdrawAndMint(starkKey, assetType, mintingBlob);
   }
 };
