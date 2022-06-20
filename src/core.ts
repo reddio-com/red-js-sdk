@@ -9,7 +9,7 @@ import {
   getContractAddress,
   getNonce,
   getVaultID,
-  mintERC20,
+  mint,
   registerToken,
   transfer,
   withdrawFromL2,
@@ -61,8 +61,8 @@ class ReddioCore {
   };
 
   public readonly apis = {
-    mintERC20: (args: MintParams) => {
-      return mintERC20(this.request, args);
+    mint: (args: MintParams) => {
+      return mint(this.request, args);
     },
     getNonce: (args: NonceParams) => {
       return getNonce(this.request, args);
