@@ -4,6 +4,8 @@ export interface RequestCommonParams {
   starkKey: string;
 }
 
+export type StarkKeyParams = Pick<RequestCommonParams, 'starkKey'>;
+
 export interface Response<T> {
   data: T;
   status: string;

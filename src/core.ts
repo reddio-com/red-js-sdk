@@ -13,6 +13,7 @@ import {
   registerToken,
   transfer,
   withdrawFromL2,
+  getBalances,
 } from './api';
 import {
   erc20Approve,
@@ -22,7 +23,7 @@ import {
 } from './contract';
 import {
   DepositParams,
-  NonceParams,
+  StarkKeyParams,
   RegisterParams,
   SignParams,
   VaultParams,
@@ -33,8 +34,11 @@ import {
   ApproveErc721Params,
   WithdrawFromL1Params,
   MintOneParams,
+  BalanceParams,
+  RecordParams,
 } from './types';
 import { Env, getAssetTypeAndId, generateFromEthSignature } from './utils';
+import { getRecord, getRecords } from './api/rocord';
 
 interface ReddioCoreOptions {
   env?: 'test' | 'main';
@@ -64,7 +68,7 @@ class ReddioCore {
     mintOne: (args: MintOneParams) => {
       return mintOne(this.request, args);
     },
-    getNonce: (args: NonceParams) => {
+    getNonce: (args: StarkKeyParams) => {
       return getNonce(this.request, args);
     },
     registerToken: (args: RegisterParams) => {
@@ -95,8 +99,17 @@ class ReddioCore {
       await this.getContractAddress();
       return depositERC721(this.provider, this.contractAddress!, args);
     },
-    getBalance: async () => {
-      return getBalance(this.request);
+    getBalance: async (args: StarkKeyParams) => {
+      return getBalance(this.request, args);
+    },
+    getBalances: async (args: BalanceParams) => {
+      return getBalances(this.request, args);
+    },
+    getRecord: async (args: RecordParams) => {
+      return getRecord(this.request, args);
+    },
+    getRecords: async (args: StarkKeyParams) => {
+      return getRecords(this.request, args);
     },
   };
 

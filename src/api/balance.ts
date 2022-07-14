@@ -3,13 +3,13 @@ import {
   Response,
   BalanceResponse,
   BalanceParams,
-  RequestCommonParams,
+  StarkKeyParams,
 } from '../types';
 import { parseParams } from '../utils';
 
 export async function getBalance(
   request: AxiosInstance,
-  params: Pick<RequestCommonParams, 'starkKey'>
+  params: StarkKeyParams
 ) {
   return request.get<Response<BalanceResponse>>('/api/v1/balance', {
     params: {

@@ -1,10 +1,10 @@
-import {RequestCommonParams, SignatureLike, SignParams} from './common';
+import {RequestCommonParams, SignatureLike, SignParams, StarkKeyParams} from './common';
 import { Types } from '../utils';
 
 /**
  * Balance
  */
-export interface BalanceParams extends Pick<RequestCommonParams, 'starkKey'> {
+export interface BalanceParams extends StarkKeyParams {
   assetId?: string;
 }
 
@@ -22,7 +22,7 @@ export interface BalanceResponse {
 /**
  * Record
  */
-export interface RecordParams extends Pick<RequestCommonParams, 'starkKey'> {
+export interface RecordParams extends StarkKeyParams {
   sequence_id?: number;
 }
 export interface RecordResponse {
@@ -70,8 +70,6 @@ export interface MintResponse {
 /**
  * Nonce
  */
-export type NonceParams = Pick<RequestCommonParams, 'starkKey'>;
-
 export interface NonceResponse {
   nonce: number;
 }
