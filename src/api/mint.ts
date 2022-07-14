@@ -8,3 +8,5 @@ export async function mintOne(request: AxiosInstance, params: MintOneParams) {
     ...parseParams(params),
   });
 }
+
+// mint 好多个没做完

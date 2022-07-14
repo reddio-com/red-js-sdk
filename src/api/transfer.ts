@@ -16,10 +16,11 @@ export const getTransferParams = async (
   const { starkKey, receiver } = data;
   const { data: result } = await getNonce(request, { starkKey });
   const nonce = result.data.nonce;
+  // get contract unit
   data.amount = ethers.utils.parseUnits(data.amount.toString(), 6).toString();
   const params: TransferRequestParams = {
     ...data,
-    receiver: receiver.toLowerCase(),
+    receiver,
     signature: sign(nonce, data),
     nonce,
   };

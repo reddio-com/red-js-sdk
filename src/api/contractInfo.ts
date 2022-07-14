@@ -6,10 +6,7 @@ export async function getContractInfo(
   request: AxiosInstance,
   params: ContractInfoParams
 ) {
-  return request.get<Response<ContractInfoResponse>>(
-    'https://reddifi.reddio.com/api/v1/contract_info',
-    {
-      params: parseParams(params),
-    }
-  );
+  return request.get<Response<ContractInfoResponse>>('/api/v1/contract_info', {
+    params: parseParams(params),
+  });
 }

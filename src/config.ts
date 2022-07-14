@@ -1,7 +1,7 @@
 const config = {
   baseUrl: {
-    test: 'https://red-service-dev.reddio.com',
-    main: 'https://red-service.reddio.com',
+    test: 'https://reddifi-dev.reddio.com',
+    main: 'https://reddifi.reddio.com',
   },
 };
 

@@ -4,18 +4,36 @@ import { Types } from '../utils';
 /**
  * Balance
  */
+export interface BalanceParams extends Pick<RequestCommonParams, 'starkKey'> {
+  assetId?: string;
+}
+
 export interface BalanceResponse {
-  address: string;
-  balance: number;
-  currency: string;
+  asset_id: string;
+  contract_address: string;
+  balance_available: number;
+  type: string;
+  decimals: number;
   symbol: string;
-  type: `${Types}`;
-  website: string;
-  logo: string;
+  quantum: number;
+  display_value: string;
 }
 
 /**
- * Balance
+ * Record
+ */
+export interface RecordParams extends Pick<RequestCommonParams, 'starkKey'> {
+  sequence_id?: number;
+}
+export interface RecordResponse {
+  stark_key: string;
+  sequence_id: number;
+  reason: string;
+  status: number;
+}
+
+/**
+ * Contract
  */
 export interface ContractInfoParams {
   contractAddress: string

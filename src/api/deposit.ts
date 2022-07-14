@@ -13,11 +13,12 @@ export const depositERC20 = (
       const signer = provider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi, signer);
       const { starkKey, vaultId, quantizedAmount, assetType } = params;
+      // get contract unit
       contract.depositERC20(
         starkKey,
         assetType,
         vaultId,
-        ethers.utils.parseUnits(quantizedAmount.toString(), 6)
+        ethers.utils.parseUnits(quantizedAmount.toString(), 18)
       );
 
       contract.on('LogDeposit', (...args) => {
@@ -39,9 +40,8 @@ export const depositETH = (
       const signer = provider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi, signer);
       const { starkKey, vaultId, assetType, quantizedAmount } = params;
-      const amount = Math.floor(Number(quantizedAmount) * 1000000) / 1000000;
       contract.depositEth(starkKey, assetType, vaultId, {
-        value: ethers.utils.parseEther(amount.toString()),
+        value: ethers.utils.parseEther(quantizedAmount.toString()),
       });
 
       contract.on('LogDeposit', (...args) => {
