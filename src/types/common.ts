@@ -1,6 +1,6 @@
 export interface RequestCommonParams {
   // ETH 可不传
-  address?: string;
+  contract_address?: string;
   starkKey: string;
 }
 

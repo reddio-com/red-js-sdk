@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { Response, MintResponse, MintOneParams } from '../types';
+import { Response, MintResponse, MintOneParams, MintParams } from '../types';
 import { parseParams } from '../utils';
 
 export async function mintOne(request: AxiosInstance, params: MintOneParams) {
@@ -9,4 +9,8 @@ export async function mintOne(request: AxiosInstance, params: MintOneParams) {
   });
 }
 
-// mint 好多个没做完
+export async function mint(request: AxiosInstance, params: MintParams) {
+  return request.post<Response<MintResponse>>('/api/v1/mint', {
+    ...parseParams(params),
+  });
+}

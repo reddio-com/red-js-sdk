@@ -79,7 +79,7 @@ export interface NonceResponse {
  */
 export interface RegisterParams {
   // ETH 不需要传
-  address?: string;
+  contract_address?: string;
   type: keyof typeof Types;
 }
 
@@ -118,7 +118,7 @@ export interface VaultResponse {
  */
 export interface WithdrawParams extends SignParams {
   // ETH 不传
-  address?: string;
+  contract_address?: string;
   // erc20 不传
   tokenId?: string;
 }
