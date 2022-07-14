@@ -15,7 +15,7 @@ const Process2 = () => {
   const register = async () => {
     setLoading(true);
     const { data } = await reddio.apis.registerToken({
-      address: tokenAddress,
+      contract_address: tokenAddress,
       type: 'ERC20',
     });
     setLoading(false);
@@ -31,7 +31,7 @@ const Process2 = () => {
       tokenAddress,
     });
     const { data } = await reddio.apis.getVaultID({
-      address: tokenAddress,
+      contract_address: tokenAddress,
       starkKeys: starkKey,
       assetId,
       type: 'ERC20',
@@ -49,7 +49,7 @@ const Process2 = () => {
       tokenAddress,
     });
     const { data } = await reddio.apis.getVaultID({
-      address: tokenAddress,
+      contract_address: tokenAddress,
       starkKeys: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
       assetId,
       type: 'ERC20',
@@ -72,7 +72,7 @@ const Process2 = () => {
       tokenAddress,
     });
     const { data } = await reddio.apis.getVaultID({
-      address: tokenAddress,
+      contract_address: tokenAddress,
       starkKeys: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
       assetId,
       type: 'ERC20',
@@ -87,7 +87,7 @@ const Process2 = () => {
       receiver: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
       receiverVaultId: data.data.vault_ids[1],
       expirationTimestamp: 4194303,
-      address: tokenAddress,
+      contract_address: tokenAddress,
     });
   };
   return (
