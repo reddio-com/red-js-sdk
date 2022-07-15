@@ -13,7 +13,7 @@ const Process4 = () => {
   const [tokenId, setTokenId] = useState<number>();
   const mint = async () => {
     const { data } = await reddio.apis.mintOne({
-      contract_address: tokenAddress,
+      contractAddress: tokenAddress,
       starkKey,
     });
     setTokenId(data.data.token_id);
@@ -25,10 +25,8 @@ const Process4 = () => {
       tokenId,
     });
     const { data } = await reddio.apis.getVaultID({
-      contract_address: tokenAddress,
       starkKeys: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
       assetId,
-      type: 'ERC721',
     });
     await reddio.apis.transfer({
       starkKey,
@@ -49,10 +47,8 @@ const Process4 = () => {
       tokenId,
     });
     const { data } = await reddio.apis.getVaultID({
-      contract_address: tokenAddress,
       starkKeys: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
       assetId,
-      type: 'ERC721',
     });
     await reddio.apis.withdrawFromL2({
       starkKey,
@@ -64,7 +60,7 @@ const Process4 = () => {
       receiver: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
       receiverVaultId: data.data.vault_ids[1],
       expirationTimestamp: 4194303,
-      contract_address: tokenAddress,
+      contractAddress: tokenAddress,
     });
   };
   return (

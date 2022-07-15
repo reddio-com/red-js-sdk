@@ -13,22 +13,22 @@ const setQuantum = async (request: AxiosInstance, data: Asset) => {
   }
 };
 
-export const getTokenType = (args: Omit<Asset, 'tokenId' | 'blob'>) => {
+export const getAssetType = (args: Omit<Asset, 'tokenId' | 'blob'>) => {
   const { type, ...data } = args;
   return asset.getAssetType({ type, data });
 };
 
-export const getTokenID = async (args: Asset) => {
+export const getAssetID = async (args: Asset) => {
   const { type, ...data } = args;
   return asset.getAssetId({ type, data });
 };
 
-export const getTokenTypeAndId = async (
+export const getAssetTypeAndId = async (
   request: AxiosInstance,
   args: Asset
 ) => {
   await setQuantum(request, args);
-  const tokenId = await getTokenID(args);
-  const tokenType = await getTokenType(args);
-  return { tokenId, tokenType };
+  const assetId = await getAssetID(args);
+  const assetType = await getAssetType(args);
+  return { assetId, assetType };
 };

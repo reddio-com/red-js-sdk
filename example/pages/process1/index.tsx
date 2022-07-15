@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Text, Spacer, Button, Loading } from '@nextui-org/react';
+import { Text, Spacer, Button } from '@nextui-org/react';
 import styles from './index.module.css';
 import { reddio } from '../../utils/config';
 import Layout from '../../components/layout';
@@ -8,23 +7,13 @@ const starkKey =
   '0x7d459f9c3ff9fda3073a4f793f809e1edcb6e4ef27a9a385f7e2b414d5d8e41';
 
 const Process1 = () => {
-  const [registerHash, setRegisterHash] = useState('');
-  const [loading, setLoading] = useState(false);
-  const register = async () => {
-    setLoading(true);
-    const { data } = await reddio.apis.registerToken({
-      type: 'ETH',
-    });
-    setLoading(false);
-    setRegisterHash(data.data.tx_hash);
-  };
   const deposit = async () => {
-    const { assetType } = await reddio.utils.getAssetTypeAndId({
+    const { assetType, assetId } = await reddio.utils.getAssetTypeAndId({
       type: 'ETH',
     });
     const { data } = await reddio.apis.getVaultID({
       starkKeys: starkKey,
-      type: 'ETH',
+      assetId,
     });
     await reddio.apis.depositETH({
       starkKey,
@@ -39,7 +28,7 @@ const Process1 = () => {
     });
     const { data } = await reddio.apis.getVaultID({
       starkKeys: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
-      type: 'ETH',
+      assetId,
     });
     await reddio.apis.transfer({
       starkKey,
@@ -59,7 +48,7 @@ const Process1 = () => {
     });
     const { data } = await reddio.apis.getVaultID({
       starkKeys: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
-      type: 'ETH',
+      assetId,
     });
     await reddio.apis.withdrawFromL2({
       starkKey,
@@ -76,17 +65,6 @@ const Process1 = () => {
   return (
     <Layout>
       <div className={styles.container}>
-        <Text h3>1. Register the ETH to starkex</Text>
-        <Spacer y={1} />
-        <Button onClick={register} disabled={loading && !registerHash}>
-          {loading && !registerHash ? (
-            <Loading color="currentColor" size="sm" />
-          ) : null}
-          Register
-        </Button>
-        <Spacer y={1} />
-        {registerHash ? <Text>Hash: {registerHash}</Text> : null}
-        <Spacer y={1} />
         <Text h3>2. Deposit the ETH to starkex</Text>
         <Spacer y={1} />
         <Button onClick={deposit}>Deposit 0.01 ETH</Button>

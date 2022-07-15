@@ -1,4 +1,9 @@
-import {RequestCommonParams, SignatureLike, SignParams, StarkKeyParams} from './common';
+import {
+  RequestCommonParams,
+  SignatureLike,
+  SignParams,
+  StarkKeyParams,
+} from './common';
 import { Types } from '../utils';
 
 /**
@@ -36,22 +41,22 @@ export interface RecordResponse {
  * Contract
  */
 export interface ContractInfoParams {
-  contractAddress: string
+  contractAddress: string;
 }
 export interface ContractInfoResponse {
-  quantum: number
-  count: number
-  type: string
-  decimals: string
-  symbol: string
-  total_supply: string
-  asset_type: string
-  asset_info: string
-  id: number
-  belongs_to: string
-  contract_uuid: string
-  chain_status: string
-  contract_address: string
+  quantum: number;
+  count: number;
+  type: string;
+  decimals: string;
+  symbol: string;
+  total_supply: string;
+  asset_type: string;
+  asset_info: string;
+  id: number;
+  belongs_to: string;
+  contract_uuid: string;
+  chain_status: string;
+  contract_address: string;
 }
 
 /**
@@ -59,7 +64,7 @@ export interface ContractInfoResponse {
  */
 export interface DepositParams {
   starkKey: string;
-  tokenType: string;
+  assetType: string;
   vaultId: string;
   // 721 可不传
   quantizedAmount: number | string;
@@ -72,7 +77,7 @@ export interface MintParams extends RequestCommonParams {
   amount: number | string;
 }
 
-export type MintOneParams = Omit<MintParams, 'amount'>
+export type MintOneParams = Omit<MintParams, 'amount'>;
 
 export interface MintResponse {
   sequence_id: number;
@@ -94,14 +99,13 @@ export interface RegisterParams {
   type: keyof typeof Types;
 }
 
-
 /**
  * Transfer
  */
 
 export interface TransferRequestParams extends Partial<SignParams> {
   nonce: number;
-  signature: SignatureLike
+  signature: SignatureLike;
 }
 
 export interface TransferResponse {
@@ -111,9 +115,8 @@ export interface TransferResponse {
 /**
  * Vault
  */
-export interface VaultParams extends Omit<RequestCommonParams, 'starkKey'> {
-  tokenId?: string;
-  type: `${Types}`
+export interface VaultParams {
+  assetId?: string;
   starkKeys: string | string[];
 }
 

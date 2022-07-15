@@ -1,7 +1,6 @@
 import { AxiosInstance } from 'axios';
 import {
   Response,
-  BalanceResponse,
   StarkKeyParams,
   RecordResponse,
   RecordParams,
@@ -9,7 +8,7 @@ import {
 import { parseParams } from '../utils';
 
 export async function getRecord(request: AxiosInstance, params: RecordParams) {
-  return request.get<Response<BalanceResponse>>('/v1/record', {
+  return request.get<Response<RecordResponse>>('/v1/record', {
     params: {
       ...parseParams(params),
     },

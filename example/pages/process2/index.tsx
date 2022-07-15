@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Text, Spacer, Button, Loading } from '@nextui-org/react';
+import { Text, Spacer, Button } from '@nextui-org/react';
 import styles from './index.module.css';
 import { reddio } from '../../utils/config';
 import Layout from '../../components/layout';
@@ -10,31 +9,18 @@ const starkKey =
   '0x7d459f9c3ff9fda3073a4f793f809e1edcb6e4ef27a9a385f7e2b414d5d8e41';
 
 const Process2 = () => {
-  const [registerHash, setRegisterHash] = useState('');
-  const [loading, setLoading] = useState(false);
-  const register = async () => {
-    setLoading(true);
-    const { data } = await reddio.apis.registerToken({
-      contract_address: tokenAddress,
-      type: 'ERC20',
-    });
-    setLoading(false);
-    setRegisterHash(data.data.tx_hash);
-  };
   const deposit = async () => {
     await reddio.erc20.approve({
       tokenAddress,
       amount: 30,
     });
-    const { assetType, assetId } = await reddio.utils.getAssetTypeAndId({
+    const { assetId, assetType } = await reddio.utils.getAssetTypeAndId({
       type: 'ERC20',
       tokenAddress,
     });
     const { data } = await reddio.apis.getVaultID({
-      contract_address: tokenAddress,
       starkKeys: starkKey,
       assetId,
-      type: 'ERC20',
     });
     await reddio.apis.depositERC20({
       starkKey,
@@ -49,10 +35,8 @@ const Process2 = () => {
       tokenAddress,
     });
     const { data } = await reddio.apis.getVaultID({
-      contract_address: tokenAddress,
       starkKeys: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
       assetId,
-      type: 'ERC20',
     });
     await reddio.apis.transfer({
       starkKey,
@@ -72,10 +56,8 @@ const Process2 = () => {
       tokenAddress,
     });
     const { data } = await reddio.apis.getVaultID({
-      contract_address: tokenAddress,
       starkKeys: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
       assetId,
-      type: 'ERC20',
     });
     await reddio.apis.withdrawFromL2({
       starkKey,
@@ -87,7 +69,7 @@ const Process2 = () => {
       receiver: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
       receiverVaultId: data.data.vault_ids[1],
       expirationTimestamp: 4194303,
-      contract_address: tokenAddress,
+      contractAddress: tokenAddress,
     });
   };
   return (
@@ -99,17 +81,6 @@ const Process2 = () => {
           Fake token contract address:
           {tokenAddress}
         </Text>
-        <Spacer y={1} />
-        <Text h3>2. Register the ERC20 token to starkex</Text>
-        <Spacer y={1} />
-        <Button onClick={register} disabled={loading && !registerHash}>
-          {loading && !registerHash ? (
-            <Loading color="currentColor" size="sm" />
-          ) : null}
-          Register
-        </Button>
-        <Spacer y={1} />
-        {registerHash ? <Text>Hash: {registerHash}</Text> : null}
         <Spacer y={1} />
         <Text h3>3. Deposit the ERC20 token to starkex</Text>
         <Spacer y={1} />
