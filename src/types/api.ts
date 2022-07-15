@@ -59,7 +59,7 @@ export interface ContractInfoResponse {
  */
 export interface DepositParams {
   starkKey: string;
-  assetType: string;
+  tokenType: string;
   vaultId: string;
   // 721 可不传
   quantizedAmount: number | string;
