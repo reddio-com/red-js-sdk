@@ -101,13 +101,13 @@ export interface TransferResponse {
  * Vault
  */
 export interface VaultParams extends Omit<RequestCommonParams, 'starkKey'> {
-  assetId?: string;
+  token_id?: string;
   type: `${Types}`
   starkKeys: string | string[];
 }
 
 export interface VaultResponse {
-  vault_ids: string | string[];
+  vault_ids: string[];
 }
 
 /**
