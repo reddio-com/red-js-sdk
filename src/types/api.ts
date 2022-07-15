@@ -118,7 +118,7 @@ export interface VaultParams extends Omit<RequestCommonParams, 'starkKey'> {
 }
 
 export interface VaultResponse {
-  vault_ids: string[];
+  vault_ids: number[];
 }
 
 /**
