@@ -37,7 +37,7 @@ import {
   RecordParams,
   MintParams,
 } from './types';
-import { Env, getAssetTypeAndId, generateFromEthSignature } from './utils';
+import { Env, getTokenTypeAndId, generateFromEthSignature } from './utils';
 import { getRecord, getRecords } from './api/rocord';
 
 interface ReddioCoreOptions {
@@ -138,8 +138,8 @@ class ReddioCore {
   };
 
   public readonly utils = {
-    getAssetTypeAndId: async (args: Asset) => {
-      return getAssetTypeAndId(this.request, args);
+    getTokenTypeAndId: async (args: Asset) => {
+      return getTokenTypeAndId(this.request, args);
     },
   };
 
