@@ -12,11 +12,11 @@ export const depositERC20 = (
     try {
       const signer = provider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi, signer);
-      const { starkKey, vaultId, quantizedAmount, assetType } = params;
+      const { starkKey, vaultId, quantizedAmount, tokenType } = params;
       // get contract unit
       contract.depositERC20(
         starkKey,
-        assetType,
+        tokenType,
         vaultId,
         ethers.utils.parseUnits(quantizedAmount.toString(), 18)
       );
@@ -39,8 +39,8 @@ export const depositETH = (
     try {
       const signer = provider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi, signer);
-      const { starkKey, vaultId, assetType, quantizedAmount } = params;
-      contract.depositEth(starkKey, assetType, vaultId, {
+      const { starkKey, vaultId, tokenType, quantizedAmount } = params;
+      contract.depositEth(starkKey, tokenType, vaultId, {
         value: ethers.utils.parseEther(quantizedAmount.toString()),
       });
 
@@ -62,8 +62,8 @@ export const depositERC721 = (
     try {
       const signer = provider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi, signer);
-      const { starkKey, vaultId, quantizedAmount, assetType } = params;
-      contract.depositNft(starkKey, assetType, vaultId, quantizedAmount);
+      const { starkKey, vaultId, quantizedAmount, tokenType } = params;
+      contract.depositNft(starkKey, tokenType, vaultId, quantizedAmount);
 
       contract.on('LogDeposit', (...args) => {
         resolve(args);
