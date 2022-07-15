@@ -9,7 +9,7 @@ export const withdrawFromL2 = async (
   data: WithdrawParams
 ) => {
   const params = await getTransferParams(request, data);
-  return request.post<Response<WithdrawResponse>>('/api/v1/withdrawto', {
+  return request.post<Response<WithdrawResponse>>('/v1/withdrawto', {
     ...parseParams(params),
   });
 };

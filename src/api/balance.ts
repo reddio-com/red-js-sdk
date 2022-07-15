@@ -11,7 +11,7 @@ export async function getBalance(
   request: AxiosInstance,
   params: StarkKeyParams
 ) {
-  return request.get<Response<BalanceResponse>>('/api/v1/balance', {
+  return request.get<Response<BalanceResponse>>('/v1/balance', {
     params: {
       ...parseParams(params),
     },
@@ -22,7 +22,7 @@ export async function getBalances(
   request: AxiosInstance,
   params: BalanceParams
 ) {
-  return request.get<Response<BalanceResponse[]>>('/api/v1/balances', {
+  return request.get<Response<BalanceResponse[]>>('/v1/balances', {
     params: {
       ...parseParams(params),
     },
