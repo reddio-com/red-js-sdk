@@ -115,13 +115,13 @@ export interface VaultResponse {
  */
 export interface WithdrawParams extends SignParams {
   // ETH 不传
-  contract_address?: string;
+  contractAddress?: string;
   // erc20 不传
   tokenId?: string;
 }
 
 export interface WithdrawResponse {
-  transaction_id: number;
+  sequence_id: number;
 }
 
 /**
