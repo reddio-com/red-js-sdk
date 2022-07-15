@@ -39,7 +39,19 @@ export interface ContractInfoParams {
   contractAddress: string
 }
 export interface ContractInfoResponse {
-  quantum: string
+  quantum: number
+  count: number
+  type: string
+  decimals: string
+  symbol: string
+  total_supply: string
+  asset_type: string
+  asset_info: string
+  id: number
+  belongs_to: string
+  contract_uuid: string
+  chain_status: string
+  contract_address: string
 }
 
 /**
