@@ -9,7 +9,7 @@ export async function mintOne(request: AxiosInstance, params: MintOneParams) {
   });
 }
 
-export async function mint(request: AxiosInstance, params: MintParams) {
+export async function mints(request: AxiosInstance, params: MintParams) {
   return request.post<Response<MintResponse>>('/v1/mints', {
     ...parseParams(params),
   });

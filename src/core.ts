@@ -13,6 +13,7 @@ import {
   transfer,
   withdrawFromL2,
   getBalances,
+  mints,
 } from './api';
 import {
   erc20Approve,
@@ -34,6 +35,7 @@ import {
   MintOneParams,
   BalanceParams,
   RecordParams,
+  MintParams,
 } from './types';
 import { Env, getAssetTypeAndId, generateFromEthSignature } from './utils';
 import { getRecord, getRecords } from './api/rocord';
@@ -65,6 +67,9 @@ class ReddioCore {
   public readonly apis = {
     mintOne: (args: MintOneParams) => {
       return mintOne(this.request, args);
+    },
+    mints: (args: MintParams) => {
+      return mints(this.request, args);
     },
     getNonce: (args: StarkKeyParams) => {
       return getNonce(this.request, args);
