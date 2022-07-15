@@ -22,8 +22,8 @@ export interface SignParams {
   privateKey: string;
   assetId: string;
   amount: number | string;
-  vaultId: string;
+  vaultId: number;
   receiver: string;
-  receiverVaultId: string;
+  receiverVaultId: number;
   expirationTimestamp: number;
 }
