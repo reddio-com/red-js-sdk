@@ -112,7 +112,7 @@ export interface TransferResponse {
  * Vault
  */
 export interface VaultParams extends Omit<RequestCommonParams, 'starkKey'> {
-  tokenID?: string;
+  tokenId?: string;
   type: `${Types}`
   starkKeys: string | string[];
 }
