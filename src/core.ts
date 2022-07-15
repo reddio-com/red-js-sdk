@@ -10,7 +10,6 @@ import {
   getNonce,
   getVaultID,
   mintOne,
-  registerToken,
   transfer,
   withdrawFromL2,
   getBalances,
@@ -24,7 +23,6 @@ import {
 import {
   DepositParams,
   StarkKeyParams,
-  RegisterParams,
   SignParams,
   VaultParams,
   ApproveErc20Params,
@@ -70,9 +68,6 @@ class ReddioCore {
     },
     getNonce: (args: StarkKeyParams) => {
       return getNonce(this.request, args);
-    },
-    registerToken: (args: RegisterParams) => {
-      return registerToken(this.request, args);
     },
     transfer: (args: SignParams) => {
       return transfer(this.request, args);

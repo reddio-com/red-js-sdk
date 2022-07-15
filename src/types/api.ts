@@ -83,9 +83,6 @@ export interface RegisterParams {
   type: keyof typeof Types;
 }
 
-export interface TokenResponse {
-  tx_hash: string;
-}
 
 /**
  * Transfer
