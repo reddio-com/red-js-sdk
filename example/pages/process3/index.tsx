@@ -15,7 +15,6 @@ const Process3 = () => {
       tokenId: 40,
     });
     await transaction.wait();
-    console.log(transaction);
   };
   const deposit = async () => {
     const { assetType, assetId } = await reddio.utils.getAssetTypeAndId({
@@ -66,7 +65,7 @@ const Process3 = () => {
       starkKeys: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
       assetId,
     });
-    await reddio.apis.withdrawFromL2({
+    await reddio.apis.withdrawalFromL2({
       starkKey,
       privateKey:
         '26b3a29d2fee24b566a74bd6b3dbabdcb371c7f0bf83708ad840af66de91353',
