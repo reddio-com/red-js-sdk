@@ -1,14 +1,14 @@
 import { JsonRpcProvider } from '@ethersproject/providers';
 import assert from 'assert';
-import { WithdrawFromL1Params } from '../types';
+import { WithdrawalFromL1Params } from '../types';
 import { ethers } from 'ethers';
 import abi from '../abi/Withdraw.abi.json';
 import { Types } from '../utils';
 
-export const withdrawFromL1 = async (
+export const withdrawalFromL1 = async (
   provider: JsonRpcProvider,
   contractAddress: string,
-  params: WithdrawFromL1Params
+  params: WithdrawalFromL1Params
 ) => {
   const signer = provider.getSigner();
   const { starkKey, type, assetType, tokenId } = params;

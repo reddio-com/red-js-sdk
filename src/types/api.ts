@@ -4,7 +4,6 @@ import {
   SignParams,
   StarkKeyParams,
 } from './common';
-import { Types } from '../utils';
 
 /**
  * Balance
@@ -28,13 +27,16 @@ export interface BalanceResponse {
  * Record
  */
 export interface RecordParams extends StarkKeyParams {
-  sequence_id?: number;
+  sequenceId?: number;
 }
 export interface RecordResponse {
   stark_key: string;
   sequence_id: number;
   reason: string;
   status: number;
+  extra_data: {
+    token_id: string;
+  };
 }
 
 /**
@@ -91,15 +93,6 @@ export interface NonceResponse {
 }
 
 /**
- * Token
- */
-export interface RegisterParams {
-  // ETH 不需要传
-  contract_address?: string;
-  type: keyof typeof Types;
-}
-
-/**
  * Transfer
  */
 
@@ -121,20 +114,20 @@ export interface VaultParams {
 }
 
 export interface VaultResponse {
-  vault_ids: number[];
+  vault_ids: string[];
 }
 
 /**
  * Withdraw
  */
-export interface WithdrawParams extends SignParams {
+export interface WithdrawalParams extends SignParams {
   // ETH 不传
   contractAddress?: string;
   // erc20 不传
   tokenId?: string;
 }
 
-export interface WithdrawResponse {
+export interface WithdrawalResponse {
   sequence_id: number;
 }
 

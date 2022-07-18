@@ -11,14 +11,14 @@ import {
   getVaultID,
   mintOne,
   transfer,
-  withdrawFromL2,
+  withdrawalFromL2,
   getBalances,
 } from './api';
 import {
   erc20Approve,
   erc20Allowance,
   erc721Approve,
-  withdrawFromL1,
+  withdrawalFromL1,
 } from './contract';
 import {
   DepositParams,
@@ -28,9 +28,9 @@ import {
   ApproveErc20Params,
   ErcCommonParams,
   Asset,
-  WithdrawParams,
+  WithdrawalParams,
   ApproveErc721Params,
-  WithdrawFromL1Params,
+  WithdrawalFromL1Params,
   MintOneParams,
   BalanceParams,
   RecordParams,
@@ -75,12 +75,12 @@ class ReddioCore {
     getVaultID: (args: VaultParams) => {
       return getVaultID(this.request, args);
     },
-    withdrawFromL2: (args: WithdrawParams) => {
-      return withdrawFromL2(this.request, args);
+    withdrawalFromL2: (args: WithdrawalParams) => {
+      return withdrawalFromL2(this.request, args);
     },
-    withdrawFromL1: async (args: WithdrawFromL1Params) => {
+    withdrawalFromL1: async (args: WithdrawalFromL1Params) => {
       await this.getContractAddress();
-      return withdrawFromL1(this.provider, this.contractAddress!, args);
+      return withdrawalFromL1(this.provider, this.contractAddress!, args);
     },
     depositERC20: async (args: DepositParams) => {
       await this.getContractAddress();

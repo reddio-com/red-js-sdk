@@ -14,7 +14,7 @@ export interface ApproveErc721Params extends ErcCommonParams {
   tokenId: string | number;
 }
 
-export interface WithdrawFromL1Params {
+export interface WithdrawalFromL1Params {
   starkKey: string;
   assetType: string;
   type: `${Types}`

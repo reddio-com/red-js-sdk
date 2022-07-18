@@ -1,15 +1,15 @@
 import { AxiosInstance } from 'axios';
-import { Response, WithdrawParams } from '../types';
+import { Response, WithdrawalParams } from '../types';
 import { parseParams } from '../utils';
-import { WithdrawResponse } from '../types';
+import { WithdrawalResponse } from '../types';
 import { getTransferParams } from './transfer';
 
-export const withdrawFromL2 = async (
+export const withdrawalFromL2 = async (
   request: AxiosInstance,
-  data: WithdrawParams
+  data: WithdrawalParams
 ) => {
   const params = await getTransferParams(request, data);
-  return request.post<Response<WithdrawResponse>>('/v1/withdrawalto', {
+  return request.post<Response<WithdrawalResponse>>('/v1/withdrawalto', {
     ...parseParams(params),
   });
 };
