@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { Reddio } from '@reddio/js-sdk';
+import { Reddio } from '@reddio.com/js';
 
 let reddio: Reddio;
 

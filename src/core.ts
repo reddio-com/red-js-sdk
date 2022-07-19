@@ -41,7 +41,6 @@ import { getRecord, getRecords } from './api/rocord';
 interface ReddioCoreOptions {
   env?: 'test' | 'main';
   provider: JsonRpcProvider;
-  network?: string;
 }
 
 class ReddioCore {
