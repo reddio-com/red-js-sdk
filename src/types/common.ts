@@ -25,5 +25,10 @@ export interface SignParams {
   vaultId: string;
   receiver: string;
   receiverVaultId: string;
-  expirationTimestamp: number;
+  expirationTimestamp?: number;
+}
+
+export interface PageParams {
+  page: number;
+  limit: number;
 }
