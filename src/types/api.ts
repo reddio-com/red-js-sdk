@@ -1,4 +1,5 @@
 import {
+  PageParams,
   RequestCommonParams,
   SignatureLike,
   SignParams,
@@ -8,7 +9,7 @@ import {
 /**
  * Balance
  */
-export interface BalanceParams extends StarkKeyParams {
+export interface BalanceParams extends StarkKeyParams, Partial<PageParams> {
   assetId?: string;
 }
 
@@ -29,6 +30,7 @@ export interface BalanceResponse {
 export interface RecordParams extends StarkKeyParams {
   sequenceId?: number;
 }
+export type RecordsParams = StarkKeyParams & Partial<PageParams>;
 export interface RecordResponse {
   stark_key: string;
   sequence_id: number;
@@ -43,6 +45,7 @@ export interface RecordResponse {
  * Contract
  */
 export interface ContractInfoParams {
+  type: string;
   contractAddress: string;
 }
 export interface ContractInfoResponse {
@@ -68,7 +71,6 @@ export interface DepositParams {
   starkKey: string;
   assetType: string;
   vaultId: string;
-  // 721 可不传
   quantizedAmount: number | string;
 }
 
