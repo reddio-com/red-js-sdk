@@ -126,7 +126,7 @@ class ReddioCore {
   };
 
   public readonly keypair = {
-    generateFromEthSignature: (msgParams: any) => {
+    generateFromEthSignature: (msgParams: string | Record<string, any>) => {
       return generateFromEthSignature(this.provider, msgParams);
     },
   };
