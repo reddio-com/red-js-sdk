@@ -18,7 +18,7 @@ export const depositERC20 = (
         starkKey,
         assetType,
         vaultId,
-        ethers.utils.parseUnits(quantizedAmount.toString(), 18)
+        ethers.utils.parseUnits(quantizedAmount.toString(), 6)
       );
 
       contract.on('LogDeposit', (...args) => {
