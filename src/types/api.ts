@@ -74,6 +74,13 @@ export interface DepositParams {
   quantizedAmount: number | string;
 }
 
+export interface Deposit721Params {
+  starkKey: string;
+  assetType: string;
+  vaultId: string;
+  tokenId: number;
+}
+
 /**
  * Mint
  */

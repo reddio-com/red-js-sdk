@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { JsonRpcProvider } from '@ethersproject/providers';
-import { DepositParams } from '../types';
+import { Deposit721Params, DepositParams } from '../types';
 import abi from '../abi/Deposits.json';
 
 export const depositERC20 = (
@@ -56,14 +56,14 @@ export const depositETH = (
 export const depositERC721 = (
   provider: JsonRpcProvider,
   contractAddress: string,
-  params: DepositParams
+  params: Deposit721Params
 ) => {
   return new Promise((resolve, reject) => {
     try {
       const signer = provider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi, signer);
-      const { starkKey, vaultId, quantizedAmount, assetType } = params;
-      contract.depositNft(starkKey, assetType, vaultId, quantizedAmount);
+      const { starkKey, vaultId, tokenId, assetType } = params;
+      contract.depositNft(starkKey, assetType, vaultId, tokenId);
 
       contract.on('LogDeposit', (...args) => {
         resolve(args);
