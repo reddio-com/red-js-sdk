@@ -3,10 +3,16 @@ import { asset } from '@starkware-industries/starkware-crypto-utils';
 import { Asset } from '../types';
 import { getContractInfo } from '../api/contractInfo';
 import { AxiosInstance } from 'axios';
+import assert from 'assert';
 
 const setQuantum = async (request: AxiosInstance, data: Asset) => {
-  if (!data.quantum && data.tokenAddress) {
+  if (!data.quantum) {
+    if (data.type === 'ETH') {
+      data.tokenAddress = 'ETH';
+    }
+    assert(data.tokenAddress, 'tokenAddress is required');
     const { data: res } = await getContractInfo(request, {
+      type: data.type,
       contractAddress: data.tokenAddress,
     });
     data.quantum = res.data.quantum;
@@ -28,6 +34,8 @@ export const getAssetTypeAndId = async (
   args: Asset
 ) => {
   await setQuantum(request, args);
+  const { type, ...data } = args;
+  (args as any).data = data;
   const assetId = await getAssetID(args);
   const assetType = await getAssetType(args);
   return { assetId, assetType };
