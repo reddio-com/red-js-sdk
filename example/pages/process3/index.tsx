@@ -6,13 +6,13 @@ import Layout from '../../components/layout';
 const tokenAddress = '0xbe1150a592a9a8810f620ddf3ae73017da137344';
 
 const starkKey =
-  '0x7d459f9c3ff9fda3073a4f793f809e1edcb6e4ef27a9a385f7e2b414d5d8e41';
+  '0x6ce5b6485e9e2257d81975cac66f900fcd928a6c69dbcd586f207d0b0caf5cf';
 
 const Process3 = () => {
   const approve = async () => {
     let transaction = await reddio.erc721.approve({
       tokenAddress,
-      tokenId: 40,
+      tokenId: 47,
     });
     await transaction.wait();
   };
@@ -20,7 +20,7 @@ const Process3 = () => {
     const { assetType, assetId } = await reddio.utils.getAssetTypeAndId({
       type: 'ERC721',
       tokenAddress,
-      tokenId: 39,
+      tokenId: 47,
     });
     const { data } = await reddio.apis.getVaultID({
       starkKeys: starkKey,
@@ -29,18 +29,18 @@ const Process3 = () => {
     await reddio.apis.depositERC721({
       starkKey,
       assetType,
-      vaultId: data.data.vault_ids.toString(),
-      quantizedAmount: 1,
+      vaultId: data.data.vault_ids[0],
+      tokenId: 47,
     });
   };
   const transfer = async () => {
     const { assetId } = await reddio.utils.getAssetTypeAndId({
       type: 'ERC721',
       tokenAddress,
-      tokenId: 39,
+      tokenId: 47,
     });
     const { data } = await reddio.apis.getVaultID({
-      starkKeys: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
+      starkKeys: [starkKey, '0xC664B68aFceD502656Ed8c4adaEFa8E8ffBF65DC'],
       assetId,
     });
     await reddio.apis.transfer({
@@ -50,32 +50,36 @@ const Process3 = () => {
       assetId,
       amount: 1,
       vaultId: data.data.vault_ids[0],
-      receiver: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
+      receiver: '0xC664B68aFceD502656Ed8c4adaEFa8E8ffBF65DC',
       receiverVaultId: data.data.vault_ids[1],
-      expirationTimestamp: 4194303,
     });
   };
   const withdraw = async () => {
-    const { assetId } = await reddio.utils.getAssetTypeAndId({
+    const { assetId, assetType } = await reddio.utils.getAssetTypeAndId({
       type: 'ERC721',
       tokenAddress,
-      tokenId: 39,
+      tokenId: 47,
     });
     const { data } = await reddio.apis.getVaultID({
-      starkKeys: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
+      starkKeys: [starkKey, '0xC664B68aFceD502656Ed8c4adaEFa8E8ffBF65DC'],
       assetId,
     });
     await reddio.apis.withdrawalFromL2({
       starkKey,
       privateKey:
-        '26b3a29d2fee24b566a74bd6b3dbabdcb371c7f0bf83708ad840af66de91353',
+        'd4447b09a57d9441d1ff5f080318a1859e6d4bba82fe5fd32adbac825eac7e',
       assetId,
       amount: 1,
       vaultId: data.data.vault_ids[0],
-      receiver: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
+      receiver: '0xC664B68aFceD502656Ed8c4adaEFa8E8ffBF65DC',
       receiverVaultId: data.data.vault_ids[1],
-      expirationTimestamp: 4194303,
       contractAddress: tokenAddress,
+    });
+    await reddio.apis.withdrawalFromL1({
+      starkKey,
+      assetType,
+      tokenId: 47,
+      type: 'ERC721',
     });
   };
   return (

@@ -3,20 +3,20 @@ import styles from './index.module.css';
 import { reddio } from '../../utils/config';
 import Layout from '../../components/layout';
 
-const tokenAddress = '0x66Cd45449B36f1102FD368Aad9223fcAE30E4dB5';
+const contractAddress = '0x66Cd45449B36f1102FD368Aad9223fcAE30E4dB5';
 
 const starkKey =
-  '0x7d459f9c3ff9fda3073a4f793f809e1edcb6e4ef27a9a385f7e2b414d5d8e41';
+  '0x6ce5b6485e9e2257d81975cac66f900fcd928a6c69dbcd586f207d0b0caf5cf';
 
 const Process2 = () => {
   const deposit = async () => {
     await reddio.erc20.approve({
-      tokenAddress,
+      tokenAddress: contractAddress,
       amount: 30,
     });
     const { assetId, assetType } = await reddio.utils.getAssetTypeAndId({
       type: 'ERC20',
-      tokenAddress,
+      tokenAddress: contractAddress,
     });
     const { data } = await reddio.apis.getVaultID({
       starkKeys: starkKey,
@@ -25,14 +25,14 @@ const Process2 = () => {
     await reddio.apis.depositERC20({
       starkKey,
       assetType,
-      vaultId: data.data.vault_ids.toString(),
-      quantizedAmount: 1,
+      vaultId: data.data.vault_ids[0],
+      quantizedAmount: 2,
     });
   };
   const transfer = async () => {
     const { assetId } = await reddio.utils.getAssetTypeAndId({
       type: 'ERC20',
-      tokenAddress,
+      tokenAddress: contractAddress,
     });
     const { data } = await reddio.apis.getVaultID({
       starkKeys: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
@@ -41,19 +41,18 @@ const Process2 = () => {
     await reddio.apis.transfer({
       starkKey,
       privateKey:
-        '26b3a29d2fee24b566a74bd6b3dbabdcb371c7f0bf83708ad840af66de91353',
+        'd4447b09a57d9441d1ff5f080318a1859e6d4bba82fe5fd32adbac825eac7e',
       assetId,
       amount: 1,
       vaultId: data.data.vault_ids[0],
       receiver: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
       receiverVaultId: data.data.vault_ids[1],
-      expirationTimestamp: 4194303,
     });
   };
   const withdraw = async () => {
     const { assetId } = await reddio.utils.getAssetTypeAndId({
       type: 'ERC20',
-      tokenAddress,
+      tokenAddress: contractAddress,
     });
     const { data } = await reddio.apis.getVaultID({
       starkKeys: [starkKey, '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'],
@@ -62,14 +61,13 @@ const Process2 = () => {
     await reddio.apis.withdrawalFromL2({
       starkKey,
       privateKey:
-        '26b3a29d2fee24b566a74bd6b3dbabdcb371c7f0bf83708ad840af66de91353',
+        'd4447b09a57d9441d1ff5f080318a1859e6d4bba82fe5fd32adbac825eac7e',
       assetId,
       amount: 1,
       vaultId: data.data.vault_ids[0],
       receiver: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
       receiverVaultId: data.data.vault_ids[1],
-      expirationTimestamp: 4194303,
-      contractAddress: tokenAddress,
+      contractAddress,
     });
   };
   return (
@@ -79,7 +77,7 @@ const Process2 = () => {
         <Spacer y={1} />
         <Text>
           Fake token contract address:
-          {tokenAddress}
+          {contractAddress}
         </Text>
         <Spacer y={1} />
         <Text h3>3. Deposit the ERC20 token to starkex</Text>

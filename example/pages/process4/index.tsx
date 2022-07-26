@@ -56,7 +56,6 @@ const Process4 = () => {
       vaultId: data.data.vault_ids[0],
       receiver: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
       receiverVaultId: data.data.vault_ids[1],
-      expirationTimestamp: 4194303,
     });
   };
   const withdraw = async () => {
@@ -78,7 +77,6 @@ const Process4 = () => {
       vaultId: data.data.vault_ids[0],
       receiver: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
       receiverVaultId: data.data.vault_ids[1],
-      expirationTimestamp: 4194303,
       contractAddress: tokenAddress,
     });
   };

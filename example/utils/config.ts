@@ -11,6 +11,7 @@ const initReddio = () => {
     });
     reddio = new Reddio({
       provider,
+      env: 'test',
     });
   }
 };

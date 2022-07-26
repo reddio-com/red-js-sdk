@@ -4,7 +4,7 @@ import { reddio } from '../../utils/config';
 import Layout from '../../components/layout';
 
 const starkKey =
-  '0x7d459f9c3ff9fda3073a4f793f809e1edcb6e4ef27a9a385f7e2b414d5d8e41';
+  '0x6ce5b6485e9e2257d81975cac66f900fcd928a6c69dbcd586f207d0b0caf5cf';
 
 const Process1 = () => {
   const deposit = async () => {
@@ -19,7 +19,7 @@ const Process1 = () => {
       starkKey,
       assetType,
       vaultId: data.data.vault_ids.toString(),
-      quantizedAmount: 0.01,
+      quantizedAmount: 0.001,
     });
   };
   const transfer = async () => {
@@ -33,13 +33,12 @@ const Process1 = () => {
     await reddio.apis.transfer({
       starkKey,
       privateKey:
-        '26b3a29d2fee24b566a74bd6b3dbabdcb371c7f0bf83708ad840af66de91353',
+        'd4447b09a57d9441d1ff5f080318a1859e6d4bba82fe5fd32adbac825eac7e',
       assetId,
-      amount: 0.01,
+      amount: 0.0001,
       vaultId: data.data.vault_ids[0],
       receiver: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
       receiverVaultId: data.data.vault_ids[1],
-      expirationTimestamp: 4194303,
     });
   };
   const withdraw = async () => {
@@ -53,13 +52,12 @@ const Process1 = () => {
     await reddio.apis.withdrawalFromL2({
       starkKey,
       privateKey:
-        '26b3a29d2fee24b566a74bd6b3dbabdcb371c7f0bf83708ad840af66de91353',
+        'd4447b09a57d9441d1ff5f080318a1859e6d4bba82fe5fd32adbac825eac7e',
       assetId,
-      amount: 0.01,
+      amount: 0.0001,
       vaultId: data.data.vault_ids[0],
       receiver: '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC',
       receiverVaultId: data.data.vault_ids[1],
-      expirationTimestamp: 4194303,
     });
   };
   return (
