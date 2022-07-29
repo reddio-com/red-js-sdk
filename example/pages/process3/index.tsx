@@ -91,7 +91,12 @@ const Process3 = () => {
           <Text h3 css={{ marginRight: 10 }}>
             请输入正确的 TokenId
           </Text>
-          <Input value={tokenId} onChange={e => setTokenId(e.target.value)} />
+          <Input
+            value={tokenId}
+            onChange={e => {
+              setTokenId(Number(e.target.value));
+            }}
+          />
         </Row>
         <Text h3>1. Create a new ERC721 token</Text>
         <Spacer y={1} />
