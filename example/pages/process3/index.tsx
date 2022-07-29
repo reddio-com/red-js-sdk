@@ -1,7 +1,8 @@
-import { Button, Spacer, Text } from '@nextui-org/react';
+import { Button, Spacer, Text, Input, Row } from '@nextui-org/react';
 import styles from './index.module.css';
 import { reddio } from '../../utils/config';
 import Layout from '../../components/layout';
+import { useState } from 'react';
 
 const tokenAddress = '0xbe1150a592a9a8810f620ddf3ae73017da137344';
 
@@ -9,10 +10,11 @@ const starkKey =
   '0x6ce5b6485e9e2257d81975cac66f900fcd928a6c69dbcd586f207d0b0caf5cf';
 
 const Process3 = () => {
+  const [tokenId, setTokenId] = useState(47);
   const approve = async () => {
     let transaction = await reddio.erc721.approve({
       tokenAddress,
-      tokenId: 47,
+      tokenId,
     });
     await transaction.wait();
   };
@@ -20,7 +22,7 @@ const Process3 = () => {
     const { assetType, assetId } = await reddio.utils.getAssetTypeAndId({
       type: 'ERC721',
       tokenAddress,
-      tokenId: 47,
+      tokenId,
     });
     const { data } = await reddio.apis.getVaultID({
       starkKeys: starkKey,
@@ -30,14 +32,14 @@ const Process3 = () => {
       starkKey,
       assetType,
       vaultId: data.data.vault_ids[0],
-      tokenId: 47,
+      tokenId,
     });
   };
   const transfer = async () => {
     const { assetId } = await reddio.utils.getAssetTypeAndId({
       type: 'ERC721',
       tokenAddress,
-      tokenId: 47,
+      tokenId,
     });
     const { data } = await reddio.apis.getVaultID({
       starkKeys: [starkKey, '0xC664B68aFceD502656Ed8c4adaEFa8E8ffBF65DC'],
@@ -58,7 +60,7 @@ const Process3 = () => {
     const { assetId, assetType } = await reddio.utils.getAssetTypeAndId({
       type: 'ERC721',
       tokenAddress,
-      tokenId: 47,
+      tokenId,
     });
     const { data } = await reddio.apis.getVaultID({
       starkKeys: [starkKey, '0xC664B68aFceD502656Ed8c4adaEFa8E8ffBF65DC'],
@@ -78,14 +80,19 @@ const Process3 = () => {
     await reddio.apis.withdrawalFromL1({
       starkKey,
       assetType,
-      tokenId: 47,
+      tokenId,
       type: 'ERC721',
     });
   };
   return (
     <Layout>
       <div className={styles.container}>
-        <Text h3>该流程需要使用正确的 TokenId</Text>
+        <Row align="center" justify="center">
+          <Text h3 css={{ marginRight: 10 }}>
+            请输入正确的 TokenId
+          </Text>
+          <Input value={tokenId} onChange={e => setTokenId(e.target.value)} />
+        </Row>
         <Text h3>1. Create a new ERC721 token</Text>
         <Spacer y={1} />
         <Text>
