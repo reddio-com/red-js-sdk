@@ -14,7 +14,7 @@ export const sign = (nonce: number, data: SignParams) => {
     vaultId,
     receiver,
     receiverVaultId,
-    expirationTimestamp = 86400,
+    expirationTimestamp = 4194303,
   } = data;
   const msgHash = getTransferMsgHash(
     amount,

@@ -13,7 +13,7 @@ export const getTransferParams = async (
   request: AxiosInstance,
   data: SignParams
 ) => {
-  const { starkKey, receiver, expirationTimestamp = 86400 } = data;
+  const { starkKey, receiver, expirationTimestamp = 4194303 } = data;
   const { data: result } = await getNonce(request, { starkKey });
   const nonce = result.data.nonce;
   data.amount = ethers.utils.parseUnits(data.amount.toString(), 6).toString();
