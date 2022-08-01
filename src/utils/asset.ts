@@ -7,13 +7,12 @@ import assert from 'assert';
 
 const setQuantum = async (request: AxiosInstance, data: Asset) => {
   if (!data.quantum) {
-    if (data.type === 'ETH') {
-      data.tokenAddress = 'ETH';
+    if (data.type !== 'ETH') {
+      assert(data.tokenAddress, 'tokenAddress is required');
     }
-    assert(data.tokenAddress, 'tokenAddress is required');
     const { data: res } = await getContractInfo(request, {
       type: data.type,
-      contractAddress: data.tokenAddress,
+      contractAddress: data.type === 'ETH' ? 'ETH' : data.tokenAddress!,
     });
     data.quantum = res.data.quantum;
   }
