@@ -5,7 +5,10 @@ import Layout from '../../components/layout';
 
 const contractAddress = '0x66Cd45449B36f1102FD368Aad9223fcAE30E4dB5';
 
-const starkKey = window.publicKey;
+let starkKey = '';
+if (typeof window !== 'undefined' && window.publicKey) {
+  starkKey = window.publicKey;
+}
 
 const Process2 = () => {
   const deposit = async () => {

@@ -3,7 +3,10 @@ import styles from './index.module.css';
 import { reddio } from '../../utils/config';
 import Layout from '../../components/layout';
 
-const starkKey = window.publicKey;
+let starkKey = '';
+if (typeof window !== 'undefined' && window.publicKey) {
+  starkKey = window.publicKey;
+}
 
 const Process1 = () => {
   const deposit = async () => {

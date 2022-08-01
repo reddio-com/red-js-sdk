@@ -6,7 +6,10 @@ import { useState } from 'react';
 
 const tokenAddress = '0xbe1150a592a9a8810f620ddf3ae73017da137344';
 
-const starkKey = window.publicKey;
+let starkKey = '';
+if (typeof window !== 'undefined' && window.publicKey) {
+  starkKey = window.publicKey;
+}
 
 const Process3 = () => {
   const [tokenId, setTokenId] = useState(47);
