@@ -5,8 +5,7 @@ import Layout from '../../components/layout';
 
 const contractAddress = '0x66Cd45449B36f1102FD368Aad9223fcAE30E4dB5';
 
-const starkKey =
-  '0x6ce5b6485e9e2257d81975cac66f900fcd928a6c69dbcd586f207d0b0caf5cf';
+const starkKey = window.publicKey;
 
 const Process2 = () => {
   const deposit = async () => {
@@ -40,8 +39,7 @@ const Process2 = () => {
     });
     await reddio.apis.transfer({
       starkKey,
-      privateKey:
-        'd4447b09a57d9441d1ff5f080318a1859e6d4bba82fe5fd32adbac825eac7e',
+      privateKey: window.privateKey,
       assetId,
       amount: 1,
       vaultId: data.data.vault_ids[0],
@@ -60,8 +58,7 @@ const Process2 = () => {
     });
     await reddio.apis.withdrawalFromL2({
       starkKey,
-      privateKey:
-        'd4447b09a57d9441d1ff5f080318a1859e6d4bba82fe5fd32adbac825eac7e',
+      privateKey: window.privateKey,
       assetId,
       amount: 1,
       vaultId: data.data.vault_ids[0],

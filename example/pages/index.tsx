@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Link from 'next/link'
+import { useRouter } from 'next/router'
 import {Button, Text, Spacer} from '@nextui-org/react';
 import styles from '../styles/Home.module.css'
 import {ethers} from "ethers";
@@ -9,6 +9,7 @@ import {reddio} from "../utils/config";
 import Layout from '../components/layout';
 
 const Home: NextPage = () => {
+  const router = useRouter();
   const [account, setAccount] = useState('');
   const [keys, setKeys] = useState({
     privateKey: '',
@@ -38,6 +39,8 @@ const Home: NextPage = () => {
 
   const generate = async () => {
     const res = await reddio.keypair.generateFromEthSignature('Sign')
+    window.publicKey = res.publicKey
+    window.privateKey = res.privateKey
     setKeys(res)
   }
 
@@ -55,11 +58,9 @@ const Home: NextPage = () => {
               Welcome to SDK Examples!
             </h1>
 
-            <Text>将私钥「90bd2cc1472d255677a10b98234692c7210ffaaf56feaea99e3fe7b4fa4291f0」导入钱包</Text>
-            <Spacer y={1} />
             { account ? <Button disabled>{account}</Button> : <Button onPress={connect}>connect</Button> }
             <Spacer y={1} />
-            <Button onClick={generate}>获取 starkKey</Button>
+            <Button onClick={generate}>get starkKey</Button>
             <Spacer y={1} />
             <Text>stark key: {keys.publicKey}</Text>
             <Spacer y={1} />
@@ -67,26 +68,40 @@ const Home: NextPage = () => {
             <Spacer y={1} />
 
             <div className={styles.grid}>
-              <Link href="/process1">
-                <a className={styles.card}>
-                  <h2>流程 1 &rarr;</h2>
+
+
+                <a className={styles.card} onClick={() => {
+                  if (keys.publicKey) {
+                    router.push('/process1')
+                  } else {
+                    alert('please generate stark key first')
+                  }
+                }}>
+                  <h2>Process 1 &rarr;</h2>
                   <p>Deposit/Transfer/Withdraw ETH between L1 and L2.</p>
                 </a>
-              </Link>
 
-              <Link href="/process2">
-                <a className={styles.card}>
-                  <h2>流程 2 &rarr;</h2>
-                  <p>Deposit/Transfer/Withdraw ERC20 between L1 and L2.</p>
-                </a>
-              </Link>
+              <a className={styles.card} onClick={() => {
+                if (keys.publicKey) {
+                  router.push('/process2')
+                } else {
+                  alert('please generate stark key first')
+                }
+              }}>
+                <h2>Process 2 &rarr;</h2>
+                <p>Deposit/Transfer/Withdraw ERC20 between L1 and L2.</p>
+              </a>
 
-              <Link href="/process3">
-                <a className={styles.card}>
-                  <h2>流程 3 &rarr;</h2>
-                  <p>Deposit/Transfer/Withdraw ERC721 between L1 and L2.</p>
-                </a>
-              </Link>
+              <a className={styles.card} onClick={() => {
+                if (keys.publicKey) {
+                  router.push('/process3')
+                } else {
+                  alert('please generate stark key first')
+                }
+              }}>
+                <h2>Process 3 &rarr;</h2>
+                <p>Deposit/Transfer/Withdraw ERC721 between L1 and L2.</p>
+              </a>
 
               {/*<Link href="/process4">*/}
               {/*  <a className={styles.card}>*/}

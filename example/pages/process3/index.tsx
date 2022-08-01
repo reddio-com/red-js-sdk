@@ -6,8 +6,7 @@ import { useState } from 'react';
 
 const tokenAddress = '0xbe1150a592a9a8810f620ddf3ae73017da137344';
 
-const starkKey =
-  '0x6ce5b6485e9e2257d81975cac66f900fcd928a6c69dbcd586f207d0b0caf5cf';
+const starkKey = window.publicKey;
 
 const Process3 = () => {
   const [tokenId, setTokenId] = useState(47);
@@ -47,8 +46,7 @@ const Process3 = () => {
     });
     await reddio.apis.transfer({
       starkKey,
-      privateKey:
-        '26b3a29d2fee24b566a74bd6b3dbabdcb371c7f0bf83708ad840af66de91353',
+      privateKey: window.privateKey,
       assetId,
       amount: 1,
       vaultId: data.data.vault_ids[0],
@@ -68,8 +66,7 @@ const Process3 = () => {
     });
     await reddio.apis.withdrawalFromL2({
       starkKey,
-      privateKey:
-        'd4447b09a57d9441d1ff5f080318a1859e6d4bba82fe5fd32adbac825eac7e',
+      privateKey: window.privateKey,
       assetId,
       amount: 1,
       vaultId: data.data.vault_ids[0],
