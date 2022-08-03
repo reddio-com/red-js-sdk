@@ -4,9 +4,9 @@ import { useRouter } from 'next/router'
 import {Button, Text, Spacer} from '@nextui-org/react';
 import styles from '../styles/Home.module.css'
 import {ethers} from "ethers";
-import { useState, useEffect } from "react";
-import {reddio} from "../utils/config";
+import {useState, useEffect, useCallback} from "react";
 import Layout from '../components/layout';
+import gen from "../utils/gen";
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -17,8 +17,8 @@ const Home: NextPage = () => {
   });
 
   useEffect(() => {
-    getAccount()
-  })
+    connect()
+  }, [])
 
   const getAccount = async () => {
     try {
@@ -34,15 +34,14 @@ const Home: NextPage = () => {
   const connect = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     await provider.send('eth_requestAccounts', [])
-    getAccount()
+    await getAccount()
   }
 
-  const generate = async () => {
-    const res = await reddio.keypair.generateFromEthSignature('Sign')
-    window.publicKey = res.publicKey
-    window.privateKey = res.privateKey
+  const generate = useCallback(async () => {
+    if (keys.publicKey) return
+    const res = await gen()
     setKeys(res)
-  }
+  }, [keys])
 
   return (
       <Layout>
@@ -68,8 +67,6 @@ const Home: NextPage = () => {
             <Spacer y={1} />
 
             <div className={styles.grid}>
-
-
                 <a className={styles.card} onClick={() => {
                   if (keys.publicKey) {
                     router.push('/process1')

@@ -111,7 +111,7 @@ export interface TransferRequestParams extends Partial<SignParams> {
 }
 
 export interface TransferResponse {
-  transaction_id: number;
+  sequence_id: number;
 }
 
 /**

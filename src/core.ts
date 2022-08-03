@@ -94,10 +94,10 @@ class ReddioCore {
       await this.getContractAddress();
       return depositERC721(this.provider, this.contractAddress!, args);
     },
-    getBalance: async (args: StarkKeyParams) => {
+    getBalance: async (args: BalanceParams) => {
       return getBalance(this.request, args);
     },
-    getBalances: async (args: BalanceParams) => {
+    getBalances: async (args: StarkKeyParams) => {
       return getBalances(this.request, args);
     },
     getRecord: async (args: RecordParams) => {
