@@ -85,6 +85,7 @@ const Process1 = () => {
       sequenceId: transferId!,
     });
     setTransferStatus(data.data.status);
+    if (data.data.status === 1) getBalance();
   };
 
   const withdraw = async () => {

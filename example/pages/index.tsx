@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
+import Link from 'next/link'
 import {Button, Text, Spacer} from '@nextui-org/react';
 import styles from '../styles/Home.module.css'
 import {ethers} from "ethers";
@@ -9,7 +9,6 @@ import Layout from '../components/layout';
 import gen from "../utils/gen";
 
 const Home: NextPage = () => {
-  const router = useRouter();
   const [account, setAccount] = useState('');
   const [keys, setKeys] = useState({
     privateKey: '',
@@ -67,38 +66,24 @@ const Home: NextPage = () => {
             <Spacer y={1} />
 
             <div className={styles.grid}>
-                <a className={styles.card} onClick={() => {
-                  if (keys.publicKey) {
-                    router.push('/process1')
-                  } else {
-                    alert('please generate stark key first')
-                  }
-                }}>
-                  <h2>Process 1 &rarr;</h2>
-                  <p>Deposit/Transfer/Withdraw ETH between L1 and L2.</p>
+              <Link href="/process1"><a className={styles.card}>
+                <h2>Process 1 &rarr;</h2>
+                <p>Deposit/Transfer/Withdraw ETH between L1 and L2.</p>
+              </a></Link>
+
+              <Link href="/process2">
+                <a className={styles.card}>
+                  <h2>Process 2 &rarr;</h2>
+                  <p>Deposit/Transfer/Withdraw ERC20 between L1 and L2.</p>
                 </a>
+              </Link>
 
-              <a className={styles.card} onClick={() => {
-                if (keys.publicKey) {
-                  router.push('/process2')
-                } else {
-                  alert('please generate stark key first')
-                }
-              }}>
-                <h2>Process 2 &rarr;</h2>
-                <p>Deposit/Transfer/Withdraw ERC20 between L1 and L2.</p>
-              </a>
-
-              <a className={styles.card} onClick={() => {
-                if (keys.publicKey) {
-                  router.push('/process3')
-                } else {
-                  alert('please generate stark key first')
-                }
-              }}>
-                <h2>Process 3 &rarr;</h2>
-                <p>Deposit/Transfer/Withdraw ERC721 between L1 and L2.</p>
-              </a>
+              <Link href="/process3">
+                <a className={styles.card}>
+                  <h2>Process 3 &rarr;</h2>
+                  <p>Deposit/Transfer/Withdraw ERC721 between L1 and L2.</p>
+                </a>
+              </Link>
 
               {/*<Link href="/process4">*/}
               {/*  <a className={styles.card}>*/}
