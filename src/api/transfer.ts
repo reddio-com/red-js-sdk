@@ -16,7 +16,11 @@ export const getTransferParams = async (
   const { starkKey, receiver, expirationTimestamp = 4194303 } = data;
   const { data: result } = await getNonce(request, { starkKey });
   const nonce = result.data.nonce;
-  data.amount = ethers.utils.parseUnits(data.amount.toString(), 6).toString();
+  if (!data.amount) {
+    data.amount = '1';
+  } else {
+    data.amount = ethers.utils.parseUnits(data.amount.toString(), 6).toString();
+  }
   const params: TransferRequestParams = {
     ...data,
     expirationTimestamp,

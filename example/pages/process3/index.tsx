@@ -1,29 +1,53 @@
-import { Button, Spacer, Text, Input, Row } from '@nextui-org/react';
+import { Button, Spacer, Text, Input, Row, Card } from '@nextui-org/react';
 import styles from './index.module.css';
 import { reddio } from '../../utils/config';
 import Layout from '../../components/layout';
-import { useState } from 'react';
-
-const tokenAddress = '0xbe1150a592a9a8810f620ddf3ae73017da137344';
+import { useEffect, useState } from 'react';
+import gen from '../../utils/gen';
 
 let starkKey = '';
-if (typeof window !== 'undefined' && window.publicKey) {
-  starkKey = window.publicKey;
-}
+let privateKey = '';
+
+const getKey = async () => {
+  if (!starkKey) {
+    await gen();
+    starkKey = window.publicKey;
+    privateKey = window.privateKey;
+  }
+};
 
 const Process3 = () => {
-  const [tokenId, setTokenId] = useState(47);
+  const [contractAddress, setContractAddress] = useState(
+    '0x6f3dfd899997a7fd027778da69db5d6313e774c7'
+  );
+  const [tokenId, setTokenId] = useState(4);
+  const [balance, setBalance] = useState('0');
+  const [transferAddress, setTransferAddress] = useState(
+    '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'
+  );
+  const [transferId, setTransferId] = useState<number | null>(null);
+  const [transferStatus, setTransferStatus] = useState<number | null>(null);
+  const [withdrawalAddress, setWithdrawalAddress] = useState(
+    '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'
+  );
+  const [withdrawalId, setWithdrawalId] = useState<number | null>(null);
+
+  useEffect(() => {
+    getKey();
+  }, []);
+
   const approve = async () => {
     let transaction = await reddio.erc721.approve({
-      tokenAddress,
+      tokenAddress: contractAddress,
       tokenId,
     });
     await transaction.wait();
   };
+
   const deposit = async () => {
     const { assetType, assetId } = await reddio.utils.getAssetTypeAndId({
       type: 'ERC721',
-      tokenAddress,
+      tokenAddress: contractAddress,
       tokenId,
     });
     const { data } = await reddio.apis.getVaultID({
@@ -37,89 +61,177 @@ const Process3 = () => {
       tokenId,
     });
   };
+
+  const getBalance = async () => {
+    const { data } = await reddio.apis.getBalances({
+      starkKey,
+    });
+    const item = data.data.find(item => item.type === 'ERC721');
+    item && setBalance(item.display_value);
+  };
+
   const transfer = async () => {
     const { assetId } = await reddio.utils.getAssetTypeAndId({
       type: 'ERC721',
-      tokenAddress,
+      tokenAddress: contractAddress,
       tokenId,
     });
     const { data } = await reddio.apis.getVaultID({
-      starkKeys: [starkKey, '0xC664B68aFceD502656Ed8c4adaEFa8E8ffBF65DC'],
+      starkKeys: [starkKey, transferAddress],
       assetId,
     });
-    await reddio.apis.transfer({
+    const { data: res } = await reddio.apis.transfer({
       starkKey,
-      privateKey: window.privateKey,
+      privateKey,
       assetId,
-      amount: 1,
       vaultId: data.data.vault_ids[0],
-      receiver: '0xC664B68aFceD502656Ed8c4adaEFa8E8ffBF65DC',
+      receiver: transferAddress,
       receiverVaultId: data.data.vault_ids[1],
     });
+    setTransferId(res.data.sequence_id);
   };
+
+  const getRecord = async () => {
+    const { data } = await reddio.apis.getRecord({
+      starkKey: starkKey,
+      sequenceId: transferId!,
+    });
+    setTransferStatus(data.data.status);
+    if (data.data.status === 1) getBalance();
+  };
+
   const withdraw = async () => {
-    const { assetId, assetType } = await reddio.utils.getAssetTypeAndId({
+    const { assetId } = await reddio.utils.getAssetTypeAndId({
       type: 'ERC721',
-      tokenAddress,
+      tokenAddress: contractAddress,
       tokenId,
     });
     const { data } = await reddio.apis.getVaultID({
-      starkKeys: [starkKey, '0xC664B68aFceD502656Ed8c4adaEFa8E8ffBF65DC'],
+      starkKeys: [starkKey, transferAddress],
       assetId,
     });
-    await reddio.apis.withdrawalFromL2({
+    const { data: res } = await reddio.apis.withdrawalFromL2({
       starkKey,
       privateKey: window.privateKey,
       assetId,
-      amount: 1,
       vaultId: data.data.vault_ids[0],
-      receiver: '0xC664B68aFceD502656Ed8c4adaEFa8E8ffBF65DC',
+      receiver: transferAddress,
       receiverVaultId: data.data.vault_ids[1],
-      contractAddress: tokenAddress,
+      contractAddress,
     });
-    await reddio.apis.withdrawalFromL1({
-      starkKey,
-      assetType,
-      tokenId,
-      type: 'ERC721',
-    });
+    setWithdrawalId(res.data.sequence_id);
   };
+
   return (
     <Layout>
       <div className={styles.container}>
-        <Row align="center" justify="center">
-          <Text h3 css={{ marginRight: 10 }}>
-            请输入正确的 TokenId
-          </Text>
-          <Input
-            value={tokenId}
-            onChange={e => {
-              setTokenId(Number(e.target.value));
-            }}
-          />
+        <Row css={{ flexDirection: 'column', width: 600 }}>
+          <Spacer y={2} />
+          <Text h1>Process 3</Text>
+          <Spacer y={2} />
+          <Card variant="bordered">
+            <Card.Header css={{ boxSizing: 'border-box' }}>
+              <Text h3>1. Create a new ERC721 token</Text>
+            </Card.Header>
+            <Card.Body css={{ boxSizing: 'border-box' }}>
+              <Input
+                label="Contract Address"
+                aria-label="Contract Address"
+                value={contractAddress}
+                onChange={e => setContractAddress(e.target.value)}
+              ></Input>
+            </Card.Body>
+          </Card>
+          <Spacer y={1} />
+          <Card variant="bordered">
+            <Card.Header css={{ boxSizing: 'border-box' }}>
+              <Text h3>2. Deposit the ERC721 token to starkex</Text>
+            </Card.Header>
+            <Card.Body css={{ boxSizing: 'border-box' }}>
+              <Input
+                label="Token Id"
+                aria-label="Token Id"
+                value={tokenId}
+                onChange={e => setTokenId(Number(e.target.value))}
+              ></Input>
+              <Spacer y={1} />
+              <Button css={{ width: 80 }} onClick={approve}>
+                Approve
+              </Button>
+              <Spacer y={1} />
+              <Text h3>Wait a moment for approve</Text>
+              <Spacer y={1} />
+              <Button css={{ width: 80 }} onClick={deposit}>
+                Deposit
+              </Button>
+              <Spacer y={1} />
+              <Text>Token：{balance}</Text>
+              <Spacer y={1} />
+              <Button css={{ width: 80 }} onClick={getBalance}>
+                Get Balance
+              </Button>
+            </Card.Body>
+          </Card>
+          <Spacer y={1} />
+          <Card variant="bordered">
+            <Card.Header css={{ boxSizing: 'border-box' }}>
+              <Text h3>
+                3. Transfer the ERC20 token between two starkex accounts
+              </Text>
+            </Card.Header>
+            <Card.Body css={{ boxSizing: 'border-box' }}>
+              <Input
+                label="To"
+                aria-label="To"
+                value={transferAddress}
+                onChange={e => setTransferAddress(e.target.value)}
+              ></Input>
+              <Spacer y={1} />
+              <Button css={{ width: 80 }} onClick={transfer}>
+                Transfer
+              </Button>
+              <Spacer y={1} />
+              <Text>
+                Status：
+                {transferStatus === 1
+                  ? 'Success'
+                  : transferStatus === 0
+                  ? 'Pending'
+                  : !transferStatus
+                  ? ''
+                  : 'Failed'}
+              </Text>
+              <Spacer y={1} />
+              <Button
+                css={{ width: 80 }}
+                onClick={getRecord}
+                disabled={!transferId}
+              >
+                Get Record
+              </Button>
+            </Card.Body>
+          </Card>
+          <Spacer y={1} />
+          <Card variant="bordered">
+            <Card.Header css={{ boxSizing: 'border-box' }}>
+              <Text h3>4. Withdraw the ERC20 from L2</Text>
+            </Card.Header>
+            <Card.Body css={{ boxSizing: 'border-box' }}>
+              <Input
+                label="To"
+                aria-label="To"
+                value={withdrawalAddress}
+                onChange={e => setWithdrawalAddress(e.target.value)}
+              ></Input>
+              <Spacer y={1} />
+              <Button css={{ width: 80 }} onClick={withdraw}>
+                Withdraw
+              </Button>
+              <Spacer y={1} />
+              <Text>Withdrawal Id：{withdrawalId}</Text>
+            </Card.Body>
+          </Card>
         </Row>
-        <Text h3>1. Create a new ERC721 token</Text>
-        <Spacer y={1} />
-        <Text>
-          Fake token contract address:
-          {tokenAddress}
-        </Text>
-        <Spacer y={1} />
-        <Text h3>3. Deposit the ERC721 token to starkex</Text>
-        <Spacer y={1} />
-        <Button onClick={approve}>Approve</Button>
-        <Spacer y={1} />
-        <Button onClick={deposit}>Deposit</Button>
-        <Spacer y={1} />
-        <Text h3>
-          4. Transfer the ERC721 token between two starkex accounts
-        </Text>
-        <Spacer y={1} />
-        <Button onClick={transfer}>Transfer</Button>
-        <Spacer y={1} />
-        <Text h3>5. Withdraw the ERC721 from L2</Text>
-        <Spacer y={1} />
-        <Button onClick={withdraw}>Withdraw</Button>
       </div>
     </Layout>
   );
