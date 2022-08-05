@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import { Button, Row, Spacer } from '@nextui-org/react';
 
-export default () => {
+export default function Header() {
   const [address, setAddress] = useState('');
 
   useEffect(() => {
@@ -44,4 +44,4 @@ export default () => {
       </Row>
     </Row>
   );
-};
+}
