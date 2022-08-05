@@ -176,7 +176,7 @@ const Process3 = () => {
           <Card variant="bordered">
             <Card.Header css={{ boxSizing: 'border-box' }}>
               <Text h3>
-                3. Transfer the ERC20 token between two starkex accounts
+                3. Transfer the ERC721 token between two starkex accounts
               </Text>
             </Card.Header>
             <Card.Body css={{ boxSizing: 'border-box' }}>
@@ -214,7 +214,7 @@ const Process3 = () => {
           <Spacer y={1} />
           <Card variant="bordered">
             <Card.Header css={{ boxSizing: 'border-box' }}>
-              <Text h3>4. Withdraw the ERC20 from L2</Text>
+              <Text h3>4. Withdraw the ERC721 from L2</Text>
             </Card.Header>
             <Card.Body css={{ boxSizing: 'border-box' }}>
               <Input
