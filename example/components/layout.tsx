@@ -1,5 +1,6 @@
 import { initReddio } from '../utils/config';
 import { useEffect } from 'react';
+import Header from './header';
 // @ts-ignore
 export default function Layout({ children }) {
   useEffect(() => {
@@ -7,7 +8,10 @@ export default function Layout({ children }) {
   });
   return (
     <>
-      <main>{children}</main>
+      <main>
+        <Header />
+        {children}
+      </main>
     </>
   );
 }
