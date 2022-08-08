@@ -17,7 +17,8 @@ export const withdrawalFromL1 = async (
     return contract.withdraw(starkKey, assetType);
   }
   if (type === Types.ERC721) {
-    return contract.withdrawNft(starkKey, assetType);
+    assert(tokenId, 'tokenId is required');
+    return contract.withdrawNft(starkKey, assetType, tokenId);
   }
   if (type === Types.MINTABLE_ERC721) {
     assert(tokenId, 'tokenId is required');
