@@ -41,6 +41,7 @@ import { getRecord, getRecords } from './api/rocord';
 
 interface ReddioCoreOptions {
   env?: 'test' | 'main';
+  apiKey?: string;
   provider: JsonRpcProvider;
 }
 
@@ -59,6 +60,9 @@ class ReddioCore {
   private initRequest = (options: ReddioCoreOptions) => {
     return axios.create({
       baseURL: config.baseUrl[options.env || 'test'],
+      headers: {
+        'X-API-Key': options.apiKey || '',
+      },
     });
   };
 
