@@ -1,6 +1,5 @@
 import {
   PageParams,
-  RequestCommonParams,
   SignatureLike,
   SignParams,
   StarkKeyParams,
@@ -79,19 +78,6 @@ export interface Deposit721Params {
   assetType: string;
   vaultId: string;
   tokenId: number;
-}
-
-/**
- * Mint
- */
-export interface MintParams extends RequestCommonParams {
-  amount: number | string;
-}
-
-export type MintOneParams = Omit<MintParams, 'amount'>;
-
-export interface MintResponse {
-  sequence_id: number;
 }
 
 /**

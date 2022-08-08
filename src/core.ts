@@ -9,7 +9,6 @@ import {
   getContractAddress,
   getNonce,
   getVaultID,
-  mintOne,
   transfer,
   withdrawalFromL2,
   getBalances,
@@ -32,7 +31,6 @@ import {
   WithdrawalParams,
   ApproveErc721Params,
   WithdrawalFromL1Params,
-  MintOneParams,
   BalanceParams,
   RecordParams,
 } from './types';
@@ -67,9 +65,6 @@ class ReddioCore {
   };
 
   public readonly apis = {
-    mintOne: (args: MintOneParams) => {
-      return mintOne(this.request, args);
-    },
     getNonce: (args: StarkKeyParams) => {
       return getNonce(this.request, args);
     },
