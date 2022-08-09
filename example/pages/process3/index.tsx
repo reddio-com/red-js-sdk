@@ -118,6 +118,7 @@ const Process3 = () => {
       receiver: transferAddress,
       receiverVaultId: data.data.vault_ids[1],
       contractAddress,
+      tokenId,
     });
     setWithdrawalId(res.data.sequence_id);
   };

@@ -3,7 +3,7 @@ import {
   Response,
   BalanceResponse,
   BalanceParams,
-  StarkKeyParams,
+  BalancesParams,
 } from '../types';
 import { parseParams } from '../utils';
 
@@ -20,7 +20,7 @@ export async function getBalance(
 
 export async function getBalances(
   request: AxiosInstance,
-  params: StarkKeyParams
+  params: BalancesParams
 ) {
   return request.get<Response<BalanceResponse[]>>('/v1/balances', {
     params: {

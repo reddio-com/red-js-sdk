@@ -7,7 +7,6 @@ import {
   depositERC721,
   getBalance,
   getContractAddress,
-  getNonce,
   getVaultID,
   transfer,
   withdrawalFromL2,
@@ -33,6 +32,7 @@ import {
   WithdrawalFromL1Params,
   BalanceParams,
   RecordParams,
+  BalancesParams,
 } from './types';
 import { Env, getAssetTypeAndId, generateFromEthSignature } from './utils';
 import { getRecord, getRecords } from './api/rocord';
@@ -65,9 +65,6 @@ class ReddioCore {
   };
 
   public readonly apis = {
-    getNonce: (args: StarkKeyParams) => {
-      return getNonce(this.request, args);
-    },
     transfer: (args: SignParams) => {
       return transfer(this.request, args);
     },
@@ -96,7 +93,7 @@ class ReddioCore {
     getBalance: async (args: BalanceParams) => {
       return getBalance(this.request, args);
     },
-    getBalances: async (args: StarkKeyParams) => {
+    getBalances: async (args: BalancesParams) => {
       return getBalances(this.request, args);
     },
     getRecord: async (args: RecordParams) => {
@@ -126,13 +123,20 @@ class ReddioCore {
   };
 
   public readonly keypair = {
-    generateFromEthSignature: (msgParams: string | Record<string, any>) => {
+    generateFromEthSignature: (
+      msgParams: string | Record<string, any>
+    ): Promise<{
+      privateKey: string;
+      publicKey: string;
+    }> => {
       return generateFromEthSignature(this.provider, msgParams);
     },
   };
 
   public readonly utils = {
-    getAssetTypeAndId: async (args: Asset) => {
+    getAssetTypeAndId: async (
+      args: Asset
+    ): Promise<{ assetId: string; assetType: string }> => {
       return getAssetTypeAndId(this.request, args);
     },
   };

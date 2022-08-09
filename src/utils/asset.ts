@@ -35,7 +35,7 @@ export const getAssetTypeAndId = async (
   await setQuantum(request, args);
   const { type, ...data } = args;
   (args as any).data = data;
-  const assetId = await getAssetID(args);
-  const assetType = await getAssetType(args);
+  const assetId: string = await getAssetID(args);
+  const assetType: string = await getAssetType(args);
   return { assetId, assetType };
 };

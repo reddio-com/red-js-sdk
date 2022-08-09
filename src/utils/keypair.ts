@@ -26,7 +26,9 @@ export const generateFromEthSignature = async (
       : JSON.stringify(content);
   const msgParams = JSON.stringify(value);
   const result = await provider.send(method, [from, msgParams]);
-  const privateKey = keyDerivation.getPrivateKeyFromEthSignature(result);
+  const privateKey: string = keyDerivation.getPrivateKeyFromEthSignature(
+    result
+  );
   const publicKey = '0x' + keyDerivation.privateToStarkKey(privateKey);
   return { privateKey, publicKey };
 };

@@ -1,13 +1,13 @@
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { JsonRpcProvider } from '@ethersproject/providers';
-import { Deposit721Params, DepositParams } from '../types';
+import { Deposit721Params, DepositParams, LogDeposit } from '../types';
 import abi from '../abi/Deposits.json';
 
 export const depositERC20 = (
   provider: JsonRpcProvider,
   contractAddress: string,
   params: DepositParams
-) => {
+): Promise<LogDeposit> => {
   return new Promise((resolve, reject) => {
     try {
       const signer = provider.getSigner();
@@ -21,9 +21,28 @@ export const depositERC20 = (
         ethers.utils.parseUnits(quantizedAmount.toString(), 6)
       );
 
-      contract.on('LogDeposit', (...args) => {
-        resolve(args);
-      });
+      contract.on(
+        'LogDeposit',
+        (
+          depositorEthKey: string,
+          starkKey: BigNumber,
+          vaultId: BigNumber,
+          assetType: BigNumber,
+          nonQuantizedAmount: BigNumber,
+          quantizedAmount: BigNumber,
+          raw: Record<string, any>
+        ) => {
+          resolve({
+            depositorEthKey,
+            starkKey,
+            vaultId,
+            assetType,
+            nonQuantizedAmount,
+            quantizedAmount,
+            raw,
+          });
+        }
+      );
     } catch (e) {
       reject(e);
     }
@@ -34,7 +53,7 @@ export const depositETH = (
   provider: JsonRpcProvider,
   contractAddress: string,
   params: DepositParams
-) => {
+): Promise<LogDeposit> => {
   return new Promise((resolve, reject) => {
     try {
       const signer = provider.getSigner();
@@ -44,9 +63,28 @@ export const depositETH = (
         value: ethers.utils.parseEther(quantizedAmount.toString()),
       });
 
-      contract.on('LogDeposit', (...args) => {
-        resolve(args);
-      });
+      contract.on(
+        'LogDeposit',
+        (
+          depositorEthKey: string,
+          starkKey: BigNumber,
+          vaultId: BigNumber,
+          assetType: BigNumber,
+          nonQuantizedAmount: BigNumber,
+          quantizedAmount: BigNumber,
+          raw: Record<string, any>
+        ) => {
+          resolve({
+            depositorEthKey,
+            starkKey,
+            vaultId,
+            assetType,
+            nonQuantizedAmount,
+            quantizedAmount,
+            raw,
+          });
+        }
+      );
     } catch (e) {
       reject(e);
     }
@@ -57,7 +95,7 @@ export const depositERC721 = (
   provider: JsonRpcProvider,
   contractAddress: string,
   params: Deposit721Params
-) => {
+): Promise<LogDeposit> => {
   return new Promise((resolve, reject) => {
     try {
       const signer = provider.getSigner();
@@ -65,9 +103,28 @@ export const depositERC721 = (
       const { starkKey, vaultId, tokenId, assetType } = params;
       contract.depositNft(starkKey, assetType, vaultId, tokenId);
 
-      contract.on('LogDeposit', (...args) => {
-        resolve(args);
-      });
+      contract.on(
+        'LogDeposit',
+        (
+          depositorEthKey: string,
+          starkKey: BigNumber,
+          vaultId: BigNumber,
+          assetType: BigNumber,
+          nonQuantizedAmount: BigNumber,
+          quantizedAmount: BigNumber,
+          raw: Record<string, any>
+        ) => {
+          resolve({
+            depositorEthKey,
+            starkKey,
+            vaultId,
+            assetType,
+            nonQuantizedAmount,
+            quantizedAmount,
+            raw,
+          });
+        }
+      );
     } catch (e) {
       reject(e);
     }

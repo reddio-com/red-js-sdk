@@ -4,13 +4,16 @@ import {
   SignParams,
   StarkKeyParams,
 } from './common';
+import { BigNumber } from 'ethers';
 
 /**
  * Balance
  */
-export interface BalanceParams extends StarkKeyParams, Partial<PageParams> {
+export interface BalanceParams extends StarkKeyParams {
   assetId?: string;
 }
+
+export type BalancesParams = StarkKeyParams & Partial<PageParams>;
 
 export interface BalanceResponse {
   asset_id: string;
@@ -80,6 +83,16 @@ export interface Deposit721Params {
   tokenId: number;
 }
 
+export interface LogDeposit {
+  depositorEthKey: string;
+  starkKey: BigNumber;
+  vaultId: BigNumber;
+  assetType: BigNumber;
+  nonQuantizedAmount: BigNumber;
+  quantizedAmount: BigNumber;
+  raw: Record<string, any>;
+}
+
 /**
  * Nonce
  */
@@ -104,7 +117,7 @@ export interface TransferResponse {
  * Vault
  */
 export interface VaultParams {
-  assetId?: string;
+  assetId: string;
   starkKeys: string | string[];
 }
 
@@ -116,10 +129,8 @@ export interface VaultResponse {
  * Withdraw
  */
 export interface WithdrawalParams extends SignParams {
-  // ETH 不传
   contractAddress?: string;
-  // erc20 不传
-  tokenId?: string;
+  tokenId?: string | number;
 }
 
 export interface WithdrawalResponse {
