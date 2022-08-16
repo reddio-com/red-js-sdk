@@ -1,9 +1,8 @@
-import {Types} from "../utils";
+import { Types } from '../utils';
 
 export interface Asset {
-    type: `${Types}`,
-    tokenAddress?: string,
-    tokenId?: number | string,
-    quantum?: number | string,
-    // blob?: string
+  type: `${Types}`;
+  tokenAddress?: string;
+  tokenId?: number | string;
+  quantum?: number | string;
 }

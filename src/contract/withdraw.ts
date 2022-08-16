@@ -21,7 +21,11 @@ export const withdrawalFromL1 = async (
     }
     case Types.ERC721: {
       assert(tokenId, 'tokenId is required');
-      return contract.withdrawNft(starkKey, assetType, tokenId);
+      return contract.withdrawNft(
+        starkKey,
+        assetType,
+        ethers.utils.parseUnits(tokenId.toString())
+      );
     }
     default: {
       assert(tokenId, 'tokenId is required');

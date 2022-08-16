@@ -4,6 +4,7 @@ import { Asset } from '../types';
 import { getContractInfo } from '../api/contractInfo';
 import { AxiosInstance } from 'axios';
 import assert from 'assert';
+import { ethers } from 'ethers';
 
 const setQuantum = async (request: AxiosInstance, data: Asset) => {
   if (!data.quantum) {
@@ -32,6 +33,13 @@ export const getAssetTypeAndId = async (
   request: AxiosInstance,
   args: Asset
 ) => {
+  if (args.type === 'ERC721M') {
+    assert(args.tokenId, 'tokenId is required');
+    (args as any).type = 'MINTABLE_ERC721';
+    (args as any).blob = ethers.utils.formatBytes32String(
+      args.tokenId!.toString()
+    );
+  }
   await setQuantum(request, args);
   const { type, ...data } = args;
   (args as any).data = data;

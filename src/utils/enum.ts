@@ -3,7 +3,7 @@ export enum Types {
   ERC20 = 'ERC20',
   // MINTABLE_ERC20 = 'MINTABLE_ERC20',
   ERC721 = 'ERC721',
-  // MINTABLE_ERC721 = 'MINTABLE_ERC721',
+  ERC721M = 'ERC721M',
 }
 
 export enum Env {
