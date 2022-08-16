@@ -47,6 +47,7 @@
   ],
   "devDependencies": {
     "@babel/plugin-transform-template-literals": "^7.18.2",
+    "@changesets/cli": "^2.23.2",
     "@depay/web3-blockchains": "^5.0.1",
     "@depay/web3-mock": "^11.8.1",
     "@size-limit/preset-small-lib": "^7.0.8",
@@ -55,14 +56,14 @@
     "size-limit": "^7.0.8",
     "tsdx": "^0.14.1",
     "tslib": "^2.4.0",
-    "typescript": "^4.7.2",
-    "@changesets/cli": "^2.23.2"
+    "typescript": "^4.7.2"
   },
   "dependencies": {
     "@starkware-industries/starkware-crypto-utils": "^0.0.2",
     "assert": "^2.0.0",
     "axios": "^0.27.2",
     "bn.js": "^5.2.1",
+    "enc-utils": "^3.0.0",
     "ethers": "^5.6.8"
   },
   "jest": {
