@@ -18,7 +18,7 @@ const getKey = async () => {
 
 const Process4 = () => {
   const [contractAddress, setContractAddress] = useState(
-    '0xA21B04B6dbd1174155E242434B3Df2EeD74BaFb2'
+    '0xb641f380699d62d0a960fefcdb51823ee8fd2539'
   );
   const [tokenId, setTokenId] = useState(4);
   const [balance, setBalance] = useState('0');
@@ -76,6 +76,7 @@ const Process4 = () => {
       tokenAddress: contractAddress,
       tokenId,
     });
+    console.log(assetId);
     const { data } = await reddio.apis.getVaultID({
       starkKeys: [starkKey, transferAddress],
       assetId,
