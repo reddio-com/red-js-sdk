@@ -7,6 +7,9 @@ const nextConfig = {
     config.resolve.alias['@reddio/js-sdk'] = path.resolve('../dist/index.js');
     return config;
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 };
 
 module.exports = nextConfig;
