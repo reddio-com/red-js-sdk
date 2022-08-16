@@ -122,6 +122,18 @@ const Process2 = () => {
     setWithdrawalId(res.data.sequence_id);
   };
 
+  const withdrawfromL1 = async () => {
+    const { assetType } = await reddio.utils.getAssetTypeAndId({
+      type: 'ERC20',
+      tokenAddress: contractAddress,
+    });
+    await reddio.apis.withdrawalFromL1({
+      starkKey,
+      assetType,
+      type: 'ERC20',
+    });
+  };
+
   return (
     <Layout>
       <div className={styles.container}>
@@ -238,11 +250,19 @@ const Process2 = () => {
                 onChange={e => setWithdrawalAddress(e.target.value)}
               ></Input>
               <Spacer y={1} />
-              <Button css={{ width: 80 }} onClick={withdraw}>
-                Withdraw
+              <Button onClick={withdraw}>
+                Funds Move to the Withdrawal Area
               </Button>
               <Spacer y={1} />
               <Text>Withdrawal Id：{withdrawalId}</Text>
+              <Spacer y={1} />
+              <Text h3>
+                Wait approximately 4 hours for funds move to the withdrawal area
+              </Text>
+              <Spacer y={1} />
+              <Button css={{ width: 80 }} onClick={withdrawfromL1}>
+                Withdraw
+              </Button>
             </Card.Body>
           </Card>
         </Row>

@@ -85,12 +85,12 @@ const Home: NextPage = () => {
                 </a>
               </Link>
 
-              {/*<Link href="/process4">*/}
-              {/*  <a className={styles.card}>*/}
-              {/*    <h2>流程 4 &rarr;</h2>*/}
-              {/*    <p>Mint ERC721 on L2, Transfer between L2, Withdraw to L1, then Deposit to L2.</p>*/}
-              {/*  </a>*/}
-              {/*</Link>*/}
+              <Link href="/process4">
+                <a className={styles.card}>
+                  <h2>Process 4 &rarr;</h2>
+                  <p>Mint ERC721 on L2, Transfer between L2, Withdraw to L1, then Deposit to L2.</p>
+                </a>
+              </Link>
             </div>
           </main>
         </div>
