@@ -4,6 +4,7 @@ import { reddio } from '../../utils/config';
 import Layout from '../../components/layout';
 import { useEffect, useState } from 'react';
 import gen from '../../utils/gen';
+import { ethers } from 'ethers';
 
 let starkKey = '';
 let privateKey = '';
@@ -127,8 +128,11 @@ const Process2 = () => {
       type: 'ERC20',
       tokenAddress: contractAddress,
     });
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = await provider.getSigner();
+    const ethAddress = await signer.getAddress();
     await reddio.apis.withdrawalFromL1({
-      starkKey,
+      ethAddress,
       assetType,
       type: 'ERC20',
     });

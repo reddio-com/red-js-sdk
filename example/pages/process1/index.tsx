@@ -4,6 +4,7 @@ import styles from './index.module.css';
 import { reddio } from '../../utils/config';
 import Layout from '../../components/layout';
 import gen from '../../utils/gen';
+import { ethers } from 'ethers';
 
 let starkKey = '';
 let privateKey = '';
@@ -112,8 +113,11 @@ const Process1 = () => {
     const { assetType } = await reddio.utils.getAssetTypeAndId({
       type: 'ETH',
     });
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = await provider.getSigner();
+    const ethAddress = await signer.getAddress();
     await reddio.apis.withdrawalFromL1({
-      starkKey,
+      ethAddress,
       assetType,
       type: 'ETH',
     });
