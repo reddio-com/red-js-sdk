@@ -11,10 +11,11 @@ export const withdrawalFromL1 = async (
   contractAddress: string,
   params: WithdrawalFromL1Params
 ): Promise<TransactionResponse> => {
+  console.log(params);
   const signer = provider.getSigner();
   const { ethAddress, type, assetType, tokenId } = params;
-  debugger;
   const contract = new ethers.Contract(contractAddress, abi, signer);
+  console.log(contractAddress, abi, signer);
   switch (type) {
     case Types.ETH:
     case Types.ERC20: {
