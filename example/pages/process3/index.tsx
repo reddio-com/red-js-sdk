@@ -107,7 +107,7 @@ const Process3 = () => {
       tokenId,
     });
     const { data } = await reddio.apis.getVaultID({
-      starkKeys: [starkKey, transferAddress],
+      starkKeys: [starkKey, withdrawalAddress],
       assetId,
     });
     const { data: res } = await reddio.apis.withdrawalFromL2({
@@ -115,7 +115,7 @@ const Process3 = () => {
       privateKey: window.privateKey,
       assetId,
       vaultId: data.data.vault_ids[0],
-      receiver: transferAddress,
+      receiver: withdrawalAddress,
       receiverVaultId: data.data.vault_ids[1],
       contractAddress,
       tokenId: tokenId.toString(),
