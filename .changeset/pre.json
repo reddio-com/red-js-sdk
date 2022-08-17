@@ -1,8 +1,8 @@
 {
-  "mode": "pre",
-  "tag": "beta",
   "initialVersions": {
-    "@reddio.com/js": "0.1.0-beta.0"
+    "@reddio.com/js": "0.1.0"
   },
-  "changesets": []
+  "changesets": [
+    "twenty-zoos-deliver"
+  ]
 }
