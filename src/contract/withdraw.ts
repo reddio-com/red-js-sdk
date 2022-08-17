@@ -12,25 +12,25 @@ export const withdrawalFromL1 = async (
   params: WithdrawalFromL1Params
 ): Promise<TransactionResponse> => {
   const signer = provider.getSigner();
-  const { starkKey, type, assetType, tokenId } = params;
+  const { ethAddress, type, assetType, tokenId } = params;
   const contract = new ethers.Contract(contractAddress, abi, signer);
   switch (type) {
     case Types.ETH:
     case Types.ERC20: {
-      return contract.withdraw(starkKey, assetType);
+      return contract.withdraw(ethAddress, assetType);
     }
     case Types.ERC721: {
       assert(tokenId, 'tokenId is required');
       return contract.withdrawNft(
-        starkKey,
+        ethAddress,
         assetType,
-        ethers.utils.parseUnits(tokenId.toString())
+        ethers.BigNumber.from(tokenId)
       );
     }
     default: {
       assert(tokenId, 'tokenId is required');
       return contract.withdrawAndMint(
-        starkKey,
+        ethAddress,
         assetType,
         ethers.utils.formatBytes32String(tokenId.toString())
       );
