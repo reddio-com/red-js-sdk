@@ -116,6 +116,7 @@ const Process1 = () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
     const ethAddress = await signer.getAddress();
+    console.log(ethAddress, assetType);
     await reddio.apis.withdrawalFromL1({
       ethAddress,
       assetType,

@@ -13,6 +13,7 @@ export const withdrawalFromL1 = async (
 ): Promise<TransactionResponse> => {
   const signer = provider.getSigner();
   const { ethAddress, type, assetType, tokenId } = params;
+  debugger;
   const contract = new ethers.Contract(contractAddress, abi, signer);
   switch (type) {
     case Types.ETH:
