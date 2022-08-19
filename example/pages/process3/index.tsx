@@ -159,6 +159,13 @@ const Process3 = () => {
                 value={contractAddress}
                 onChange={e => setContractAddress(e.target.value)}
               ></Input>
+              <Spacer y={1} />
+              <Input
+                label="Token Id"
+                aria-label="Token Id"
+                value={tokenId}
+                onChange={e => setTokenId(Number(e.target.value))}
+              ></Input>
             </Card.Body>
           </Card>
           <Spacer y={1} />
@@ -167,15 +174,8 @@ const Process3 = () => {
               <Text h3>2. Deposit the ERC721 token to starkex</Text>
             </Card.Header>
             <Card.Body css={{ boxSizing: 'border-box' }}>
-              <Input
-                label="Token Id"
-                aria-label="Token Id"
-                value={tokenId}
-                onChange={e => setTokenId(Number(e.target.value))}
-              ></Input>
-              <Spacer y={1} />
               <Button css={{ width: 80 }} onClick={approve}>
-                Approve
+                Approve Token
               </Button>
               <Spacer y={1} />
               <Text h3>Wait a moment for approve</Text>
@@ -200,7 +200,7 @@ const Process3 = () => {
             </Card.Header>
             <Card.Body css={{ boxSizing: 'border-box' }}>
               <Input
-                label="To"
+                label="To Stark Address"
                 aria-label="To"
                 value={transferAddress}
                 onChange={e => setTransferAddress(e.target.value)}
@@ -237,7 +237,7 @@ const Process3 = () => {
             </Card.Header>
             <Card.Body css={{ boxSizing: 'border-box' }}>
               <Input
-                label="To"
+                label="To Stark Address"
                 aria-label="To"
                 value={withdrawalAddress}
                 onChange={e => setWithdrawalAddress(e.target.value)}

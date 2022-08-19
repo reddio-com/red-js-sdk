@@ -167,7 +167,7 @@ const Process1 = () => {
               ></Input>
               <Spacer y={1} />
               <Input
-                label="To"
+                label="To Stark Address"
                 aria-label="To"
                 value={transferAddress}
                 onChange={e => setTransferAddress(e.target.value)}
@@ -212,7 +212,7 @@ const Process1 = () => {
               ></Input>
               <Spacer y={1} />
               <Input
-                label="To"
+                label="To Stark Address"
                 aria-label="To"
                 value={withdrawalAddress}
                 onChange={e => setWithdrawalAddress(e.target.value)}

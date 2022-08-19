@@ -47,7 +47,7 @@ const Process4 = () => {
 
   const deposit = async () => {
     const { assetType, assetId } = await reddio.utils.getAssetTypeAndId({
-      type: 'ERC721M',
+      type: 'ERC721',
       tokenAddress: contractAddress,
       tokenId,
     });
@@ -159,48 +159,25 @@ const Process4 = () => {
                 value={contractAddress}
                 onChange={e => setContractAddress(e.target.value)}
               ></Input>
-            </Card.Body>
-          </Card>
-          <Spacer y={1} />
-          <Card variant="bordered">
-            <Card.Header css={{ boxSizing: 'border-box' }}>
-              <Text h3>2. Deposit the ERC721 token to starkex</Text>
-            </Card.Header>
-            <Card.Body css={{ boxSizing: 'border-box' }}>
+              <Spacer y={1} />
               <Input
                 label="Token Id"
                 aria-label="Token Id"
                 value={tokenId}
                 onChange={e => setTokenId(Number(e.target.value))}
               ></Input>
-              <Spacer y={1} />
-              <Button css={{ width: 80 }} onClick={approve}>
-                Approve
-              </Button>
-              <Spacer y={1} />
-              <Text h3>Wait a moment for approve</Text>
-              <Spacer y={1} />
-              <Button css={{ width: 80 }} onClick={deposit}>
-                Deposit
-              </Button>
-              <Spacer y={1} />
-              <Text>Token：{balance}</Text>
-              <Spacer y={1} />
-              <Button css={{ width: 80 }} onClick={getBalance}>
-                Get Balance
-              </Button>
             </Card.Body>
           </Card>
           <Spacer y={1} />
           <Card variant="bordered">
             <Card.Header css={{ boxSizing: 'border-box' }}>
               <Text h3>
-                3. Transfer the ERC721 token between two starkex accounts
+                2. Transfer the ERC721 token between two starkex accounts
               </Text>
             </Card.Header>
             <Card.Body css={{ boxSizing: 'border-box' }}>
               <Input
-                label="To"
+                label="To Stark Address"
                 aria-label="To"
                 value={transferAddress}
                 onChange={e => setTransferAddress(e.target.value)}
@@ -233,11 +210,11 @@ const Process4 = () => {
           <Spacer y={1} />
           <Card variant="bordered">
             <Card.Header css={{ boxSizing: 'border-box' }}>
-              <Text h3>4. Withdraw the ERC721 from L2</Text>
+              <Text h3>3. Withdraw the ERC721 from L2</Text>
             </Card.Header>
             <Card.Body css={{ boxSizing: 'border-box' }}>
               <Input
-                label="To"
+                label="To Stark Address"
                 aria-label="To"
                 value={withdrawalAddress}
                 onChange={e => setWithdrawalAddress(e.target.value)}
@@ -255,6 +232,29 @@ const Process4 = () => {
               <Spacer y={1} />
               <Button css={{ width: 80 }} onClick={withdrawfromL1}>
                 Withdraw
+              </Button>
+            </Card.Body>
+          </Card>
+          <Spacer y={1} />
+          <Card variant="bordered">
+            <Card.Header css={{ boxSizing: 'border-box' }}>
+              <Text h3>4. Deposit the ERC721 token to starkex</Text>
+            </Card.Header>
+            <Card.Body css={{ boxSizing: 'border-box' }}>
+              <Button css={{ width: 80 }} onClick={approve}>
+                Approve Token
+              </Button>
+              <Spacer y={1} />
+              <Text h3>Wait a moment for approve</Text>
+              <Spacer y={1} />
+              <Button css={{ width: 80 }} onClick={deposit}>
+                Deposit
+              </Button>
+              <Spacer y={1} />
+              <Text>Token：{balance}</Text>
+              <Spacer y={1} />
+              <Button css={{ width: 80 }} onClick={getBalance}>
+                Get Balance
               </Button>
             </Card.Body>
           </Card>

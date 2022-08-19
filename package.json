@@ -19,7 +19,7 @@
     "prepare": "tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why",
-    "deploy-example": "cd example && yarn && yarn build"
+    "deploy-example": "cd example && yarn build"
   },
   "peerDependencies": {},
   "husky": {
