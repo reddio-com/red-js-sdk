@@ -110,7 +110,6 @@ const Process1 = () => {
   };
 
   const withdrawfromL1 = async () => {
-    debugger;
     const { assetType } = await reddio.utils.getAssetTypeAndId({
       type: 'ETH',
     });
