@@ -1,5 +1,5 @@
 {
-  "version": "0.1.4",
+  "version": "0.1.5",
   "name": "@reddio.com/js",
   "license": "MIT",
   "main": "dist/index.js",
