@@ -5,7 +5,6 @@ import { ethers } from 'ethers';
 import abi from '../abi/Withdraw.abi.json';
 import { Types } from '../utils';
 import { TransactionResponse } from '@ethersproject/abstract-provider';
-import { hexToBuffer } from 'enc-utils';
 
 export const withdrawalFromL1 = async (
   provider: JsonRpcProvider,
@@ -33,7 +32,7 @@ export const withdrawalFromL1 = async (
       return contract.withdrawAndMint(
         ethAddress,
         assetType,
-        hexToBuffer(ethers.utils.hexlify(Number(tokenId)))
+        ethers.utils.arrayify(ethers.utils.hexlify(Number(277)))
       );
     }
   }
