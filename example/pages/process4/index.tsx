@@ -1,28 +1,31 @@
-import { Button, Card, Input, Row, Spacer, Text } from '@nextui-org/react';
+import {
+  Button,
+  Card,
+  Dropdown,
+  Input,
+  Row,
+  Spacer,
+  Text,
+} from '@nextui-org/react';
 import styles from './index.module.css';
 import { reddio } from '../../utils/config';
 import Layout from '../../components/layout';
 import { useEffect, useState } from 'react';
 import gen from '../../utils/gen';
 import { ethers } from 'ethers';
+import getErc721Balance from '../../utils/list';
 
 let starkKey = '';
 let privateKey = '';
 
-const getKey = async () => {
-  if (!starkKey) {
-    await gen();
-    starkKey = window.publicKey;
-    privateKey = window.privateKey;
-  }
-};
-
 const Process4 = () => {
   const [contractAddress, setContractAddress] = useState(
-    '0xb641f380699d62d0a960fefcdb51823ee8fd2539'
+    '0xd60523fd920eb9b7eff3e115203e32d91de5cf59'
   );
-  const [tokenId, setTokenId] = useState(4);
-  const [balance, setBalance] = useState('0');
+  const [erc721TokenId, setErc721TokenId] = useState(-1);
+  const [tokenId, setTokenId] = useState(-1);
+  const [ids, setIds] = useState<number[]>([]);
+  const [balance, setBalance] = useState<any[]>([]);
   const [transferAddress, setTransferAddress] = useState(
     '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'
   );
@@ -36,6 +39,15 @@ const Process4 = () => {
   useEffect(() => {
     getKey();
   }, []);
+
+  const getKey = async () => {
+    if (!starkKey) {
+      await gen();
+      getBalance();
+      starkKey = window.publicKey;
+      privateKey = window.privateKey;
+    }
+  };
 
   const approve = async () => {
     let transaction = await reddio.erc721.approve({
@@ -63,12 +75,20 @@ const Process4 = () => {
     });
   };
 
+  const getErc721Ids = async () => {
+    const list = await getErc721Balance(contractAddress);
+    setIds(list);
+  };
+
   const getBalance = async () => {
     const { data } = await reddio.apis.getBalances({
       starkKey,
     });
-    const item = data.data.find(item => item.type === 'ERC721');
-    item && setBalance(item.display_value);
+    const item = data.data.filter(
+      item =>
+        item.type === 'ERC721M' && item.contract_address === contractAddress
+    );
+    setBalance(item);
   };
 
   const transfer = async () => {
@@ -150,7 +170,7 @@ const Process4 = () => {
           <Spacer y={2} />
           <Card variant="bordered">
             <Card.Header css={{ boxSizing: 'border-box' }}>
-              <Text h3>1. Create a new ERC721M token</Text>
+              <Text h3>1. Mint ERC721M token</Text>
             </Card.Header>
             <Card.Body css={{ boxSizing: 'border-box' }}>
               <Input
@@ -160,12 +180,26 @@ const Process4 = () => {
                 onChange={e => setContractAddress(e.target.value)}
               ></Input>
               <Spacer y={1} />
-              <Input
-                label="Token Id"
-                aria-label="Token Id"
-                value={tokenId}
-                onChange={e => setTokenId(Number(e.target.value))}
-              ></Input>
+              <Row align="center">
+                <Text>Starkex ERC721M tokenId:</Text>
+                <Spacer x={1} />
+                <Dropdown disableAnimation>
+                  <Dropdown.Button flat>
+                    {tokenId > -1 ? tokenId : 'Choose'}
+                  </Dropdown.Button>
+                  <Dropdown.Menu
+                    aria-label="Static Actions"
+                    css={{ maxHeight: 200 }}
+                    onAction={key => setTokenId(Number(key))}
+                  >
+                    {balance.map(item => (
+                      <Dropdown.Item key={item.token_id}>
+                        {item.token_id}
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Row>
             </Card.Body>
           </Card>
           <Spacer y={1} />
@@ -241,6 +275,29 @@ const Process4 = () => {
               <Text h3>4. Deposit the ERC721 token to starkex</Text>
             </Card.Header>
             <Card.Body css={{ boxSizing: 'border-box' }}>
+              <Button css={{ width: 80 }} onClick={getErc721Ids}>
+                Get Balance
+              </Button>
+              <Spacer y={1} />
+              <Row align="center">
+                <Text>ERC721 tokenId:</Text>
+                <Spacer x={1} />
+                <Dropdown disableAnimation>
+                  <Dropdown.Button flat>
+                    {erc721TokenId > -1 ? erc721TokenId : 'Choose'}
+                  </Dropdown.Button>
+                  <Dropdown.Menu
+                    aria-label="Static Actions"
+                    css={{ maxHeight: 200 }}
+                    onAction={key => setErc721TokenId(Number(key))}
+                  >
+                    {ids.map(item => (
+                      <Dropdown.Item key={item}>{item}</Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Row>
+              <Spacer y={1} />
               <Button css={{ width: 80 }} onClick={approve}>
                 Approve Token
               </Button>
@@ -249,12 +306,6 @@ const Process4 = () => {
               <Spacer y={1} />
               <Button css={{ width: 80 }} onClick={deposit}>
                 Deposit
-              </Button>
-              <Spacer y={1} />
-              <Text>Token：{balance}</Text>
-              <Spacer y={1} />
-              <Button css={{ width: 80 }} onClick={getBalance}>
-                Get Balance
               </Button>
             </Card.Body>
           </Card>

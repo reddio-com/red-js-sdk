@@ -182,7 +182,7 @@ const Process3 = () => {
               <Row align="center">
                 <Text>ERC721 tokenId:</Text>
                 <Spacer x={1} />
-                <Dropdown>
+                <Dropdown disableAnimation>
                   <Dropdown.Button flat>
                     {tokenId > -1 ? tokenId : 'Choose'}
                   </Dropdown.Button>
