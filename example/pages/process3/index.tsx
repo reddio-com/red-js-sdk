@@ -1,27 +1,29 @@
-import { Button, Spacer, Text, Input, Row, Card } from '@nextui-org/react';
+import {
+  Button,
+  Spacer,
+  Text,
+  Input,
+  Row,
+  Card,
+  Dropdown,
+} from '@nextui-org/react';
 import styles from './index.module.css';
 import { reddio } from '../../utils/config';
 import Layout from '../../components/layout';
 import { useEffect, useState } from 'react';
 import gen from '../../utils/gen';
 import { ethers } from 'ethers';
+import getErc721Balance from '../../utils/list';
 
 let starkKey = '';
 let privateKey = '';
-
-const getKey = async () => {
-  if (!starkKey) {
-    await gen();
-    starkKey = window.publicKey;
-    privateKey = window.privateKey;
-  }
-};
 
 const Process3 = () => {
   const [contractAddress, setContractAddress] = useState(
     '0xA21B04B6dbd1174155E242434B3Df2EeD74BaFb2'
   );
-  const [tokenId, setTokenId] = useState(4);
+  const [tokenId, setTokenId] = useState(-1);
+  const [ids, setIds] = useState<number[]>([]);
   const [balance, setBalance] = useState('0');
   const [transferAddress, setTransferAddress] = useState(
     '0xC664B68aFceD392656Ed8c4adaEFa8E8ffBF65DC'
@@ -36,6 +38,23 @@ const Process3 = () => {
   useEffect(() => {
     getKey();
   }, []);
+
+  const getKey = async () => {
+    if (!starkKey) {
+      await gen();
+      starkKey = window.publicKey;
+      privateKey = window.privateKey;
+    }
+  };
+
+  useEffect(() => {
+    getErc721Ids();
+  }, [contractAddress]);
+
+  const getErc721Ids = async () => {
+    const list = await getErc721Balance(contractAddress);
+    setIds(list);
+  };
 
   const approve = async () => {
     let transaction = await reddio.erc721.approve({
@@ -160,12 +179,24 @@ const Process3 = () => {
                 onChange={e => setContractAddress(e.target.value)}
               ></Input>
               <Spacer y={1} />
-              <Input
-                label="Token Id"
-                aria-label="Token Id"
-                value={tokenId}
-                onChange={e => setTokenId(Number(e.target.value))}
-              ></Input>
+              <Row align="center">
+                <Text>ERC721 tokenId:</Text>
+                <Spacer x={1} />
+                <Dropdown>
+                  <Dropdown.Button flat>
+                    {tokenId > -1 ? tokenId : 'Choose'}
+                  </Dropdown.Button>
+                  <Dropdown.Menu
+                    aria-label="Static Actions"
+                    css={{ maxHeight: 200 }}
+                    onAction={key => setTokenId(Number(key))}
+                  >
+                    {ids.map(item => (
+                      <Dropdown.Item key={item}>{item}</Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Row>
             </Card.Body>
           </Card>
           <Spacer y={1} />
@@ -184,7 +215,7 @@ const Process3 = () => {
                 Deposit
               </Button>
               <Spacer y={1} />
-              <Text>Token：{balance}</Text>
+              <Text>Starkex ERC721 Token Balance：{balance}</Text>
               <Spacer y={1} />
               <Button css={{ width: 80 }} onClick={getBalance}>
                 Get Balance
