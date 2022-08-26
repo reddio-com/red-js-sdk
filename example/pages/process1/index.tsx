@@ -1,7 +1,7 @@
 import { Text, Spacer, Button, Row, Card, Input } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import styles from './index.module.css';
-import { reddio } from '../../utils/config';
+import { reddio, provider } from '../../utils/config';
 import Layout from '../../components/layout';
 import gen from '../../utils/gen';
 import { ethers } from 'ethers';
@@ -9,15 +9,8 @@ import { ethers } from 'ethers';
 let starkKey = '';
 let privateKey = '';
 
-const getKey = async () => {
-  if (!starkKey) {
-    await gen();
-    starkKey = window.publicKey;
-    privateKey = window.privateKey;
-  }
-};
-
 const Process1 = () => {
+  const [ethBalance, setEthBalance] = useState('0');
   const [balance, setBalance] = useState('0');
   const [depositAmount, setDepositAmount] = useState(0.001);
   const [transferAmount, setTransferAmount] = useState(0.0001);
@@ -34,7 +27,24 @@ const Process1 = () => {
 
   useEffect(() => {
     getKey();
+    getETHBalance();
   }, []);
+
+  const getKey = async () => {
+    if (!starkKey) {
+      await gen();
+      getBalance();
+      starkKey = window.publicKey;
+      privateKey = window.privateKey;
+    }
+  };
+
+  const getETHBalance = async () => {
+    const singer = await provider.getSigner();
+    const balance = await provider.getBalance(await singer.getAddress());
+    const eth = Number(ethers.utils.formatEther(balance.toString())).toFixed(4);
+    setEthBalance(eth);
+  };
 
   const deposit = async () => {
     const { assetType, assetId } = await reddio.utils.getAssetTypeAndId({
@@ -53,6 +63,7 @@ const Process1 = () => {
   };
 
   const getBalance = async () => {
+    if (!starkKey) return;
     const { data } = await reddio.apis.getBalances({
       starkKey,
     });
@@ -135,6 +146,8 @@ const Process1 = () => {
               <Text h3>1. Deposit the ETH to starkex</Text>
             </Card.Header>
             <Card.Body css={{ boxSizing: 'border-box' }}>
+              <Text>ETH Balance：{ethBalance}</Text>
+              <Spacer y={1} />
               <Input
                 label="Amount"
                 aria-label="Amount"
@@ -146,7 +159,7 @@ const Process1 = () => {
                 Deposit
               </Button>
               <Spacer y={1} />
-              <Text>ETH：{balance}</Text>
+              <Text>Starkex ETH Balance：{balance}</Text>
               <Spacer y={1} />
               <Button css={{ width: 80 }} onClick={getBalance}>
                 Get Balance

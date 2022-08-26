@@ -1,11 +1,13 @@
 import { ethers } from 'ethers';
 import { Reddio } from '@reddio.com/js';
+import { Web3Provider } from '@ethersproject/providers/src.ts/web3-provider';
 
 let reddio: Reddio;
+let provider: Web3Provider;
 
 const initReddio = () => {
   if (typeof window !== 'undefined' && !reddio) {
-    const provider = new ethers.providers.Web3Provider(window.ethereum, {
+    provider = new ethers.providers.Web3Provider(window.ethereum, {
       name: 'Goerli 测试网络',
       chainId: 5,
     });
@@ -16,4 +18,4 @@ const initReddio = () => {
   }
 };
 
-export { initReddio, reddio };
+export { initReddio, reddio, provider };
