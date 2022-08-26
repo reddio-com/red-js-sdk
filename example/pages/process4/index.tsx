@@ -178,6 +178,7 @@ const Process4 = () => {
                 aria-label="Contract Address"
                 value={contractAddress}
                 onChange={e => setContractAddress(e.target.value)}
+                onBlur={getBalance}
               ></Input>
               <Spacer y={1} />
               <Row align="center">
