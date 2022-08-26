@@ -1,26 +1,20 @@
 import { Text, Spacer, Button, Card, Input, Row } from '@nextui-org/react';
 import styles from './index.module.css';
-import { reddio } from '../../utils/config';
+import { provider, reddio } from '../../utils/config';
 import Layout from '../../components/layout';
 import { useEffect, useState } from 'react';
 import gen from '../../utils/gen';
 import { ethers } from 'ethers';
+import erc20Abi from '../../abi/Erc20.abi.json';
 
 let starkKey = '';
 let privateKey = '';
-
-const getKey = async () => {
-  if (!starkKey) {
-    await gen();
-    starkKey = window.publicKey;
-    privateKey = window.privateKey;
-  }
-};
 
 const Process2 = () => {
   const [contractAddress, setContractAddress] = useState(
     '0x57F3560B6793DcC2cb274c39E8b8EBa1dd18A086'
   );
+  const [erc20Balance, erc20SetBalance] = useState('0');
   const [balance, setBalance] = useState('0');
   const [depositAmount, setDepositAmount] = useState(2);
   const [transferAmount, setTransferAmount] = useState(1);
@@ -38,6 +32,34 @@ const Process2 = () => {
   useEffect(() => {
     getKey();
   }, []);
+
+  const getKey = async () => {
+    if (!starkKey) {
+      await gen();
+      getBalance();
+      starkKey = window.publicKey;
+      privateKey = window.privateKey;
+    }
+  };
+
+  useEffect(() => {
+    getErc20Balance();
+  }, [contractAddress]);
+
+  const getErc20Balance = async () => {
+    try {
+      const singer = await provider.getSigner();
+      const code = await provider.getCode(contractAddress);
+      if (code) {
+        const contract = new ethers.Contract(contractAddress, erc20Abi, singer);
+        const address = await singer.getAddress();
+        const balance = await contract.balanceOf(address);
+        erc20SetBalance(ethers.utils.formatEther(balance.toString()));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const approve = async () => {
     await reddio.erc20.approve({
@@ -61,9 +83,11 @@ const Process2 = () => {
       vaultId: data.data.vault_ids[0],
       quantizedAmount: depositAmount,
     });
+    getErc20Balance();
   };
 
   const getBalance = async () => {
+    if (!starkKey) return;
     const { data } = await reddio.apis.getBalances({
       starkKey,
     });
@@ -164,6 +188,8 @@ const Process2 = () => {
               <Text h3>2. Deposit the ERC20 token to starkex</Text>
             </Card.Header>
             <Card.Body css={{ boxSizing: 'border-box' }}>
+              <Text>ERC20 Token Balance：{erc20Balance}</Text>
+              <Spacer y={1} />
               <Input
                 label="Amount"
                 aria-label="Amount"
@@ -181,7 +207,7 @@ const Process2 = () => {
                 Deposit
               </Button>
               <Spacer y={1} />
-              <Text>Token：{balance}</Text>
+              <Text>Starkex ERC20 Token Balance：{balance}</Text>
               <Spacer y={1} />
               <Button css={{ width: 80 }} onClick={getBalance}>
                 Get Balance
