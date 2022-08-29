@@ -16,6 +16,9 @@ export const sign = (nonce: number, data: SignParams) => {
     receiverVaultId,
     expirationTimestamp = 4194303,
   } = data;
+  if (data.privateKey.startsWith('0x')) {
+    data.privateKey = data.privateKey.substring(2);
+  }
   const msgHash = getTransferMsgHash(
     amount,
     nonce,
