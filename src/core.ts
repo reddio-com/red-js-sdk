@@ -22,7 +22,7 @@ import {
   DepositParams,
   Deposit721Params,
   StarkKeyParams,
-  SignParams,
+  SignTransferParams,
   VaultParams,
   ApproveErc20Params,
   ErcCommonParams,
@@ -33,13 +33,18 @@ import {
   BalanceParams,
   RecordParams,
   BalancesParams,
+  OrderParams,
 } from './types';
-import { Env, getAssetTypeAndId, generateFromEthSignature } from './utils';
+import {
+  Env,
+  getAssetTypeAndId,
+  generateFromEthSignature,
+  getOrderParams,
+} from './utils';
 import { getRecord, getRecords } from './api/rocord';
 
 interface ReddioCoreOptions {
   env?: 'test' | 'main';
-  apiKey?: string;
   provider: JsonRpcProvider;
 }
 
@@ -58,14 +63,11 @@ class ReddioCore {
   private initRequest = (options: ReddioCoreOptions) => {
     return axios.create({
       baseURL: config.baseUrl[options.env || 'test'],
-      headers: {
-        'X-API-Key': options.apiKey || '',
-      },
     });
   };
 
   public readonly apis = {
-    transfer: (args: SignParams) => {
+    transfer: (args: SignTransferParams) => {
       return transfer(this.request, args);
     },
     getVaultID: (args: VaultParams) => {
@@ -138,6 +140,9 @@ class ReddioCore {
       args: Asset
     ): Promise<{ assetId: string; assetType: string }> => {
       return getAssetTypeAndId(this.request, args);
+    },
+    getOrderParams: async (args: OrderParams) => {
+      return getOrderParams(this.request, args);
     },
   };
 

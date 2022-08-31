@@ -1,17 +1,17 @@
 import { AxiosInstance } from 'axios';
-import { parseParams, sign } from '../utils';
+import { parseParams, signTransfer } from '../utils';
 import { getNonce } from './nonce';
 import {
   TransferResponse,
   TransferRequestParams,
   Response,
-  SignParams,
+  SignTransferParams,
 } from '../types';
 import { ethers } from 'ethers';
 
 export const getTransferParams = async (
   request: AxiosInstance,
-  data: SignParams
+  data: SignTransferParams
 ) => {
   const { starkKey, receiver, expirationTimestamp = 4194303 } = data;
   const { data: result } = await getNonce(request, { starkKey });
@@ -25,14 +25,17 @@ export const getTransferParams = async (
     ...data,
     expirationTimestamp,
     receiver,
-    signature: sign(nonce, data),
+    signature: signTransfer(nonce, data),
     nonce,
   };
   delete params.privateKey;
   return params;
 };
 
-export const transfer = async (request: AxiosInstance, data: SignParams) => {
+export const transfer = async (
+  request: AxiosInstance,
+  data: SignTransferParams
+) => {
   const params = await getTransferParams(request, data);
   return request.post<Response<TransferResponse>>('/v1/transfers', {
     ...parseParams(params),

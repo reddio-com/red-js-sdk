@@ -5,3 +5,4 @@ export * from './starkex';
 export * from './transfer';
 export * from './vault';
 export * from './withdraw';
+export * from './order';

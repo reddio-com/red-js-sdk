@@ -1,10 +1,11 @@
 import {
   PageParams,
   SignatureLike,
-  SignParams,
+  SignTransferParams,
   StarkKeyParams,
 } from './common';
 import { BigNumber } from 'ethers';
+import {Types} from "../utils";
 
 /**
  * Balance
@@ -104,7 +105,7 @@ export interface NonceResponse {
  * Transfer
  */
 
-export interface TransferRequestParams extends Partial<SignParams> {
+export interface TransferRequestParams extends Partial<SignTransferParams> {
   nonce: number;
   signature: SignatureLike;
 }
@@ -117,7 +118,7 @@ export interface TransferResponse {
  * Vault
  */
 export interface VaultParams {
-  assetId: string;
+  assetId: string | string[];
   starkKeys: string | string[];
 }
 
@@ -128,7 +129,7 @@ export interface VaultResponse {
 /**
  * Withdraw
  */
-export interface WithdrawalParams extends SignParams {
+export interface WithdrawalParams extends SignTransferParams {
   contractAddress?: string;
   tokenId?: string | number;
 }
@@ -143,4 +144,28 @@ export interface WithdrawalResponse {
 export interface ContractsAddressResponse {
   mainnet: string;
   testnet: string;
+}
+
+/**
+ * Order
+ */
+export interface OrderParams {
+  keypair: {
+    privateKey: string,
+    publicKey: string
+  };
+  quoteToken: string;
+  price: number;
+  amount: number;
+  tokenAddress?: string;
+  tokenId?: number | string;
+  tokenType: `${Types}`;
+  orderType: 'buy' | 'sell';
+}
+
+export interface OrderInfoResponse {
+  fee_rate: string;
+  base_token: string;
+  fee_token: string;
+  lower_limit: number;
 }

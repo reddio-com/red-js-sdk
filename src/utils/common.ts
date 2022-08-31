@@ -5,7 +5,11 @@ function underline(str: string) {
 export function parseParams(params: Record<string, any>) {
   const newParams: Record<string, any> = {};
   Object.keys(params).forEach(key => {
-    newParams[underline(key)] = params[key];
+    if (Object.prototype.toString.call(params[key]) === '[object Object]') {
+      newParams[underline(key)] = parseParams(params[key]);
+    } else {
+      newParams[underline(key)] = params[key];
+    }
   });
   return newParams;
 }

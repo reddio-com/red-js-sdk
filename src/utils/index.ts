@@ -3,3 +3,4 @@ export * from './common';
 export * from './enum';
 export * from './keypair';
 export * from './sign';
+export * from './orderParams';

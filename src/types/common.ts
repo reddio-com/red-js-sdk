@@ -17,7 +17,7 @@ export type SignatureLike = {
   s: string;
 };
 
-export interface SignParams {
+export interface SignTransferParams {
   starkKey: string;
   privateKey: string;
   assetId: string;
@@ -26,6 +26,21 @@ export interface SignParams {
   receiver: string;
   receiverVaultId: string;
   expirationTimestamp?: number;
+}
+
+export interface SignOrderParams {
+  vaultIdSell: string;
+  vaultIdBuy: string;
+  amountSell: string;
+  amountBuy: string;
+  tokenSell: string;
+  tokenBuy: string;
+  nonce: number;
+  expirationTimestamp: number;
+  feeToken: string;
+  feeVaultId: string;
+  feeLimit: number;
+  privateKey: string;
 }
 
 export interface PageParams {
