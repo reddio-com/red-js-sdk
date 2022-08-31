@@ -38,7 +38,7 @@ export interface SignOrderParams {
   nonce: number;
   expirationTimestamp: number;
   feeToken: string;
-  feeVaultId: string;
+  feeVaultId: number;
   feeLimit: number;
   privateKey: string;
 }

@@ -182,7 +182,7 @@ export interface OrderRequestParams {
   fee_info: {
     fee_limit: number
     token_id: string
-    source_vault_id: string
+    source_vault_id: number
   };
 }
 

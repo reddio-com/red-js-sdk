@@ -11,7 +11,7 @@ export async function order(
   params: OrderRequestParams
 ) {
   return request.post<Response<RecordResponse>>('/v1/order', {
-    params,
+    ...params,
   });
 }
 

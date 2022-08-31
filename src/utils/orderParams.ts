@@ -46,7 +46,10 @@ export async function getOrderParams(
   });
   const vault_ids = vaultIdData.data.vault_ids;
   const direction = Number(orderType === 'buy');
-  const amountBuy = ethers.utils.parseUnits((price * amount).toString(), 6);
+  const amountBuy = ethers.utils.parseUnits(
+    (price * Number(amount)).toString(),
+    6
+  );
   const formatPrice = ethers.utils.parseUnits(price.toString(), 6);
   let partParams;
   if (!direction) {
@@ -73,7 +76,7 @@ export async function getOrderParams(
     expirationTimestamp: 4194303,
     nonce: nonceData.data.nonce,
     feeLimit: Number(data.data.fee_rate) * amountBuy.toNumber(),
-    feeVaultId: vault_ids[0],
+    feeVaultId: Number(vault_ids[0]),
     feeToken: data.data.fee_token,
     privateKey: keypair.privateKey,
   };
