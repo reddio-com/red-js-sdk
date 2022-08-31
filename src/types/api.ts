@@ -163,6 +163,29 @@ export interface OrderParams {
   orderType: 'buy' | 'sell';
 }
 
+export interface OrderRequestParams {
+  amount: number;
+  amount_buy: string;
+  amount_sell: string;
+  token_buy: number;
+  token_sell: string;
+  price: string;
+  quote_token: string;
+  base_token: number;
+  vault_id_buy: string;
+  vault_id_sell: string;
+  expiration_timestamp: number;
+  nonce: number;
+  signature: SignatureLike;
+  account_id: string;
+  direction: number;
+  fee_info: {
+    fee_limit: number
+    token_id: string
+    source_vault_id: string
+  };
+}
+
 export interface OrderInfoResponse {
   fee_rate: string;
   base_token: string;

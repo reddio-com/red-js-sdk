@@ -2,24 +2,16 @@ import { AxiosInstance } from 'axios';
 import {
   Response,
   RecordResponse,
-  RecordParams,
   OrderInfoResponse,
+  OrderRequestParams,
 } from '../types';
-import { parseParams } from '../utils';
 
-export async function sell(request: AxiosInstance, params: RecordParams) {
-  return request.get<Response<RecordResponse>>('/v1/record', {
-    params: {
-      ...parseParams(params),
-    },
-  });
-}
-
-export async function buy(request: AxiosInstance, params: RecordParams) {
-  return request.get<Response<RecordResponse>>('/v1/record', {
-    params: {
-      ...parseParams(params),
-    },
+export async function order(
+  request: AxiosInstance,
+  params: OrderRequestParams
+) {
+  return request.post<Response<RecordResponse>>('/v1/order', {
+    params,
   });
 }
 

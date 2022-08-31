@@ -1,4 +1,4 @@
-import { OrderParams, SignOrderParams } from '../types';
+import { OrderParams, OrderRequestParams, SignOrderParams } from '../types';
 import { ethers } from 'ethers';
 import { AxiosInstance } from 'axios';
 import { info, getVaultID, getNonce } from '../api';
@@ -9,7 +9,7 @@ import { parseParams } from './common';
 export async function getOrderParams(
   request: AxiosInstance,
   params: OrderParams
-) {
+): Promise<OrderRequestParams> {
   const {
     orderType,
     price,
@@ -99,5 +99,5 @@ export async function getOrderParams(
       tokenId: feeToken,
       sourceVaultId: feeVaultId,
     },
-  });
+  }) as OrderRequestParams;
 }

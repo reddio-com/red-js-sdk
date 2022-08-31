@@ -11,6 +11,7 @@ import {
   transfer,
   withdrawalFromL2,
   getBalances,
+  order,
 } from './api';
 import {
   erc20Approve,
@@ -34,6 +35,7 @@ import {
   RecordParams,
   BalancesParams,
   OrderParams,
+  OrderRequestParams,
 } from './types';
 import {
   Env,
@@ -103,6 +105,9 @@ class ReddioCore {
     },
     getRecords: async (args: StarkKeyParams) => {
       return getRecords(this.request, args);
+    },
+    order: async (args: OrderRequestParams) => {
+      return order(this.request, args);
     },
   };
 
