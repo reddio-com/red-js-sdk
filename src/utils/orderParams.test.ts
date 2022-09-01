@@ -13,8 +13,8 @@ describe('orderParams', () => {
         publicKey:
           '0x3d2161b60487fb223760e586efaf70004ddc018b53b8cdb39cb75ef4b4e25f7',
       },
-      amount: 1,
-      price: 0.001,
+      amount: '1',
+      price: '0.001',
       tokenType: 'ERC721M',
       orderType: 'buy',
       tokenId: 5978,
