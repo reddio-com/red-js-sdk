@@ -25,6 +25,7 @@ export interface BalanceResponse {
   symbol: string;
   quantum: number;
   display_value: string;
+  token_id: string;
 }
 
 /**
@@ -154,8 +155,8 @@ export interface OrderParams {
     privateKey: string,
     publicKey: string
   };
-  price: number;
-  amount: number;
+  price: string;
+  amount: string;
   tokenAddress?: string;
   tokenId?: number | string;
   tokenType: `${Types}`;
@@ -163,7 +164,7 @@ export interface OrderParams {
 }
 
 export interface OrderRequestParams {
-  amount: number;
+  amount: string;
   amount_buy: string;
   amount_sell: string;
   token_buy: number;
@@ -183,6 +184,10 @@ export interface OrderRequestParams {
     token_id: string
     source_vault_id: number
   };
+}
+
+export interface OrderResponse {
+  sequenceId: number;
 }
 
 export interface OrderInfoResponse {

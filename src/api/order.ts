@@ -1,16 +1,16 @@
 import { AxiosInstance } from 'axios';
 import {
   Response,
-  RecordResponse,
   OrderInfoResponse,
   OrderRequestParams,
+  OrderResponse,
 } from '../types';
 
 export async function order(
   request: AxiosInstance,
   params: OrderRequestParams
 ) {
-  return request.post<Response<RecordResponse>>('/v1/order', {
+  return request.post<Response<OrderResponse>>('/v1/order', {
     ...params,
   });
 }

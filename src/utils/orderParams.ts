@@ -46,10 +46,10 @@ export async function getOrderParams(
   const vault_ids = vaultIdData.data.vault_ids;
   const direction = Number(orderType === 'buy');
   const amountBuy = ethers.utils.parseUnits(
-    (price * Number(amount)).toString(),
+    (Number(price) * Number(amount)).toString(),
     6
   );
-  const formatPrice = ethers.utils.parseUnits(price.toString(), 6);
+  const formatPrice = ethers.utils.parseUnits(price, 6);
   let partParams;
   if (!direction) {
     partParams = {
