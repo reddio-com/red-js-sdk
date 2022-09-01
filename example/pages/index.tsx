@@ -91,6 +91,13 @@ const Home: NextPage = () => {
                   <p>Mint ERC721 on L2, Transfer between L2, Withdraw to L1, then Deposit to L2.</p>
                 </a>
               </Link>
+
+              <Link href="/order">
+                <a className={styles.card}>
+                  <h2>Order &rarr;</h2>
+                  <p>Sell and Buy token.</p>
+                </a>
+              </Link>
             </div>
           </main>
         </div>
