@@ -154,7 +154,6 @@ export interface OrderParams {
     privateKey: string,
     publicKey: string
   };
-  quoteToken: string;
   price: number;
   amount: number;
   tokenAddress?: string;

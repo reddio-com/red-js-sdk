@@ -14,8 +14,6 @@ describe('orderParams', () => {
           '0x3d2161b60487fb223760e586efaf70004ddc018b53b8cdb39cb75ef4b4e25f7',
       },
       amount: 1,
-      quoteToken:
-        '0x400fcfa0889b788c49ecdbe90b494b4dc692532467466b88c1179779096a163',
       price: 0.001,
       tokenType: 'ERC721M',
       orderType: 'buy',

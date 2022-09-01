@@ -13,7 +13,6 @@ export async function getOrderParams(
   const {
     orderType,
     price,
-    quoteToken,
     amount,
     keypair,
     tokenType,
@@ -25,7 +24,7 @@ export async function getOrderParams(
     { data },
     { data: nonceData },
     { assetId: assetIdBuy },
-    { assetId: assetIdSell },
+    { assetId: quoteToken },
   ] = await Promise.all([
     info(request),
     getNonce(request, {
@@ -42,7 +41,7 @@ export async function getOrderParams(
   ]);
   const { data: vaultIdData } = await getVaultID(request, {
     starkKeys: starkKey,
-    assetId: [assetIdBuy, assetIdSell],
+    assetId: [assetIdBuy, quoteToken],
   });
   const vault_ids = vaultIdData.data.vault_ids;
   const direction = Number(orderType === 'buy');
