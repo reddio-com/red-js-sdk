@@ -130,13 +130,11 @@ class ReddioCore {
   };
 
   public readonly keypair = {
-    generateFromEthSignature: (
-      msgParams: string | Record<string, any>
-    ): Promise<{
+    generateFromEthSignature: (): Promise<{
       privateKey: string;
       publicKey: string;
     }> => {
-      return generateFromEthSignature(this.provider, msgParams);
+      return generateFromEthSignature(this.provider);
     },
   };
 
