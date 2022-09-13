@@ -14,7 +14,10 @@ export interface BalanceParams extends StarkKeyParams {
   assetId?: string;
 }
 
-export type BalancesParams = StarkKeyParams & Partial<PageParams>;
+export interface BalancesParams extends StarkKeyParams, Partial<PageParams> {
+  type?: string;
+  contractAddress: string;
+}
 
 export interface BalanceResponse {
   asset_id: string;
