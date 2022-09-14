@@ -189,6 +189,12 @@ export interface OrderRequestParams {
   };
 }
 
+export interface OrderInfoRequestParams {
+  starkKey: string
+  contract1: string
+  contract2: string
+}
+
 export interface OrderResponse {
   sequenceId: number;
 }
@@ -198,4 +204,15 @@ export interface OrderInfoResponse {
   base_token: string;
   fee_token: string;
   lower_limit: number;
+  nonce: number;
+  contracts: Array<{
+    contract_address: string;
+    symbol: string;
+    decimals: number;
+    type: string;
+    quantum: number;
+    asset_type: string;
+  }>;
+  asset_ids: string[];
+  vault_ids: string[]
 }

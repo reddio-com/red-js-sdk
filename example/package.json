@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@nextui-org/react": "^1.0.0-beta.9",
-    "@reddio.com/js": "^0.2.3",
+    "@reddio.com/js": "^0.2.4",
     "axios": "^0.27.2",
     "enc-utils": "^3.0.0",
     "ethers": "^5.6.8",

@@ -1,8 +1,7 @@
 import { OrderParams, OrderRequestParams, SignOrderParams } from '../types';
 import { ethers } from 'ethers';
 import { AxiosInstance } from 'axios';
-import { info, getVaultID, getNonce } from '../api';
-import { getAssetTypeAndId } from './asset';
+import { info } from '../api';
 import { signOrder } from './sign';
 import { parseParams } from './common';
 
@@ -20,30 +19,13 @@ export async function getOrderParams(
     tokenAddress,
   } = params;
   const starkKey = keypair.publicKey;
-  const [
-    { data },
-    { data: nonceData },
-    { assetId: assetIdBuy },
-    { assetId: quoteToken },
-  ] = await Promise.all([
-    info(request),
-    getNonce(request, {
-      starkKey,
-    }),
-    getAssetTypeAndId(request, {
-      type: 'ETH',
-    }),
-    getAssetTypeAndId(request, {
-      type: tokenType,
-      tokenId,
-      tokenAddress,
-    }),
-  ]);
-  const { data: vaultIdData } = await getVaultID(request, {
-    starkKeys: starkKey,
-    assetId: [assetIdBuy, quoteToken],
+  const { data } = await info(request, {
+    starkKey,
+    contract1: 'ETH:ETH',
+    contract2: `${tokenType}:${tokenAddress}:${tokenId}`,
   });
-  const vault_ids = vaultIdData.data.vault_ids;
+  const vault_ids = data.data.vault_ids;
+  const quoteToken = data.data.asset_ids[1];
   const direction = Number(orderType === 'buy');
   const amountBuy = ethers.utils.parseUnits(
     (Number(price) * Number(amount)).toString(),
@@ -73,7 +55,7 @@ export async function getOrderParams(
   const signOrderParams: SignOrderParams = {
     ...partParams,
     expirationTimestamp: 4194303,
-    nonce: nonceData.data.nonce,
+    nonce: data.data.nonce,
     feeLimit: Number(data.data.fee_rate) * amountBuy.toNumber(),
     feeVaultId: Number(vault_ids[0]),
     feeToken: data.data.fee_token,

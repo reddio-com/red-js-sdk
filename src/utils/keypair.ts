@@ -10,7 +10,7 @@ export const generateFromEthSignature = async (provider: JsonRpcProvider) => {
       chainId: 5,
     },
     message: {
-      contents: 'generate layer 2 key',
+      contents: 'Generate layer 2 key',
     },
     primaryType: 'reddio',
     types: {
