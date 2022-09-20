@@ -21,6 +21,7 @@ import {
 } from './contract';
 import {
   DepositParams,
+  DepositERC20Params,
   Deposit721Params,
   StarkKeyParams,
   SignTransferParams,
@@ -82,13 +83,13 @@ class ReddioCore {
       await this.getContractAddress();
       return withdrawalFromL1(this.provider, this.contractAddress!, args);
     },
-    depositERC20: async (args: DepositParams) => {
+    depositERC20: async (args: DepositERC20Params) => {
       await this.getContractAddress();
-      return depositERC20(this.provider, this.contractAddress!, args);
+      return depositERC20(this.request, this.provider, this.contractAddress!, args);
     },
     depositETH: async (args: DepositParams) => {
       await this.getContractAddress();
-      return depositETH(this.provider, this.contractAddress!, args);
+      return depositETH(this.request, this.provider, this.contractAddress!, args);
     },
     depositERC721: async (args: Deposit721Params) => {
       await this.getContractAddress();

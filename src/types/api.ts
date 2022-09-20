@@ -76,9 +76,13 @@ export interface ContractInfoResponse {
  */
 export interface DepositParams {
   starkKey: string;
-  assetType: string;
-  vaultId: string;
   quantizedAmount: number | string;
+}
+
+export interface DepositERC20Params {
+  starkKey: string;
+  quantizedAmount: number | string;
+  tokenAddress: string;
 }
 
 export interface Deposit721Params {
