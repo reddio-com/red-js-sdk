@@ -8,13 +8,13 @@ export const depositERC20 = (
   contractAddress: string,
   params: DepositParams
 ): Promise<LogDeposit> => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     try {
       const signer = provider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi, signer);
       const { starkKey, vaultId, quantizedAmount, assetType } = params;
       // get contract unit
-      contract.depositERC20(
+      await contract.depositERC20(
         starkKey,
         assetType,
         vaultId,
@@ -54,12 +54,12 @@ export const depositETH = (
   contractAddress: string,
   params: DepositParams
 ): Promise<LogDeposit> => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     try {
       const signer = provider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi, signer);
       const { starkKey, vaultId, assetType, quantizedAmount } = params;
-      contract.depositEth(starkKey, assetType, vaultId, {
+      await contract.depositEth(starkKey, assetType, vaultId, {
         value: ethers.utils.parseEther(quantizedAmount.toString()),
       });
 
@@ -96,12 +96,12 @@ export const depositERC721 = (
   contractAddress: string,
   params: Deposit721Params
 ): Promise<LogDeposit> => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     try {
       const signer = provider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi, signer);
       const { starkKey, vaultId, tokenId, assetType } = params;
-      contract.depositNft(starkKey, assetType, vaultId, tokenId);
+      await contract.depositNft(starkKey, assetType, vaultId, tokenId);
 
       contract.on(
         'LogDeposit',
