@@ -1,4 +1,5 @@
 import { Dialog, Form, Input, Select, Button, message } from 'tdesign-react';
+import { InfoCircleFilledIcon } from 'tdesign-icons-react';
 import Text from '../typography';
 import styles from './index.less';
 import { useSnapshot } from 'valtio';
@@ -354,6 +355,10 @@ const Operate = (props: IOperateProps) => {
             {buttonText}
           </Button>
         </div>
+        {type === 'Withdrawal' ? <div className={styles.infoWrapper}>
+          <InfoCircleFilledIcon/>
+          <Text>Wait approximately 4 hours for funds move to the withdrawal area.</Text>
+        </div> : null}
       </div>
     </Dialog>
   );
