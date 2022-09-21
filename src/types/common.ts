@@ -1,3 +1,5 @@
+import { Types } from '../utils';
+
 export interface RequestCommonParams {
   // ETH 可不传
   contractAddress?: string;
@@ -20,11 +22,11 @@ export type SignatureLike = {
 export interface SignTransferParams {
   starkKey: string;
   privateKey: string;
-  assetId: string;
   amount?: number | string;
-  vaultId: string;
+  contractAddress?: string;
+  tokenId?: string | number;
+  type: `${Types}`;
   receiver: string;
-  receiverVaultId: string;
   expirationTimestamp?: number;
 }
 

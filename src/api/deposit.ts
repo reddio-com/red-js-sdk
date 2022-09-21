@@ -1,23 +1,34 @@
 import { BigNumber, ethers } from 'ethers';
 import { JsonRpcProvider } from '@ethersproject/providers';
-import { Deposit721Params, DepositParams, LogDeposit } from '../types';
+import { AxiosInstance } from 'axios';
+import { Deposit721Params, DepositParams, LogDeposit, DepositERC20Params, LogDepositWithTokenId } from '../types';
 import abi from '../abi/Deposits.json';
+import { getAssetTypeAndId } from '../utils';
+import { getVaultID } from './vault';
 
 export const depositERC20 = (
+  request: AxiosInstance,
   provider: JsonRpcProvider,
   contractAddress: string,
-  params: DepositParams
+  params: DepositERC20Params
 ): Promise<LogDeposit> => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     try {
       const signer = provider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi, signer);
-      const { starkKey, vaultId, quantizedAmount, assetType } = params;
-      // get contract unit
-      contract.depositERC20(
+      const { starkKey, quantizedAmount, tokenAddress } = params;
+      const { assetId, assetType } = await getAssetTypeAndId(request, {
+        type: 'ERC20',
+        tokenAddress,
+      });
+      const { data } = await getVaultID(request, {
+        starkKeys: starkKey,
+        assetId,
+      });
+      await contract.depositERC20(
         starkKey,
         assetType,
-        vaultId,
+        data.data.vault_ids[0],
         ethers.utils.parseUnits(quantizedAmount.toString(), 6)
       );
 
@@ -50,16 +61,24 @@ export const depositERC20 = (
 };
 
 export const depositETH = (
+  request: AxiosInstance,
   provider: JsonRpcProvider,
   contractAddress: string,
   params: DepositParams
 ): Promise<LogDeposit> => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     try {
       const signer = provider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi, signer);
-      const { starkKey, vaultId, assetType, quantizedAmount } = params;
-      contract.depositEth(starkKey, assetType, vaultId, {
+      const { starkKey, quantizedAmount } = params;
+      const { assetType, assetId } = await getAssetTypeAndId(request, {
+        type: 'ETH',
+      });
+      const { data } = await getVaultID(request, {
+        starkKeys: starkKey,
+        assetId,
+      });
+      await contract.depositEth(starkKey, assetType, data.data.vault_ids[0], {
         value: ethers.utils.parseEther(quantizedAmount.toString()),
       });
 
@@ -92,24 +111,36 @@ export const depositETH = (
 };
 
 export const depositERC721 = (
+  request: AxiosInstance,
   provider: JsonRpcProvider,
   contractAddress: string,
   params: Deposit721Params
-): Promise<LogDeposit> => {
-  return new Promise((resolve, reject) => {
+): Promise<LogDepositWithTokenId> => {
+  return new Promise(async (resolve, reject) => {
     try {
       const signer = provider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi, signer);
-      const { starkKey, vaultId, tokenId, assetType } = params;
-      contract.depositNft(starkKey, assetType, vaultId, tokenId);
+      const { starkKey, tokenAddress, tokenId } = params;
+      const { assetId, assetType } = await getAssetTypeAndId(request, {
+        type: 'ERC721',
+        tokenAddress,
+        tokenId
+      });
+      const { data } = await getVaultID(request, {
+        starkKeys: starkKey,
+        assetId,
+      });
+      await contract.depositNft(starkKey, assetType, data.data.vault_ids[0], tokenId);
 
       contract.on(
-        'LogDeposit',
+        'LogDepositWithTokenId',
         (
           depositorEthKey: string,
           starkKey: BigNumber,
           vaultId: BigNumber,
           assetType: BigNumber,
+          tokenId: BigNumber,
+          assetId: BigNumber,
           nonQuantizedAmount: BigNumber,
           quantizedAmount: BigNumber,
           raw: Record<string, any>
@@ -119,6 +150,8 @@ export const depositERC721 = (
             starkKey,
             vaultId,
             assetType,
+            tokenId,
+            assetId,
             nonQuantizedAmount,
             quantizedAmount,
             raw,

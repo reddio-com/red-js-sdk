@@ -32,7 +32,7 @@ export const withdrawalFromL1 = async (
       return contract.withdrawAndMint(
         ethAddress,
         assetType,
-        ethers.utils.arrayify(ethers.utils.hexlify(Number(277)))
+        ethers.utils.arrayify(ethers.utils.hexlify(Number(tokenId)))
       );
     }
   }

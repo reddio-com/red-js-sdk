@@ -5,7 +5,7 @@ import {
   StarkKeyParams,
 } from './common';
 import { BigNumber } from 'ethers';
-import {Types} from "../utils";
+import { Types } from '../utils';
 
 /**
  * Balance
@@ -16,7 +16,7 @@ export interface BalanceParams extends StarkKeyParams {
 
 export interface BalancesParams extends StarkKeyParams, Partial<PageParams> {
   type?: string;
-  contractAddress: string;
+  contractAddress?: string;
 }
 
 export interface BalanceResponse {
@@ -76,16 +76,19 @@ export interface ContractInfoResponse {
  */
 export interface DepositParams {
   starkKey: string;
-  assetType: string;
-  vaultId: string;
   quantizedAmount: number | string;
+}
+
+export interface DepositERC20Params {
+  starkKey: string;
+  quantizedAmount: number | string;
+  tokenAddress: string;
 }
 
 export interface Deposit721Params {
   starkKey: string;
-  assetType: string;
-  vaultId: string;
   tokenId: number;
+  tokenAddress: string;
 }
 
 export interface LogDeposit {
@@ -93,6 +96,18 @@ export interface LogDeposit {
   starkKey: BigNumber;
   vaultId: BigNumber;
   assetType: BigNumber;
+  nonQuantizedAmount: BigNumber;
+  quantizedAmount: BigNumber;
+  raw: Record<string, any>;
+}
+
+export interface LogDepositWithTokenId {
+  depositorEthKey: string;
+  starkKey: BigNumber;
+  vaultId: BigNumber;
+  assetType: BigNumber;
+  tokenId: BigNumber;
+  assetId: BigNumber;
   nonQuantizedAmount: BigNumber;
   quantizedAmount: BigNumber;
   raw: Record<string, any>;
@@ -111,6 +126,9 @@ export interface NonceResponse {
 
 export interface TransferRequestParams extends Partial<SignTransferParams> {
   nonce: number;
+  vaultId: string;
+  assetId: string;
+  receiverVaultId: string;
   signature: SignatureLike;
 }
 
@@ -133,13 +151,18 @@ export interface VaultResponse {
 /**
  * Withdraw
  */
-export interface WithdrawalParams extends SignTransferParams {
-  contractAddress?: string;
-  tokenId?: string | number;
+export interface WithdrawalStatusParams extends StarkKeyParams {
+  stage: 'withdrawarea';
 }
 
 export interface WithdrawalResponse {
   sequence_id: number;
+}
+
+export interface WithdrawalStatusResponse {
+  asset_id: string;
+  token_id: string;
+  amount: number;
 }
 
 /**
@@ -155,8 +178,8 @@ export interface ContractsAddressResponse {
  */
 export interface OrderParams {
   keypair: {
-    privateKey: string,
-    publicKey: string
+    privateKey: string;
+    publicKey: string;
   };
   price: string;
   amount: string;
@@ -183,16 +206,16 @@ export interface OrderRequestParams {
   account_id: string;
   direction: number;
   fee_info: {
-    fee_limit: number
-    token_id: string
-    source_vault_id: number
+    fee_limit: number;
+    token_id: string;
+    source_vault_id: number;
   };
 }
 
 export interface OrderInfoRequestParams {
-  starkKey: string
-  contract1: string
-  contract2: string
+  starkKey: string;
+  contract1: string;
+  contract2: string;
 }
 
 export interface OrderResponse {
@@ -214,5 +237,5 @@ export interface OrderInfoResponse {
     asset_type: string;
   }>;
   asset_ids: string[];
-  vault_ids: string[]
+  vault_ids: string[];
 }

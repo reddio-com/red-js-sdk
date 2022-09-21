@@ -1,19 +1,41 @@
 import { AxiosInstance } from 'axios';
-import { parseParams, signTransfer } from '../utils';
-import { getNonce } from './nonce';
+import { parseParams, signTransfer, getAssetTypeAndId } from '../utils';
+import { getNonce, getVaultID } from './index';
 import {
   TransferResponse,
   TransferRequestParams,
   Response,
   SignTransferParams,
+  Asset,
 } from '../types';
 import { ethers } from 'ethers';
 
 export const getTransferParams = async (
   request: AxiosInstance,
-  data: SignTransferParams
+  data: any
 ) => {
-  const { starkKey, receiver, expirationTimestamp = 4194303 } = data;
+  const {
+    starkKey,
+    receiver,
+    type,
+    contractAddress,
+    tokenId,
+    expirationTimestamp = 4194303,
+  } = data;
+  const assetInfoParams: Asset = {
+    type,
+  };
+  if (type !== 'ETH') {
+    assetInfoParams.tokenAddress = contractAddress;
+  }
+  if (type === 'ERC721' || type === 'ERC721M') {
+    assetInfoParams.tokenId = tokenId;
+  }
+  const { assetId } = await getAssetTypeAndId(request, assetInfoParams);
+  const { data: vaultData } = await getVaultID(request, {
+    starkKeys: [starkKey, receiver],
+    assetId,
+  });
   const { data: result } = await getNonce(request, { starkKey });
   const nonce = result.data.nonce;
   if (!data.amount) {
@@ -21,6 +43,9 @@ export const getTransferParams = async (
   } else {
     data.amount = ethers.utils.parseUnits(data.amount.toString(), 6).toString();
   }
+  data.vaultId = vaultData.data.vault_ids[0]
+  data.receiverVaultId = vaultData.data.vault_ids[1]
+  data.assetId = assetId
   const params: TransferRequestParams = {
     ...data,
     expirationTimestamp,
@@ -28,6 +53,7 @@ export const getTransferParams = async (
     signature: signTransfer(nonce, data),
     nonce,
   };
+  delete params.type;
   delete params.privateKey;
   return params;
 };

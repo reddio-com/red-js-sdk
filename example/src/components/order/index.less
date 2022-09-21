@@ -1,0 +1,39 @@
+.orderListWrapper {
+  background: #FFFFFF;
+  border-radius: 10px;
+  flex: 1;
+  margin-top: 24px;
+  padding: 22px 24px;
+
+  & > div {
+    margin-top: 20px;
+
+    .item {
+      display: flex;
+      flex-direction: column;
+      box-sizing: content-box;
+      text-align: center;
+      cursor: pointer;
+
+      &:hover > div > button {
+        display: flex;
+      }
+
+      & > div {
+        position: relative;
+
+        & > img {
+          width: 100%;
+        }
+
+        & > button {
+          display: none;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+    }
+  }
+}
