@@ -151,8 +151,18 @@ export interface VaultResponse {
 /**
  * Withdraw
  */
+export interface WithdrawalStatusParams extends StarkKeyParams {
+  stage: 'withdrawarea';
+}
+
 export interface WithdrawalResponse {
   sequence_id: number;
+}
+
+export interface WithdrawalStatusResponse {
+  asset_id: string;
+  token_id: string;
+  amount: number;
 }
 
 /**

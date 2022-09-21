@@ -12,6 +12,7 @@ import {
   withdrawalFromL2,
   getBalances,
   order,
+  withdrawalStatus,
 } from './api';
 import {
   erc20Approve,
@@ -36,6 +37,7 @@ import {
   BalancesParams,
   OrderParams,
   OrderRequestParams,
+  WithdrawalStatusParams,
 } from './types';
 import {
   Env,
@@ -81,6 +83,9 @@ class ReddioCore {
     withdrawalFromL1: async (args: WithdrawalFromL1Params) => {
       await this.getContractAddress();
       return withdrawalFromL1(this.provider, this.contractAddress!, args);
+    },
+    withdrawalStatus: async (args: WithdrawalStatusParams) => {
+      return withdrawalStatus(this.request, args);
     },
     depositERC20: async (args: DepositERC20Params) => {
       await this.getContractAddress();
