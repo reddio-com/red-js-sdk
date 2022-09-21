@@ -7,6 +7,7 @@ import { initReddio, reddio } from '@/utils/config';
 import { Loading } from 'tdesign-react';
 import { CheckCircleFilledIcon } from 'tdesign-icons-react';
 import { initProviderAndSigner } from "@/utils/util";
+import { addStarkKey } from '@/utils/store';
 
 const steps = [
   'Switch network to goerli',
@@ -32,7 +33,8 @@ const ConnectDialog = ({ onSuccess }: ConnectDialogProps) => {
     await provider.send('eth_requestAccounts', []);
     setStepIndex(2);
     initReddio();
-    await reddio.keypair.generateFromEthSignature();
+    const { publicKey } = await reddio.keypair.generateFromEthSignature();
+    addStarkKey(publicKey);
     window.localStorage.setItem('isFirst', '1');
     onSuccess();
   }, []);
