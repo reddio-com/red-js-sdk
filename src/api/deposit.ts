@@ -1,7 +1,7 @@
 import { BigNumber, ethers } from 'ethers';
 import { JsonRpcProvider } from '@ethersproject/providers';
 import { AxiosInstance } from 'axios';
-import { Deposit721Params, DepositParams, LogDeposit, DepositERC20Params } from '../types';
+import { Deposit721Params, DepositParams, LogDeposit, DepositERC20Params, LogDepositWithTokenId } from '../types';
 import abi from '../abi/Deposits.json';
 import { getAssetTypeAndId } from '../utils';
 import { getVaultID } from './vault';
@@ -111,24 +111,35 @@ export const depositETH = (
 };
 
 export const depositERC721 = (
+  request: AxiosInstance,
   provider: JsonRpcProvider,
   contractAddress: string,
   params: Deposit721Params
-): Promise<LogDeposit> => {
+): Promise<LogDepositWithTokenId> => {
   return new Promise(async (resolve, reject) => {
     try {
       const signer = provider.getSigner();
       const contract = new ethers.Contract(contractAddress, abi, signer);
-      const { starkKey, vaultId, tokenId, assetType } = params;
-      await contract.depositNft(starkKey, assetType, vaultId, tokenId);
+      const { starkKey, tokenAddress, tokenId } = params;
+      const { assetId, assetType } = await getAssetTypeAndId(request, {
+        type: 'ERC721',
+        tokenAddress,
+      });
+      const { data } = await getVaultID(request, {
+        starkKeys: starkKey,
+        assetId,
+      });
+      await contract.depositNft(starkKey, assetType, data.data.vault_ids[0], tokenId);
 
       contract.on(
-        'LogDeposit',
+        'LogDepositWithTokenId',
         (
           depositorEthKey: string,
           starkKey: BigNumber,
           vaultId: BigNumber,
           assetType: BigNumber,
+          tokenId: BigNumber,
+          assetId: BigNumber,
           nonQuantizedAmount: BigNumber,
           quantizedAmount: BigNumber,
           raw: Record<string, any>
@@ -138,6 +149,8 @@ export const depositERC721 = (
             starkKey,
             vaultId,
             assetType,
+            tokenId,
+            assetId,
             nonQuantizedAmount,
             quantizedAmount,
             raw,

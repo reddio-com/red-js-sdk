@@ -87,9 +87,8 @@ export interface DepositERC20Params {
 
 export interface Deposit721Params {
   starkKey: string;
-  assetType: string;
-  vaultId: string;
   tokenId: number;
+  tokenAddress: string;
 }
 
 export interface LogDeposit {
@@ -97,6 +96,18 @@ export interface LogDeposit {
   starkKey: BigNumber;
   vaultId: BigNumber;
   assetType: BigNumber;
+  nonQuantizedAmount: BigNumber;
+  quantizedAmount: BigNumber;
+  raw: Record<string, any>;
+}
+
+export interface LogDepositWithTokenId {
+  depositorEthKey: string;
+  starkKey: BigNumber;
+  vaultId: BigNumber;
+  assetType: BigNumber;
+  tokenId: BigNumber;
+  assetId: BigNumber;
   nonQuantizedAmount: BigNumber;
   quantizedAmount: BigNumber;
   raw: Record<string, any>;
