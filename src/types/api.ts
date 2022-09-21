@@ -5,7 +5,7 @@ import {
   StarkKeyParams,
 } from './common';
 import { BigNumber } from 'ethers';
-import {Types} from "../utils";
+import { Types } from '../utils';
 
 /**
  * Balance
@@ -126,6 +126,9 @@ export interface NonceResponse {
 
 export interface TransferRequestParams extends Partial<SignTransferParams> {
   nonce: number;
+  vaultId: string;
+  assetId: string;
+  receiverVaultId: string;
   signature: SignatureLike;
 }
 
@@ -148,11 +151,6 @@ export interface VaultResponse {
 /**
  * Withdraw
  */
-export interface WithdrawalParams extends SignTransferParams {
-  contractAddress?: string;
-  tokenId?: string | number;
-}
-
 export interface WithdrawalResponse {
   sequence_id: number;
 }
@@ -170,8 +168,8 @@ export interface ContractsAddressResponse {
  */
 export interface OrderParams {
   keypair: {
-    privateKey: string,
-    publicKey: string
+    privateKey: string;
+    publicKey: string;
   };
   price: string;
   amount: string;
@@ -198,16 +196,16 @@ export interface OrderRequestParams {
   account_id: string;
   direction: number;
   fee_info: {
-    fee_limit: number
-    token_id: string
-    source_vault_id: number
+    fee_limit: number;
+    token_id: string;
+    source_vault_id: number;
   };
 }
 
 export interface OrderInfoRequestParams {
-  starkKey: string
-  contract1: string
-  contract2: string
+  starkKey: string;
+  contract1: string;
+  contract2: string;
 }
 
 export interface OrderResponse {
@@ -229,5 +227,5 @@ export interface OrderInfoResponse {
     asset_type: string;
   }>;
   asset_ids: string[];
-  vault_ids: string[]
+  vault_ids: string[];
 }

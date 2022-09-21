@@ -5,9 +5,9 @@ import {
   ec,
   // @ts-ignore
 } from '@starkware-industries/starkware-crypto-utils';
-import { SignOrderParams, SignTransferParams } from '../types';
+import { SignOrderParams } from '../types';
 
-export const signTransfer = (nonce: number, data: SignTransferParams) => {
+export const signTransfer = (nonce: number, data: any) => {
   const {
     privateKey,
     assetId,

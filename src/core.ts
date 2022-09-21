@@ -29,7 +29,6 @@ import {
   ApproveErc20Params,
   ErcCommonParams,
   Asset,
-  WithdrawalParams,
   ApproveErc721Params,
   WithdrawalFromL1Params,
   BalanceParams,
@@ -76,7 +75,7 @@ class ReddioCore {
     getVaultID: (args: VaultParams) => {
       return getVaultID(this.request, args);
     },
-    withdrawalFromL2: (args: WithdrawalParams) => {
+    withdrawalFromL2: (args: SignTransferParams) => {
       return withdrawalFromL2(this.request, args);
     },
     withdrawalFromL1: async (args: WithdrawalFromL1Params) => {
@@ -85,15 +84,30 @@ class ReddioCore {
     },
     depositERC20: async (args: DepositERC20Params) => {
       await this.getContractAddress();
-      return depositERC20(this.request, this.provider, this.contractAddress!, args);
+      return depositERC20(
+        this.request,
+        this.provider,
+        this.contractAddress!,
+        args
+      );
     },
     depositETH: async (args: DepositParams) => {
       await this.getContractAddress();
-      return depositETH(this.request, this.provider, this.contractAddress!, args);
+      return depositETH(
+        this.request,
+        this.provider,
+        this.contractAddress!,
+        args
+      );
     },
     depositERC721: async (args: Deposit721Params) => {
       await this.getContractAddress();
-      return depositERC721(this.request, this.provider, this.contractAddress!, args);
+      return depositERC721(
+        this.request,
+        this.provider,
+        this.contractAddress!,
+        args
+      );
     },
     getBalance: async (args: BalanceParams) => {
       return getBalance(this.request, args);

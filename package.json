@@ -8,6 +8,14 @@
   "files": [
     "dist"
   ],
+  "exports": {
+    ".": {
+      "import": {
+        "default": "./dist/index.js"
+      },
+      "types": "./dist/index.d.ts"
+    }
+  },
   "engines": {
     "node": ">=10"
   },

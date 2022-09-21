@@ -124,6 +124,7 @@ export const depositERC721 = (
       const { assetId, assetType } = await getAssetTypeAndId(request, {
         type: 'ERC721',
         tokenAddress,
+        tokenId
       });
       const { data } = await getVaultID(request, {
         starkKeys: starkKey,
