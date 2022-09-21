@@ -19,6 +19,7 @@ export default function Layout() {
 
   const handleSuccess = useCallback(() => {
     setFirst(false);
+    initReddio();
   }, []);
 
   useEffect(() => {
@@ -27,7 +28,7 @@ export default function Layout() {
       const { publicKey } = await reddio.keypair.generateFromEthSignature();
       addStarkKey(publicKey);
     };
-    init();
+    !isFirst && init();
   }, []);
 
   return (
