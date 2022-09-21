@@ -10,12 +10,12 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^4.3.9",
+    "@reddio.com/js": "^0.3.0",
     "axios": "^0.27.2",
     "ethers": "^5.7.1",
     "normalize.css": "^8.0.1",
     "tdesign-react": "^0.41.1",
     "umi": "^4.0.20",
-    "use-nft": "^0.12.0",
     "valtio": "^1.7.0"
   },
   "devDependencies": {
