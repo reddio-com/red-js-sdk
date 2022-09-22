@@ -151,7 +151,8 @@ export interface VaultResponse {
 /**
  * Withdraw
  */
-export interface WithdrawalStatusParams extends StarkKeyParams {
+export interface WithdrawalStatusParams {
+  ethaddress: string;
   stage: 'withdrawarea';
 }
 
