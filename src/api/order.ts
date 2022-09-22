@@ -4,7 +4,7 @@ import {
   OrderInfoResponse,
   OrderRequestParams,
   OrderResponse,
-  OrderInfoRequestParams,
+  OrderInfoRequestParams, OrderListRequestParams,
 } from '../types';
 import { parseParams } from '../utils';
 
@@ -22,6 +22,17 @@ export async function info(
   params: OrderInfoRequestParams
 ) {
   return request.get<Response<OrderInfoResponse>>('/v1/order/info', {
+    params: {
+      ...parseParams(params),
+    },
+  });
+}
+
+export async function orderList(
+  request: AxiosInstance,
+  params: OrderListRequestParams
+) {
+  return request.get<Response<OrderInfoResponse[]>>('/v1/orders', {
     params: {
       ...parseParams(params),
     },

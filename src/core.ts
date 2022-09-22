@@ -12,7 +12,7 @@ import {
   withdrawalFromL2,
   getBalances,
   order,
-  withdrawalStatus,
+  withdrawalStatus, orderList,
 } from './api';
 import {
   erc20Approve,
@@ -37,7 +37,7 @@ import {
   BalancesParams,
   OrderParams,
   OrderRequestParams,
-  WithdrawalStatusParams,
+  WithdrawalStatusParams, OrderListRequestParams,
 } from './types';
 import {
   Env,
@@ -128,6 +128,9 @@ class ReddioCore {
     },
     order: async (args: OrderRequestParams) => {
       return order(this.request, args);
+    },
+    orderList: async (args: OrderListRequestParams) => {
+      return orderList(this.request, args);
     },
   };
 

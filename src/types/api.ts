@@ -219,6 +219,12 @@ export interface OrderInfoRequestParams {
   contract2: string;
 }
 
+export interface OrderListRequestParams {
+  starkKey?: string;
+  contractAddress?: string;
+  direction?: number;
+}
+
 export interface OrderResponse {
   sequenceId: number;
 }
