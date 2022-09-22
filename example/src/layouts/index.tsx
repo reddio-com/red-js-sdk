@@ -25,7 +25,8 @@ export default function Layout() {
   useEffect(() => {
     const init = async () => {
       initReddio();
-      const { publicKey } = await reddio.keypair.generateFromEthSignature();
+      const { publicKey, privateKey } = await reddio.keypair.generateFromEthSignature();
+      console.log(publicKey, privateKey);
       addStarkKey(publicKey);
     };
     !isFirst && init();
