@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { Response, SignTransferParams, WithdrawalStatusParams, WithdrawalStatusResponse } from '../types';
-import { parseParams } from '../utils';
+import { parseParams } from '../utils/common';
 import { WithdrawalResponse } from '../types';
 import { getTransferParams } from './transfer';
 

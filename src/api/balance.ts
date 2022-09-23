@@ -5,7 +5,7 @@ import {
   BalanceParams,
   BalancesParams,
 } from '../types';
-import { parseParams } from '../utils';
+import { parseParams } from '../utils/common';
 
 export async function getBalance(
   request: AxiosInstance,

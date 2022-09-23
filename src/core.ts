@@ -12,7 +12,8 @@ import {
   withdrawalFromL2,
   getBalances,
   order,
-  withdrawalStatus, orderList,
+  withdrawalStatus,
+  orderList,
 } from './api';
 import {
   erc20Approve,
