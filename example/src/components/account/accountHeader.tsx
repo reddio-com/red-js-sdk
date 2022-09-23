@@ -7,9 +7,10 @@ import styles from './index.less';
 import { getEthAddress } from '@/utils/util';
 import { ethers } from 'ethers';
 import { useSnapshot } from 'valtio';
-import { store } from '@/utils/store';
+import { addStarkKey, store } from '@/utils/store';
 import Record from '@/components/dialog/record';
 import Withdrawal from '@/components/dialog/withdrawal';
+import { initReddio, reddio } from '@/utils/config';
 
 const AccountHeader = () => {
   const snap = useSnapshot(store);
@@ -28,6 +29,14 @@ const AccountHeader = () => {
     ]);
     await provider.send('eth_requestAccounts', []);
     await getAddress();
+    const init = async () => {
+      initReddio();
+      const { publicKey, privateKey } =
+        await reddio.keypair.generateFromEthSignature();
+      console.log(publicKey, privateKey);
+      addStarkKey(publicKey);
+    };
+    init();
   }, []);
 
   const handlePushClick = useCallback((path: string) => {
