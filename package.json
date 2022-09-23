@@ -27,7 +27,7 @@
     "size": "size-limit",
     "analyze": "size-limit --why",
     "deploy-example": "cd example && yarn && yarn build",
-    "deploy-sdk": "yarn build && yarn changeset publish"
+    "deploy-sdk": "rm -rf ./dist && yarn build && yarn changeset publish"
   },
   "peerDependencies": {},
   "husky": {
