@@ -13,6 +13,27 @@ interface IRecordProps {
   onClose: () => void;
 }
 
+const recordType = [
+  'All',
+  'Deposit',
+  'Mint',
+  'TransferFrom',
+  'WithDraw',
+  'FullWithDraw',
+  'TransferAll',
+  'ASKOrder',
+  'BIDOrder',
+  'OrderAll',
+];
+
+const recordStatus = [
+  'Submitted',
+  'Accepted',
+  'Failed',
+  'Proved',
+  'ProvedError',
+];
+
 const Record = ({ onClose, address }: IRecordProps) => {
   const snap = useSnapshot(store);
 
@@ -48,6 +69,7 @@ const Record = ({ onClose, address }: IRecordProps) => {
       showOverlay
       theme="default"
       visible
+      style={{ padding: '28px 0' }}
     >
       <div className={styles.recordDialogContent}>
         <div>

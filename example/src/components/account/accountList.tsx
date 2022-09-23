@@ -154,8 +154,9 @@ const AccountList = () => {
     }));
   }, []);
 
-  const handleClick = useCallback((type: string) => {
-    history.push(`/account/erc721?type=${type}`);
+  const handleClick = useCallback((networkType: string, assetType: string) => {
+    assetType === 'ERC721' &&
+      history.push(`/account/erc721?type=${networkType}`);
   }, []);
 
   const handleOperate = useCallback((type: string, isClose = false) => {
@@ -196,7 +197,7 @@ const AccountList = () => {
                 <div
                   className={styles.listItem}
                   key={`l1-${item}`}
-                  onClick={() => handleClick('l1')}
+                  onClick={() => handleClick('l1', item)}
                 >
                   <Text color="#2C2C2C">
                     {l1Balance[item]} {item}
@@ -226,7 +227,7 @@ const AccountList = () => {
                 <div
                   className={styles.listItem}
                   key={`l2-${item}`}
-                  onClick={() => handleClick('l2')}
+                  onClick={() => handleClick('l2', item)}
                 >
                   <Text color="#2C2C2C">
                     {l2Balance[item]} {item}

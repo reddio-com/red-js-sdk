@@ -23,11 +23,13 @@ export interface BalanceResponse {
   asset_id: string;
   contract_address: string;
   balance_available: number;
+  balance_frozen: number;
   type: string;
   decimals: number;
   symbol: string;
   quantum: number;
   display_value: string;
+  display_frozen: string;
   token_id: string;
 }
 
@@ -162,8 +164,13 @@ export interface WithdrawalResponse {
 
 export interface WithdrawalStatusResponse {
   asset_id: string;
+  asset_type: string;
   token_id: string;
   amount: number;
+  contract_address: string;
+  symbol: string;
+  type: `${Types}`;
+  display_value: string;
 }
 
 /**
@@ -219,6 +226,12 @@ export interface OrderInfoRequestParams {
   contract2: string;
 }
 
+export interface OrderListRequestParams {
+  starkKey?: string;
+  contractAddress?: string;
+  direction?: number;
+}
+
 export interface OrderResponse {
   sequenceId: number;
 }
@@ -239,4 +252,27 @@ export interface OrderInfoResponse {
   }>;
   asset_ids: string[];
   vault_ids: string[];
+}
+
+export interface OrderSymbol {
+  base_token_asset_id: string;
+  quote_token_asset_id: string;
+  base_token_contract_addr: string;
+  quote_token_contract_addr: string;
+  base_token_name: string;
+  quote_token_name: string;
+}
+
+export interface OrderListResponse {
+  order_id: number;
+  account_id: string;
+  price: string;
+  direction: number;
+  display_price: string;
+  token_id: string;
+  token_type: `${Types}`;
+  amount: string;
+  un_filled: string;
+  symbol: OrderSymbol;
+  fee_rate: string;
 }

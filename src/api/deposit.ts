@@ -3,7 +3,7 @@ import { JsonRpcProvider } from '@ethersproject/providers';
 import { AxiosInstance } from 'axios';
 import { Deposit721Params, DepositParams, LogDeposit, DepositERC20Params, LogDepositWithTokenId } from '../types';
 import abi from '../abi/Deposits.json';
-import { getAssetTypeAndId } from '../utils';
+import { getAssetTypeAndId } from '../utils/asset';
 import { getVaultID } from './vault';
 
 export const depositERC20 = (

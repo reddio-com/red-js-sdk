@@ -15,18 +15,15 @@
       text-align: center;
       cursor: pointer;
 
-      &:hover > div > button {
+      &:hover button {
         display: flex;
       }
 
       & > div {
         position: relative;
 
-        & > img {
-          width: 100%;
-        }
-
-        & > button {
+        & button {
+          z-index: 10;
           display: none;
           position: absolute;
           left: 50%;

@@ -1,12 +1,18 @@
-import { Dialog, Button } from 'tdesign-react';
+import { Dialog, Button, message } from 'tdesign-react';
 import Text from '@/components/typography';
 import styles from './index.less';
 import { useQuery } from '@tanstack/react-query';
 import { reddio } from '@/utils/config';
 import { useSnapshot } from 'valtio';
 import { store } from '@/utils/store';
-import { useState } from 'react';
-import type { RecordResponse } from '@reddio.com/js';
+import { useCallback, useState } from 'react';
+import type {
+  RecordResponse,
+  WithdrawalStatusResponse,
+  WithdrawalFromL1Params,
+} from '@reddio.com/js';
+import { getEthAddress } from '@/utils/util';
+import { ERC20Address, ERC721Address } from '@/utils/common';
 
 interface IWithdrawalProps {
   onClose: () => void;
@@ -17,22 +23,73 @@ const items = ['GoerliETH', 'ERC20', 'ERC721'];
 const Withdrawal = ({ onClose }: IWithdrawalProps) => {
   const snap = useSnapshot(store);
 
-  const [status, setStatus] = useState<RecordResponse[]>([]);
+  const [status, setStatus] = useState<WithdrawalStatusResponse[]>([]);
 
-  useQuery(
-    ['getRecords', snap.starkKey],
-    () => {
-      console.log(123123);
+  const withdrawalStatusQuery = useQuery(
+    ['withdrawalStatus', snap.starkKey],
+    async () => {
       return reddio.apis.withdrawalStatus({
-        starkKey: store.starkKey,
+        ethaddress: await getEthAddress(),
         stage: 'withdrawarea',
       });
     },
     {
       onSuccess: ({ data }) => {
-        console.log(data.data);
+        const array = data.data
+          .filter((item) => item.contract_address === 'eth')
+          .concat(
+            data.data.filter(
+              (item) => item.contract_address === ERC20Address.toLowerCase(),
+            ),
+          )
+          .concat(
+            data.data.filter(
+              (item) => item.contract_address === ERC721Address.toLowerCase(),
+            ),
+          );
+        setStatus(array);
       },
     },
+  );
+
+  const getText = useCallback((item: WithdrawalStatusResponse) => {
+    if (item.type === 'ERC721') {
+      return `TokenId: ${item.token_id}`;
+    }
+    return `${item.display_value} ${item.type}`;
+  }, []);
+
+  const handleWithdrawal = useCallback(
+    async (item: WithdrawalStatusResponse) => {
+      const params: any = {
+        ethAddress: await getEthAddress(),
+        type: item.type,
+      };
+      if (item.type === 'ERC721') {
+        const assetType = await reddio.utils.getAssetTypeAndId({
+          type: item.type,
+          tokenAddress: item.contract_address,
+          tokenId: Number(item.token_id),
+        });
+        params.assetType = assetType;
+        params.tokenId = Number(item.token_id);
+      } else {
+        const assetType = await reddio.utils.getAssetTypeAndId({
+          type: item.type,
+          tokenAddress: item.contract_address,
+        });
+        params.assetType = assetType;
+      }
+      await reddio.apis.withdrawalFromL1({
+        ethAddress: await getEthAddress(),
+        type: item.type,
+        tokenId: Number(item.token_id),
+        assetType: item.asset_type,
+      });
+      withdrawalStatusQuery.refetch();
+      message.success('Withdrawal success');
+    },
+    [],
   );
 
   return (
@@ -57,11 +114,11 @@ const Withdrawal = ({ onClose }: IWithdrawalProps) => {
           <Text type="bold">withdrawal area</Text>
         </div>
         <div>
-          {items.map((item) => {
+          {status.map((item, index) => {
             return (
-              <div key={item}>
-                <Text color="#2C2C2C">1 {item}</Text>
-                <Button shape="round" disabled>
+              <div key={index}>
+                <Text color="#2C2C2C">{getText(item)}</Text>
+                <Button shape="round" onClick={() => handleWithdrawal(item)}>
                   Withdrawal
                 </Button>
               </div>

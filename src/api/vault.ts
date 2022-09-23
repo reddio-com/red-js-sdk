@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { Response, VaultParams, VaultResponse } from '../types';
-import { parseParams } from '../utils';
+import { parseParams } from '../utils/common';
 
 const getVaultID = async (request: AxiosInstance, params: VaultParams) => {
   if (Array.isArray(params.starkKeys)) {

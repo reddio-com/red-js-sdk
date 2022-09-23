@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { Response, NonceResponse, StarkKeyParams } from '../types';
-import { parseParams } from '../utils';
+import { parseParams } from '../utils/common';
 
 export const getNonce = async (
   request: AxiosInstance,

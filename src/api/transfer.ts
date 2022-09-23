@@ -1,6 +1,9 @@
 import { AxiosInstance } from 'axios';
-import { parseParams, signTransfer, getAssetTypeAndId } from '../utils';
-import { getNonce, getVaultID } from './index';
+import { parseParams } from '../utils/common';
+import { getAssetTypeAndId } from '../utils/asset';
+import { signTransfer } from '../utils/sign';
+import { getNonce } from './nonce';
+import { getVaultID } from './vault';
 import {
   TransferResponse,
   TransferRequestParams,
