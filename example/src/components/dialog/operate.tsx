@@ -51,7 +51,7 @@ const Operate = (props: IOperateProps) => {
 
   const balanceValidator = useCallback(
     (val: string) => {
-      if (val > balance) {
+      if (Number(val) > Number(balance)) {
         return {
           result: false,
           message: "You don't have that much balance",
@@ -355,10 +355,14 @@ const Operate = (props: IOperateProps) => {
             {buttonText}
           </Button>
         </div>
-        {type === 'Withdrawal' ? <div className={styles.infoWrapper}>
-          <InfoCircleFilledIcon/>
-          <Text>Wait approximately 4 hours for funds move to the withdrawal area.</Text>
-        </div> : null}
+        {type === 'Withdrawal' ? (
+          <div className={styles.infoWrapper}>
+            <InfoCircleFilledIcon />
+            <Text>
+              Wait approximately 4 hours for funds move to the withdrawal area.
+            </Text>
+          </div>
+        ) : null}
       </div>
     </Dialog>
   );

@@ -13,6 +13,19 @@ interface IRecordProps {
   onClose: () => void;
 }
 
+// 0 All
+//
+// 1 DepositRecordType
+// 2 MintRecordType
+// 3 TransferFromRecordType
+// 4 WithDrawRecordType
+// 5 FullWithDrawRecordType
+// 6 TransferAll
+//
+// 7 ASKOrderRecordType
+// 8 BIDOrderRecordType
+// 9 OrderRecordAll
+
 const Record = ({ onClose, address }: IRecordProps) => {
   const snap = useSnapshot(store);
 
