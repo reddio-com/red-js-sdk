@@ -42,12 +42,17 @@ export interface RecordParams extends StarkKeyParams {
 export type RecordsParams = StarkKeyParams & Partial<PageParams>;
 export interface RecordResponse {
   stark_key: string;
+  amount: string;
+  asset_id: string;
+  asset_type: `${Types}`;
+  asset_name: string;
+  contract_address: string;
+  record_type: number;
   sequence_id: number;
   reason: string;
   status: number;
-  extra_data: {
-    token_id: string;
-  };
+  token_id?: string;
+  transfer_time: number;
 }
 
 /**
