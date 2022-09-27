@@ -24,7 +24,7 @@ export interface BalanceResponse {
   contract_address: string;
   balance_available: number;
   balance_frozen: number;
-  type: string;
+  type: `${Types}`;
   decimals: number;
   symbol: string;
   quantum: number;
@@ -39,8 +39,12 @@ export interface BalanceResponse {
 export interface RecordParams extends StarkKeyParams {
   sequenceId?: number;
 }
-export type RecordsParams = StarkKeyParams & Partial<PageParams>;
-export interface RecordResponse {
+export interface RecordsParams extends StarkKeyParams, Partial<PageParams> {
+  contractAddress?: string;
+  recordType?: number;
+}
+
+export interface TransferRecordResponse {
   stark_key: string;
   amount: string;
   asset_id: string;
@@ -51,8 +55,36 @@ export interface RecordResponse {
   sequence_id: number;
   reason: string;
   status: number;
+  time: number;
   token_id?: string;
-  transfer_time: number;
+  from?: string;
+  to?: string;
+  resp?: string;
+}
+
+export interface OrderRecordResponse {
+  stark_key: string;
+  direction: number;
+  sequence_id: number;
+  amount: string;
+  filled: string;
+  volume: string;
+  price: string;
+  fee_taken: string;
+  fee_token_asset: string;
+  fee_asset_name: string;
+  quote_asset_name: string;
+  quote_asset_id: string;
+  base_asset_name: string;
+  base_asset_id: string;
+  base_contract_address: string;
+  quote_contract_address: string;
+  quote_asset_type: `${Types}`;
+  token_id?: string
+  display_price: string;
+  record_type: number;
+  resp?: string;
+  time: number;
 }
 
 /**
@@ -231,14 +263,14 @@ export interface OrderInfoRequestParams {
   contract2: string;
 }
 
-export interface OrderListRequestParams {
+export interface OrderListRequestParams extends Partial<PageParams> {
   starkKey?: string;
   contractAddress?: string;
   direction?: number;
 }
 
 export interface OrderResponse {
-  sequenceId: number;
+  sequence_id: number;
 }
 
 export interface OrderInfoResponse {
@@ -270,7 +302,7 @@ export interface OrderSymbol {
 
 export interface OrderListResponse {
   order_id: number;
-  account_id: string;
+  stark_key: string;
   price: string;
   direction: number;
   display_price: string;
