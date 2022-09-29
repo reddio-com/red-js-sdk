@@ -1,8 +1,9 @@
 import { ethers } from 'ethers';
 import { Reddio } from '@reddio.com/js';
 
-let reddio: Reddio;
+console.log(Reddio);
 
+let reddio: Reddio;
 const initReddio = () => {
   if (typeof window !== 'undefined' && !reddio) {
     const provider = new ethers.providers.Web3Provider(window.ethereum);

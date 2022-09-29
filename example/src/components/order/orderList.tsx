@@ -8,11 +8,8 @@ import { ERC20Address, ERC721Address } from '@/utils/common';
 import { useCallback, useState } from 'react';
 import type { OrderListResponse } from '@reddio.com/js';
 import axios from 'axios';
-import { ethers } from 'ethers';
-import { red } from '@umijs/utils/compiled/color/color-name';
 import { useSnapshot } from 'valtio';
 import { store } from '@/utils/store';
-import { getEthAddress, initProviderAndSigner } from '@/utils/util';
 
 const OrderList = () => {
   const snap = useSnapshot(store);
@@ -56,6 +53,19 @@ const OrderList = () => {
       },
     },
   );
+
+  const sell = useCallback(
+    async (order: OrderListResponse) => {
+      const keypair = await reddio.keypair.generateFromEthSignature();
+      await reddio.apis.cancelOrder({
+        orderId: 299039,
+        starkKey: keypair.publicKey,
+        privateKey: keypair.privateKey
+      })
+    },
+    [ethBalance],
+  );
+
 
   const buy = useCallback(
     async (order: OrderListResponse) => {
@@ -105,7 +115,7 @@ const OrderList = () => {
                   icon={<ShopIcon />}
                   shape="round"
                   disabled={!snap.starkKey}
-                  onClick={() => buy(item)}
+                  onClick={() => sell(item)}
                 >
                   Buy
                 </Button>
