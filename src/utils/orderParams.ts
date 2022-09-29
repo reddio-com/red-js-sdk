@@ -73,7 +73,7 @@ export async function getOrderParams(
     ...obj,
     quoteToken,
     amount,
-    accountId: starkKey,
+    starkKey,
     signature,
     direction,
     price: formatPrice.toString(),

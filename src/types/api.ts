@@ -248,7 +248,7 @@ export interface OrderRequestParams {
   expiration_timestamp: number;
   nonce: number;
   signature: SignatureLike;
-  account_id: string;
+  stark_key: string;
   direction: number;
   fee_info: {
     fee_limit: number;
@@ -261,6 +261,12 @@ export interface OrderInfoRequestParams {
   starkKey: string;
   contract1: string;
   contract2: string;
+}
+
+export interface CancelOrderRequestParams {
+  starkKey: string;
+  privateKey: string;
+  orderId: number;
 }
 
 export interface OrderListRequestParams extends Partial<PageParams> {
