@@ -56,17 +56,15 @@ export interface TransferRecordResponse {
   reason: string;
   status: number;
   time: number;
+  display_value: string;
   token_id?: string;
   from?: string;
   to?: string;
   resp?: string;
 }
 
-export interface OrderRecordResponse {
-  stark_key: string;
+export interface OrderRecordInfoResponse {
   direction: number;
-  sequence_id: number;
-  amount: string;
   filled: string;
   volume: string;
   price: string;
@@ -80,12 +78,22 @@ export interface OrderRecordResponse {
   base_contract_address: string;
   quote_contract_address: string;
   quote_asset_type: `${Types}`;
-  token_id?: string
+  token_id?: string;
   display_price: string;
-  record_type: number;
-  resp?: string;
-  time: number;
 }
+
+export interface OrderRecordResponse {
+  amount: string;
+  record_type: number;
+  sequence_id: number;
+  stark_key: string;
+  time: number;
+  status: number;
+  order: OrderRecordInfoResponse;
+  resp?: string;
+}
+
+export type RecordResponse = TransferRecordResponse | OrderRecordResponse;
 
 /**
  * Contract
