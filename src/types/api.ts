@@ -238,6 +238,7 @@ export interface OrderParams {
   amount: string;
   tokenAddress?: string;
   tokenId?: number | string;
+  marketplaceUuid?: string;
   tokenType: `${Types}`;
   orderType: 'buy' | 'sell';
 }
@@ -263,6 +264,7 @@ export interface OrderRequestParams {
     token_id: string;
     source_vault_id: number;
   };
+  marketplace_uuid: string;
 }
 
 export interface OrderInfoRequestParams {

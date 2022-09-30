@@ -17,6 +17,7 @@ export async function getOrderParams(
     tokenType,
     tokenId,
     tokenAddress,
+    marketplaceUuid,
   } = params;
   const starkKey = keypair.publicKey;
   const { data } = await info(request, {
@@ -83,5 +84,6 @@ export async function getOrderParams(
       tokenId: feeToken,
       sourceVaultId: feeVaultId,
     },
+    marketplaceUuid,
   }) as OrderRequestParams;
 }
