@@ -69,6 +69,7 @@ const OrderList = () => {
         orderType: 'buy',
         tokenType: order.token_type,
         price: order.display_price,
+        marketplaceUuid: '11ed793a-cc11-4e44-9738-97165c4e14a7'
       });
       const { data } = await reddio.apis.order(params);
       orderListQuery.refetch();
