@@ -54,19 +54,6 @@ const OrderList = () => {
     },
   );
 
-  const sell = useCallback(
-    async (order: OrderListResponse) => {
-      const keypair = await reddio.keypair.generateFromEthSignature();
-      await reddio.apis.cancelOrder({
-        orderId: 299039,
-        starkKey: keypair.publicKey,
-        privateKey: keypair.privateKey
-      })
-    },
-    [ethBalance],
-  );
-
-
   const buy = useCallback(
     async (order: OrderListResponse) => {
       if (ethBalance < Number(order.price)) {
@@ -115,7 +102,7 @@ const OrderList = () => {
                   icon={<ShopIcon />}
                   shape="round"
                   disabled={!snap.starkKey}
-                  onClick={() => sell(item)}
+                  onClick={() => buy(item)}
                 >
                   Buy
                 </Button>
