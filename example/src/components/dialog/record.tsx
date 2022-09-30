@@ -86,8 +86,8 @@ const Record = ({ onClose, address }: IRecordProps) => {
           </Link>
         </div>
         <div>
-          {records.map((record) => (
-            <div className={styles.recordItem}>
+          {records.map((record, index) => (
+            <div className={styles.recordItem} key={index}>
               <div>
                 <Text>{recordType[record.record_type]}</Text>
                 <Text color={color[record.status]}>
@@ -95,9 +95,9 @@ const Record = ({ onClose, address }: IRecordProps) => {
                 </Text>
               </div>
               <Text>
-                {record.token_id
-                  ? `TokenId: ${record.token_id}`
-                  : `${record.amount} ${record.asset_type}`}
+                {'order' in record
+                  ? `TokenId: ${record.order.token_id}`
+                  : `${record.display_value} ${record.asset_type}`}
               </Text>
             </div>
           ))}
