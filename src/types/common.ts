@@ -6,6 +6,10 @@ export interface RequestCommonParams {
   starkKey: string;
 }
 
+export interface SequenceIdResponse {
+  sequence_id: number;
+}
+
 export type StarkKeyParams = Pick<RequestCommonParams, 'starkKey'>;
 
 export interface Response<T> {

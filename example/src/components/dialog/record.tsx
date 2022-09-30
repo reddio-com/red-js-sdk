@@ -34,6 +34,8 @@ const recordStatus = [
   'ProvedError',
 ];
 
+const color = ['#2C2C2C', '#4CEB1B', '#C9353F'];
+
 const Record = ({ onClose, address }: IRecordProps) => {
   const snap = useSnapshot(store);
 
@@ -69,7 +71,7 @@ const Record = ({ onClose, address }: IRecordProps) => {
       showOverlay
       theme="default"
       visible
-      style={{ padding: '28px 0' }}
+      style={{ padding: '28px 0 0', overflow: 'hidden' }}
     >
       <div className={styles.recordDialogContent}>
         <div>
@@ -84,8 +86,20 @@ const Record = ({ onClose, address }: IRecordProps) => {
           </Link>
         </div>
         <div>
-          {records.map((record) => (
-            <div>{record.status}</div>
+          {records.map((record, index) => (
+            <div className={styles.recordItem} key={index}>
+              <div>
+                <Text>{recordType[record.record_type]}</Text>
+                <Text color={color[record.status]}>
+                  {recordStatus[record.status]}
+                </Text>
+              </div>
+              <Text>
+                {'order' in record
+                  ? `TokenId: ${record.order.token_id}`
+                  : `${record.display_value} ${record.asset_type}`}
+              </Text>
+            </div>
           ))}
         </div>
       </div>

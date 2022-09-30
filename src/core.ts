@@ -14,6 +14,7 @@ import {
   order,
   withdrawalStatus,
   orderList,
+  cancelOrder,
 } from './api';
 import {
   erc20Approve,
@@ -38,7 +39,9 @@ import {
   BalancesParams,
   OrderParams,
   OrderRequestParams,
-  WithdrawalStatusParams, OrderListRequestParams,
+  WithdrawalStatusParams,
+  OrderListRequestParams,
+  CancelOrderRequestParams,
 } from './types';
 import {
   Env,
@@ -48,24 +51,24 @@ import {
 } from './utils';
 import { getRecord, getRecords } from './api/rocord';
 
-interface ReddioCoreOptions {
+interface ReddioOptions {
   env?: 'test' | 'main';
   provider: JsonRpcProvider;
 }
 
-class ReddioCore {
-  protected options: ReddioCoreOptions;
+class Reddio {
+  protected options: ReddioOptions;
   protected request: AxiosInstance;
   protected provider: JsonRpcProvider;
   protected contractAddress: string | undefined;
 
-  constructor(options: ReddioCoreOptions) {
+  constructor(options: ReddioOptions) {
     this.options = options;
     this.provider = options.provider;
     this.request = this.initRequest(options);
   }
 
-  private initRequest = (options: ReddioCoreOptions) => {
+  private initRequest = (options: ReddioOptions) => {
     return axios.create({
       baseURL: config.baseUrl[options.env || 'test'],
     });
@@ -133,6 +136,9 @@ class ReddioCore {
     orderList: async (args: OrderListRequestParams) => {
       return orderList(this.request, args);
     },
+    cancelOrder: async (args: CancelOrderRequestParams) => {
+      return cancelOrder(this.request, args);
+    },
   };
 
   public readonly erc20 = {
@@ -181,4 +187,4 @@ class ReddioCore {
   };
 }
 
-export default ReddioCore;
+export default Reddio;

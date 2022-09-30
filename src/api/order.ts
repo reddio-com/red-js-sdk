@@ -7,8 +7,11 @@ import {
   OrderInfoRequestParams,
   OrderListRequestParams,
   OrderListResponse,
+  CancelOrderRequestParams,
+  SequenceIdResponse,
 } from '../types';
 import { parseParams } from '../utils/common';
+import { signCancelOrder } from '../utils/sign';
 
 export async function order(
   request: AxiosInstance,
@@ -39,4 +42,21 @@ export async function orderList(
       ...parseParams(params),
     },
   });
+}
+
+export async function cancelOrder(
+  request: AxiosInstance,
+  params: CancelOrderRequestParams
+) {
+  const signature = signCancelOrder(params);
+  console.log(signature);
+  return request.post<Response<SequenceIdResponse>>(
+    `/v1/orders/${params.orderId}/cancel`,
+    {
+      ...{
+        signature,
+        stark_key: params.starkKey,
+      },
+    }
+  );
 }

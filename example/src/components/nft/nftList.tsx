@@ -76,7 +76,7 @@ const NFTList = () => {
             ? urls.map((item, index) => {
                 return (
                   <NFT
-                    key={item}
+                    key={index}
                     image={item}
                     tokenId={tokenIds[index]}
                     type={type}

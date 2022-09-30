@@ -24,7 +24,7 @@ export interface BalanceResponse {
   contract_address: string;
   balance_available: number;
   balance_frozen: number;
-  type: string;
+  type: `${Types}`;
   decimals: number;
   symbol: string;
   quantum: number;
@@ -39,16 +39,61 @@ export interface BalanceResponse {
 export interface RecordParams extends StarkKeyParams {
   sequenceId?: number;
 }
-export type RecordsParams = StarkKeyParams & Partial<PageParams>;
-export interface RecordResponse {
+export interface RecordsParams extends StarkKeyParams, Partial<PageParams> {
+  contractAddress?: string;
+  recordType?: number;
+}
+
+export interface TransferRecordResponse {
   stark_key: string;
+  amount: string;
+  asset_id: string;
+  asset_type: `${Types}`;
+  asset_name: string;
+  contract_address: string;
+  record_type: number;
   sequence_id: number;
   reason: string;
   status: number;
-  extra_data: {
-    token_id: string;
-  };
+  time: number;
+  display_value: string;
+  token_id?: string;
+  from?: string;
+  to?: string;
+  resp?: string;
 }
+
+export interface OrderRecordInfoResponse {
+  direction: number;
+  filled: string;
+  volume: string;
+  price: string;
+  fee_taken: string;
+  fee_token_asset: string;
+  fee_asset_name: string;
+  quote_asset_name: string;
+  quote_asset_id: string;
+  base_asset_name: string;
+  base_asset_id: string;
+  base_contract_address: string;
+  quote_contract_address: string;
+  quote_asset_type: `${Types}`;
+  token_id?: string;
+  display_price: string;
+}
+
+export interface OrderRecordResponse {
+  amount: string;
+  record_type: number;
+  sequence_id: number;
+  stark_key: string;
+  time: number;
+  status: number;
+  order: OrderRecordInfoResponse;
+  resp?: string;
+}
+
+export type RecordResponse = TransferRecordResponse | OrderRecordResponse;
 
 /**
  * Contract
@@ -211,7 +256,7 @@ export interface OrderRequestParams {
   expiration_timestamp: number;
   nonce: number;
   signature: SignatureLike;
-  account_id: string;
+  stark_key: string;
   direction: number;
   fee_info: {
     fee_limit: number;
@@ -226,14 +271,20 @@ export interface OrderInfoRequestParams {
   contract2: string;
 }
 
-export interface OrderListRequestParams {
+export interface CancelOrderRequestParams {
+  starkKey: string;
+  privateKey: string;
+  orderId: number;
+}
+
+export interface OrderListRequestParams extends Partial<PageParams> {
   starkKey?: string;
   contractAddress?: string;
   direction?: number;
 }
 
 export interface OrderResponse {
-  sequenceId: number;
+  sequence_id: number;
 }
 
 export interface OrderInfoResponse {
@@ -265,7 +316,7 @@ export interface OrderSymbol {
 
 export interface OrderListResponse {
   order_id: number;
-  account_id: string;
+  stark_key: string;
   price: string;
   direction: number;
   display_price: string;
