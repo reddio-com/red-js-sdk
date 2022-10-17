@@ -2,12 +2,15 @@
 import { keyDerivation } from '@starkware-industries/starkware-crypto-utils';
 import { JsonRpcProvider } from '@ethersproject/providers';
 
-export const generateFromEthSignature = async (provider: JsonRpcProvider) => {
+export const generateFromEthSignature = async (
+  provider: JsonRpcProvider,
+  env: 'test' | 'main'
+) => {
   const method = 'eth_signTypedData_v4';
   const from = await provider.getSigner().getAddress();
   const value = {
     domain: {
-      chainId: 5,
+      chainId: env === 'test' ? 5 : 1,
     },
     message: {
       contents: 'Generate layer 2 key',

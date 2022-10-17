@@ -164,7 +164,10 @@ class Reddio {
       privateKey: string;
       publicKey: string;
     }> => {
-      return generateFromEthSignature(this.provider);
+      return generateFromEthSignature(
+        this.provider,
+        this.options.env || 'test'
+      );
     },
   };
 
