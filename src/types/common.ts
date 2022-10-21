@@ -18,6 +18,15 @@ export interface Response<T> {
   error: string;
 }
 
+export interface PaginateResponse<T> {
+  data: {
+    list: T,
+    total: number,
+  };
+  status: string;
+  error: string;
+}
+
 export type SignatureLike = {
   r: string;
   s: string;

@@ -9,6 +9,7 @@ import {
   OrderListResponse,
   CancelOrderRequestParams,
   SequenceIdResponse,
+  PaginateResponse,
 } from '../types';
 import { parseParams } from '../utils/common';
 import { signCancelOrder } from '../utils/sign';
@@ -37,7 +38,7 @@ export async function orderList(
   request: AxiosInstance,
   params: OrderListRequestParams
 ) {
-  return request.get<Response<OrderListResponse[]>>('/v1/orders', {
+  return request.get<PaginateResponse<OrderListResponse[]>>('/v1/orders', {
     params: {
       ...parseParams(params),
     },

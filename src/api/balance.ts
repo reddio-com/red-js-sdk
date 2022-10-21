@@ -4,6 +4,7 @@ import {
   BalanceResponse,
   BalanceParams,
   BalancesParams,
+  PaginateResponse,
 } from '../types';
 import { parseParams } from '../utils/common';
 
@@ -22,7 +23,7 @@ export async function getBalances(
   request: AxiosInstance,
   params: BalancesParams
 ) {
-  return request.get<Response<BalanceResponse[]>>('/v1/balances', {
+  return request.get<PaginateResponse<BalanceResponse[]>>('/v1/balances', {
     params: {
       ...parseParams(params),
     },

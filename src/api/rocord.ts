@@ -4,6 +4,7 @@ import {
   RecordParams,
   RecordsParams,
   RecordResponse,
+  PaginateResponse,
 } from '../types';
 import { parseParams } from '../utils';
 
@@ -19,7 +20,7 @@ export async function getRecords(
   request: AxiosInstance,
   params: RecordsParams
 ) {
-  return request.get<Response<[RecordResponse]>>('/v1/records', {
+  return request.get<PaginateResponse<[RecordResponse]>>('/v1/records', {
     params: {
       ...parseParams(params),
     },
