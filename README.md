@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-Please follow the documentation at [docs.reddio.com](https://docs.reddio.com/service/overview.html)!
+Please follow the documentation at [docs.reddio.com](https://docs.reddio.com/guide/jssdk-reference/initiate-sdk.html)!
 
 ## Sample
 
