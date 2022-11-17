@@ -15,6 +15,7 @@ import {
   withdrawalStatus,
   orderList,
   cancelOrder,
+  getBalancesV2,
 } from './api';
 import {
   erc20Approve,
@@ -123,6 +124,9 @@ class Reddio {
     },
     getBalances: async (args: BalancesParams) => {
       return getBalances(this.request, args);
+    },
+    getBalancesV2: async (args: BalancesParams) => {
+      return getBalancesV2(this.request, args);
     },
     getRecord: async (args: RecordParams) => {
       return getRecord(this.request, args);
