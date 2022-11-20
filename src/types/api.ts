@@ -57,8 +57,6 @@ export type BalanceV2ERC721Type = {
 export type BalanceV2ERC20Type = {
   asset_id: string;
   type:"ERC20";
-  available_token_ids: number[];
-  frozen_token_ids: number[];
   base_uri: string;
 }
 
