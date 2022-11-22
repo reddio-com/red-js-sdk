@@ -33,33 +33,34 @@ export interface BalanceResponse {
   token_id: string;
 }
 
-export type BalanceV2EthType = {
-  asset_id: string;
+export type BalanceV2CommonType = {
   contract_address: string;
   balance_available: number;
   balance_frozen: number;
-  type: 'ETH';
   decimals: number;
   symbol: string;
   quantum: number;
   display_value: string;
   display_frozen: string;
+}
+
+export type BalanceV2EthType = {
+  asset_id: string;
+  type: 'ETH';
 }
 
 export type BalanceV2ERC721Type = {
-  contract_address: string;
-  balance_available: number;
-  balance_frozen: number;
   type: 'ERC721' | 'ERC721M',
-  decimals: number;
-  symbol: string;
-  quantum: number;
-  display_value: string;
-  display_frozen: string;
   available_token_ids: number[];
 }
 
-export type BalancesV2Response = BalanceV2EthType | BalanceV2ERC721Type;
+export type BalanceV2ERC20Type = {
+  asset_id: string;
+  type:"ERC20";
+  base_uri: string;
+}
+
+export type BalancesV2Response = (BalanceV2EthType | BalanceV2ERC721Type | BalanceV2ERC20Type) & BalanceV2CommonType;
 
 /**
  * Record
