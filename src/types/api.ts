@@ -19,6 +19,11 @@ export interface BalancesParams extends StarkKeyParams, Partial<PageParams> {
   contractAddress?: string;
 }
 
+export interface BalancesV2Params extends StarkKeyParams {
+  type?: string;
+  contractAddress?: string;
+}
+
 export interface BalanceResponse {
   asset_id: string;
   contract_address: string;
