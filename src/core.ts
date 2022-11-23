@@ -38,6 +38,7 @@ import {
   BalanceParams,
   RecordParams,
   BalancesParams,
+  BalancesV2Params,
   OrderParams,
   OrderRequestParams,
   WithdrawalStatusParams,
@@ -125,7 +126,7 @@ class Reddio {
     getBalances: async (args: BalancesParams) => {
       return getBalances(this.request, args);
     },
-    getBalancesV2: async (args: BalancesParams) => {
+    getBalancesV2: async (args: BalancesV2Params) => {
       return getBalancesV2(this.request, args);
     },
     getRecord: async (args: RecordParams) => {
