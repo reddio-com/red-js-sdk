@@ -38,7 +38,7 @@ export interface BalanceResponse {
   token_id: string;
 }
 
-export type BalanceV2CommonType = {
+export interface BalancesV2Response {
   contract_address: string;
   balance_available: number;
   balance_frozen: number;
@@ -47,25 +47,12 @@ export type BalanceV2CommonType = {
   quantum: number;
   display_value: string;
   display_frozen: string;
-}
-
-export type BalanceV2EthType = {
+  type: `${Types}`;
   asset_id: string;
-  type: 'ETH';
-}
-
-export type BalanceV2ERC721Type = {
-  type: 'ERC721' | 'ERC721M',
-  available_token_ids: number[];
-}
-
-export type BalanceV2ERC20Type = {
-  asset_id: string;
-  type:"ERC20";
+  available_token_ids: number[] | null;
+  frozen_token_ids: number[] | null;
   base_uri: string;
 }
-
-export type BalancesV2Response = (BalanceV2EthType | BalanceV2ERC721Type | BalanceV2ERC20Type) & BalanceV2CommonType;
 
 /**
  * Record
