@@ -48,9 +48,10 @@ export interface BalancesV2Response {
   display_value: string;
   display_frozen: string;
   type: `${Types}`;
-  asset_id?: string;
-  available_token_ids?: number[];
-  base_uri?: string;
+  asset_id: string;
+  available_token_ids: number[] | null;
+  frozen_token_ids: number[] | null;
+  base_uri: string;
 }
 
 /**
