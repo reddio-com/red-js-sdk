@@ -304,6 +304,7 @@ export interface OrderListRequestParams extends Partial<PageParams> {
   starkKey?: string;
   contractAddress?: string;
   direction?: number;
+  token_ids?: string;
 }
 
 export interface OrderResponse {
