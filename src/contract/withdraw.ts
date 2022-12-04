@@ -1,18 +1,20 @@
 import { JsonRpcProvider } from '@ethersproject/providers';
 import assert from 'assert';
-import { WithdrawalFromL1Params } from '../types';
 import { ethers } from 'ethers';
+import { TransactionResponse } from '@ethersproject/abstract-provider';
+import { WithdrawalFromL1Params } from '../types';
 import abi from '../abi/Withdraw.abi.json';
 import { Types } from '../utils';
-import { TransactionResponse } from '@ethersproject/abstract-provider';
 
 export const withdrawalFromL1 = async (
   provider: JsonRpcProvider,
   contractAddress: string,
-  params: WithdrawalFromL1Params
+  params: WithdrawalFromL1Params,
 ): Promise<TransactionResponse> => {
   const signer = provider.getSigner();
-  const { ethAddress, type, assetType, tokenId } = params;
+  const {
+    ethAddress, type, assetType, tokenId,
+  } = params;
   const contract = new ethers.Contract(contractAddress, abi, signer);
   switch (type) {
     case Types.ETH:
@@ -24,7 +26,7 @@ export const withdrawalFromL1 = async (
       return contract.withdrawNft(
         ethAddress,
         assetType,
-        ethers.BigNumber.from(tokenId)
+        ethers.BigNumber.from(tokenId),
       );
     }
     default: {
@@ -32,7 +34,7 @@ export const withdrawalFromL1 = async (
       return contract.withdrawAndMint(
         ethAddress,
         assetType,
-        ethers.utils.arrayify(ethers.utils.hexlify(Number(tokenId)))
+        ethers.utils.arrayify(ethers.utils.hexlify(Number(tokenId))),
       );
     }
   }

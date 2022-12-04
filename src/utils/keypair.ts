@@ -1,10 +1,10 @@
-// @ts-ignore
+// @eslint-ignore
 import { keyDerivation } from '@starkware-industries/starkware-crypto-utils';
 import { JsonRpcProvider } from '@ethersproject/providers';
 
 export const generateFromEthSignature = async (
   provider: JsonRpcProvider,
-  env: 'test' | 'main'
+  env: 'test' | 'main',
 ) => {
   const method = 'eth_signTypedData_v4';
   const from = await provider.getSigner().getAddress();
@@ -24,8 +24,8 @@ export const generateFromEthSignature = async (
   const msgParams = JSON.stringify(value);
   const result = await provider.send(method, [from, msgParams]);
   const privateKey: string = keyDerivation.getPrivateKeyFromEthSignature(
-    result
+    result,
   );
-  const publicKey = '0x' + keyDerivation.privateToStarkKey(privateKey);
+  const publicKey = `0x${keyDerivation.privateToStarkKey(privateKey)}`;
   return { privateKey, publicKey };
 };

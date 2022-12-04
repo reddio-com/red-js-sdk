@@ -18,7 +18,7 @@ export async function getRecord(request: AxiosInstance, params: RecordParams) {
 
 export async function getRecords(
   request: AxiosInstance,
-  params: RecordsParams
+  params: RecordsParams,
 ) {
   return request.get<PaginateResponse<[RecordResponse]>>('/v1/records', {
     params: {

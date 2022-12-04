@@ -7,7 +7,7 @@ import abi from '../abi/Erc20.abi.json';
 export const erc20Approve = async (
   provider: JsonRpcProvider,
   contractAddress: string,
-  params: ApproveErc20Params
+  params: ApproveErc20Params,
 ): Promise<TransactionResponse> => {
   const signer = provider.getSigner();
   const { tokenAddress, amount } = params;
@@ -15,14 +15,14 @@ export const erc20Approve = async (
   const decimals = await contract.decimals();
   return contract.approve(
     contractAddress,
-    ethers.utils.parseUnits(amount.toString(), decimals)
+    ethers.utils.parseUnits(amount.toString(), decimals),
   );
 };
 
 export const erc20Allowance = (
   provider: JsonRpcProvider,
   contractAddress: string,
-  params: ErcCommonParams
+  params: ErcCommonParams,
 ): Promise<TransactionResponse> => {
   const signer = provider.getSigner();
   const account = signer.getAddress();
