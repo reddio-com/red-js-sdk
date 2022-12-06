@@ -4,7 +4,7 @@ import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { ApproveErc721Params } from '../types';
 import abi from '../abi/Erc721.abi.json';
 
-export const erc721Approve = (
+export const erc721Approve = async (
   provider: JsonRpcProvider,
   contractAddress: string,
   params: ApproveErc721Params,

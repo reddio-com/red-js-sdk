@@ -6,7 +6,7 @@ import { WithdrawalFromL1Params } from '../types';
 import abi from '../abi/Withdraw.abi.json';
 import { Types } from '../utils';
 
-export const withdrawalFromL1 = (
+export const withdrawalFromL1 = async (
   provider: JsonRpcProvider,
   contractAddress: string,
   params: WithdrawalFromL1Params,
