@@ -6,3 +6,4 @@ export * from './transfer';
 export * from './vault';
 export * from './withdraw';
 export * from './order';
+export * from './collection';

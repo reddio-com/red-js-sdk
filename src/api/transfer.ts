@@ -1,4 +1,5 @@
 import { AxiosInstance } from 'axios';
+import { ethers } from 'ethers';
 import { parseParams } from '../utils/common';
 import { getAssetTypeAndId } from '../utils/asset';
 import { signTransfer } from '../utils/sign';
@@ -11,11 +12,10 @@ import {
   SignTransferParams,
   Asset,
 } from '../types';
-import { ethers } from 'ethers';
 
 export const getTransferParams = async (
   request: AxiosInstance,
-  data: any
+  data: any,
 ) => {
   const {
     starkKey,
@@ -40,15 +40,15 @@ export const getTransferParams = async (
     assetId,
   });
   const { data: result } = await getNonce(request, { starkKey });
-  const nonce = result.data.nonce;
+  const { nonce } = result.data;
   if (!data.amount) {
     data.amount = '1';
   } else {
     data.amount = ethers.utils.parseUnits(data.amount.toString(), 6).toString();
   }
-  data.vaultId = vaultData.data.vault_ids[0]
-  data.receiverVaultId = vaultData.data.vault_ids[1]
-  data.assetId = assetId
+  data.vaultId = vaultData.data.vault_ids[0];
+  data.receiverVaultId = vaultData.data.vault_ids[1];
+  data.assetId = assetId;
   const params: TransferRequestParams = {
     ...data,
     expirationTimestamp,
@@ -63,7 +63,7 @@ export const getTransferParams = async (
 
 export const transfer = async (
   request: AxiosInstance,
-  data: SignTransferParams
+  data: SignTransferParams,
 ) => {
   const params = await getTransferParams(request, data);
   return request.post<Response<TransferResponse>>('/v1/transfers', {

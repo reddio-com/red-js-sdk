@@ -4,7 +4,7 @@ function underline(str: string) {
 
 export function parseParams(params: Record<string, any>) {
   const newParams: Record<string, any> = {};
-  Object.keys(params).forEach(key => {
+  Object.keys(params).forEach((key) => {
     if (Object.prototype.toString.call(params[key]) === '[object Object]') {
       newParams[underline(key)] = parseParams(params[key]);
     } else {

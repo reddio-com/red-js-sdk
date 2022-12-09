@@ -1,0 +1,53 @@
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "extends": [
+        "airbnb",
+        "airbnb-typescript",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "overrides": [
+        {
+            "files": [
+                "*.ts",
+                "*.tsx"
+            ],
+            "extends": [
+                "plugin:@typescript-eslint/recommended",
+                "plugin:@typescript-eslint/recommended-requiring-type-checking"
+            ],
+            "parserOptions": {
+                "project": [
+                    "./tsconfig.json"
+                ]
+            },
+            "rules": {
+                "@typescript-eslint/no-unsafe-assignment": "off",
+                "no-async-promise-executor": "off",
+                "@typescript-eslint/no-unsafe-call": "off",
+                "@typescript-eslint/no-unsafe-member-access": "off",
+                "@typescript-eslint/restrict-template-expressions": "off",
+                "no-param-reassign": "off",
+                "import/prefer-default-export": "off",
+                "@typescript-eslint/naming-convention": "off",
+                "import/no-extraneous-dependencies": "off",
+                "@typescript-eslint/no-unsafe-argument": "off",
+                "@typescript-eslint/no-unsafe-return": "off",
+                "class-methods-use-this": "off",
+                "@typescript-eslint/no-misused-promises": "off",
+                "@typescript-eslint/require-await": "off",
+                "prefer-destructuring": "off",
+                "max-len": [
+                    "error",
+                    200
+                ],
+                "import/no-cycle": "off"
+            }
+        }
+    ]
+}

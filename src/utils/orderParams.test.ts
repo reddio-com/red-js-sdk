@@ -1,8 +1,8 @@
-import { getOrderParams } from './orderParams';
 import axios from 'axios';
+import { getOrderParams } from './orderParams';
 
 describe('orderParams', () => {
-  it('should output', async function() {
+  it('should output', async () => {
     const request = axios.create({
       baseURL: 'https://api-dev.reddio.com',
     });

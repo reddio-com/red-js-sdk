@@ -4,7 +4,6 @@ import {
   sign as starkexSign,
   ec,
   pedersen,
-  // @ts-ignore
 } from '@starkware-industries/starkware-crypto-utils';
 import { CancelOrderRequestParams, SignOrderParams } from '../types';
 
@@ -28,14 +27,14 @@ export const signTransfer = (nonce: number, data: any) => {
     assetId,
     receiverVaultId,
     receiver,
-    expirationTimestamp
+    expirationTimestamp,
   );
   const keyPair = ec.keyFromPrivate(privateKey, 'hex');
   const msgSignature = starkexSign(keyPair, msgHash);
   const { r, s } = msgSignature;
   return {
-    r: '0x' + r.toString(16),
-    s: '0x' + s.toString(16),
+    r: `0x${r.toString(16)}`,
+    s: `0x${s.toString(16)}`,
   };
 };
 
@@ -67,14 +66,14 @@ export const signOrder = (data: SignOrderParams) => {
     expirationTimestamp,
     feeToken,
     feeVaultId,
-    feeLimit
+    feeLimit,
   );
   const keyPair = ec.keyFromPrivate(data.privateKey, 'hex');
   const msgSignature = starkexSign(keyPair, msgHash);
   const { r, s } = msgSignature;
   return {
-    r: '0x' + r.toString(16),
-    s: '0x' + s.toString(16),
+    r: `0x${r.toString(16)}`,
+    s: `0x${s.toString(16)}`,
   };
 };
 
@@ -85,7 +84,7 @@ export const signCancelOrder = (data: CancelOrderRequestParams) => {
   const msgSignature = starkexSign(keyPair, msgHash);
   const { r, s } = msgSignature;
   return {
-    r: '0x' + r.toString(16),
-    s: '0x' + s.toString(16),
+    r: `0x${r.toString(16)}`,
+    s: `0x${s.toString(16)}`,
   };
 };

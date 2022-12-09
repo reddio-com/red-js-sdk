@@ -4,11 +4,9 @@ import { parseParams } from '../utils/common';
 
 export const getNonce = async (
   request: AxiosInstance,
-  params: StarkKeyParams
-) => {
-  return request.get<Response<NonceResponse>>('/v1/nonce', {
-    params: {
-      ...parseParams(params),
-    },
-  });
-};
+  params: StarkKeyParams,
+) => request.get<Response<NonceResponse>>('/v1/nonce', {
+  params: {
+    ...parseParams(params),
+  },
+});

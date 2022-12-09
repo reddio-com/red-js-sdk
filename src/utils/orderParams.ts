@@ -1,13 +1,13 @@
-import { OrderParams, OrderRequestParams, SignOrderParams } from '../types';
 import { ethers } from 'ethers';
 import { AxiosInstance } from 'axios';
+import { OrderParams, OrderRequestParams, SignOrderParams } from '../types';
 import { info } from '../api';
 import { signOrder } from './sign';
 import { parseParams } from './common';
 
 export async function getOrderParams(
   request: AxiosInstance,
-  params: OrderParams
+  params: OrderParams,
 ): Promise<OrderRequestParams> {
   const {
     orderType,
@@ -25,12 +25,12 @@ export async function getOrderParams(
     contract1: 'ETH:ETH',
     contract2: `${tokenType}:${tokenAddress}:${tokenId}`,
   });
-  const vault_ids = data.data.vault_ids;
+  const { vault_ids } = data.data;
   const quoteToken = data.data.asset_ids[1];
   const direction = Number(orderType === 'buy');
   const amountBuy = ethers.utils.parseUnits(
     (Number(price) * Number(amount)).toString(),
-    6
+    6,
   );
   const formatPrice = ethers.utils.parseUnits(price, 6);
   let partParams;
