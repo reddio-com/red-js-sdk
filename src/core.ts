@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { JsonRpcProvider } from '@ethersproject/providers';
+import { JsonRpcProvider, JsonRpcSigner } from '@ethersproject/providers';
 import config from './config';
 import {
   depositERC20,
@@ -69,11 +69,30 @@ class Reddio {
 
   protected contractAddress: string | undefined;
 
+  protected cacheSigner: JsonRpcSigner;
+
   constructor(options: ReddioOptions) {
     this.options = options;
-    this.provider = options.provider;
+    this.cacheSigner = {} as JsonRpcSigner;
     this.request = this.initRequest(options);
+    this.provider = this.initProvider(options);
   }
+
+  private initProvider = (options: ReddioOptions) => {
+    const provider = options.provider;
+    const tempGetSigner = options.provider.getSigner.bind(options.provider);
+    provider.getSigner = () => {
+      if (Object.keys(this.cacheSigner).length) {
+        return this.cacheSigner;
+      }
+
+      const signer = tempGetSigner();
+
+      this.cacheSigner = signer;
+      return signer;
+    };
+    return provider;
+  };
 
   private initRequest = (options: ReddioOptions) => axios.create({
     baseURL: config.baseUrl[options.env || 'test'],
