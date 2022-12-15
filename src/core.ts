@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { JsonRpcProvider, JsonRpcSigner } from '@ethersproject/providers';
+import { JsonRpcProvider } from '@ethersproject/providers';
 import config from './config';
 import {
   depositERC20,
@@ -60,6 +60,11 @@ interface ReddioOptions {
   provider: JsonRpcProvider;
 }
 
+interface CacheType {
+  privateKey: string;
+  publicKey: string;
+}
+
 class Reddio {
   protected options: ReddioOptions;
 
@@ -67,32 +72,16 @@ class Reddio {
 
   protected provider: JsonRpcProvider;
 
-  protected contractAddress: string | undefined;
+  protected cache: CacheType;
 
-  protected cacheSigner: JsonRpcSigner;
+  protected contractAddress: string | undefined;
 
   constructor(options: ReddioOptions) {
     this.options = options;
-    this.cacheSigner = {} as JsonRpcSigner;
     this.request = this.initRequest(options);
-    this.provider = this.initProvider(options);
+    this.cache = {} as CacheType;
+    this.provider = options.provider;
   }
-
-  private initProvider = (options: ReddioOptions) => {
-    const provider = options.provider;
-    const tempGetSigner = options.provider.getSigner.bind(options.provider);
-    provider.getSigner = () => {
-      if (Object.keys(this.cacheSigner).length) {
-        return this.cacheSigner;
-      }
-
-      const signer = tempGetSigner();
-
-      this.cacheSigner = signer;
-      return signer;
-    };
-    return provider;
-  };
 
   private initRequest = (options: ReddioOptions) => axios.create({
     baseURL: config.baseUrl[options.env || 'test'],
@@ -167,10 +156,20 @@ class Reddio {
     generateFromEthSignature: (): Promise<{
       privateKey: string;
       publicKey: string;
-    }> => generateFromEthSignature(
-      this.provider,
-      this.options.env || 'test',
-    ),
+    }> => {
+      if (this.cache.privateKey && this.cache.publicKey) {
+        return Promise.resolve({ privateKey: this.cache.privateKey, publicKey: this.cache.publicKey });
+      }
+
+      return generateFromEthSignature(
+        this.provider,
+        this.options.env || 'test',
+      ).then((res) => {
+        this.cache.privateKey = res.privateKey;
+        this.cache.publicKey = res.publicKey;
+        return res;
+      });
+    },
   };
 
   public readonly utils = {
