@@ -60,6 +60,11 @@ interface ReddioOptions {
   provider: JsonRpcProvider;
 }
 
+interface CacheType {
+  privateKey: string;
+  publicKey: string;
+}
+
 class Reddio {
   protected options: ReddioOptions;
 
@@ -67,12 +72,15 @@ class Reddio {
 
   protected provider: JsonRpcProvider;
 
+  protected cache: CacheType;
+
   protected contractAddress: string | undefined;
 
   constructor(options: ReddioOptions) {
     this.options = options;
-    this.provider = options.provider;
     this.request = this.initRequest(options);
+    this.cache = {} as CacheType;
+    this.provider = options.provider;
   }
 
   private initRequest = (options: ReddioOptions) => axios.create({
@@ -148,10 +156,20 @@ class Reddio {
     generateFromEthSignature: (): Promise<{
       privateKey: string;
       publicKey: string;
-    }> => generateFromEthSignature(
-      this.provider,
-      this.options.env || 'test',
-    ),
+    }> => {
+      if (this.cache.privateKey && this.cache.publicKey) {
+        return Promise.resolve({ privateKey: this.cache.privateKey, publicKey: this.cache.publicKey });
+      }
+
+      return generateFromEthSignature(
+        this.provider,
+        this.options.env || 'test',
+      ).then((res) => {
+        this.cache.privateKey = res.privateKey;
+        this.cache.publicKey = res.publicKey;
+        return res;
+      });
+    },
   };
 
   public readonly utils = {
