@@ -13,10 +13,7 @@ import {
 } from '../types';
 import { ethers } from 'ethers';
 
-export const getTransferParams = async (
-  request: AxiosInstance,
-  data: any
-) => {
+export const getTransferParams = async (request: AxiosInstance, data: any) => {
   const {
     starkKey,
     receiver,
@@ -41,14 +38,14 @@ export const getTransferParams = async (
   });
   const { data: result } = await getNonce(request, { starkKey });
   const nonce = result.data.nonce;
-  if (!data.amount) {
+  if (!data.amount || type === 'ERC721' || type === 'ERC721M') {
     data.amount = '1';
   } else {
     data.amount = ethers.utils.parseUnits(data.amount.toString(), 6).toString();
   }
-  data.vaultId = vaultData.data.vault_ids[0]
-  data.receiverVaultId = vaultData.data.vault_ids[1]
-  data.assetId = assetId
+  data.vaultId = vaultData.data.vault_ids[0];
+  data.receiverVaultId = vaultData.data.vault_ids[1];
+  data.assetId = assetId;
   const params: TransferRequestParams = {
     ...data,
     expirationTimestamp,
