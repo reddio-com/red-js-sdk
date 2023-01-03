@@ -1,10 +1,10 @@
+import { BigNumber } from 'ethers';
 import {
   PageParams,
   SignatureLike,
   SignTransferParams,
   StarkKeyParams,
 } from './common';
-import { BigNumber } from 'ethers';
 import { Types } from '../utils';
 
 /**
@@ -350,4 +350,20 @@ export interface OrderListResponse {
   un_filled: string;
   symbol: OrderSymbol;
   fee_rate: string;
+}
+
+export interface CollectionParams {
+  quoteContractAddress: string;
+  tokenIds: string;
+  baseContractAddress: string;
+}
+
+export interface CollectionResponse {
+  amount: number;
+  price: string;
+  display_price: string;
+  owner: string;
+  token_id: string;
+  quote_contract_address: string;
+  base_contract_address: string;
 }

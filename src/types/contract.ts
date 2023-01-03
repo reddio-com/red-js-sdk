@@ -1,4 +1,4 @@
-import {Types} from "../utils";
+import { Types } from '../utils';
 
 export interface ErcCommonParams {
   tokenAddress: string;
