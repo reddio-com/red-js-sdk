@@ -13,10 +13,7 @@ import {
   Asset,
 } from '../types';
 
-export const getTransferParams = async (
-  request: AxiosInstance,
-  data: any,
-) => {
+export const getTransferParams = async (request: AxiosInstance, data: any) => {
   const {
     starkKey,
     receiver,
@@ -41,8 +38,6 @@ export const getTransferParams = async (
   });
   const { data: result } = await getNonce(request, { starkKey });
   const { nonce } = result.data;
-  if (!data.amount) {
-  const nonce = result.data.nonce;
   if (!data.amount || type === 'ERC721' || type === 'ERC721M') {
     data.amount = '1';
   } else {
@@ -65,7 +60,7 @@ export const getTransferParams = async (
 
 export const transfer = async (
   request: AxiosInstance,
-  data: SignTransferParams,
+  data: SignTransferParams
 ) => {
   const params = await getTransferParams(request, data);
   return request.post<Response<TransferResponse>>('/v1/transfers', {
