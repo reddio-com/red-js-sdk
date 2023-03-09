@@ -15,7 +15,11 @@ const setQuantum = async (request: AxiosInstance, data: Asset) => {
       type: data.type,
       contractAddress: data.type === 'ETH' ? 'ETH' : data.tokenAddress!,
     });
-    data.quantum = res.data.quantum;
+    if (res.status !== 'FAILED') {
+      data.quantum = res.data.quantum;
+    } else {
+      throw new Error(res.error);
+    }
   }
 };
 
@@ -31,19 +35,19 @@ export const getAssetID = (args: Asset) => {
 
 export const getAssetTypeAndId = async (
   request: AxiosInstance,
-  args: Asset,
+  args: Asset
 ) => {
   if (args.type === 'ERC721M') {
     assert(args.tokenId, 'tokenId is required');
     (args as any).type = 'MINTABLE_ERC721';
     (args as any).blob = hexToBuffer(
-      ethers.utils.hexlify(Number(args.tokenId)),
+      ethers.utils.hexlify(Number(args.tokenId))
     );
   }
   await setQuantum(request, args);
   const { type, ...data } = args;
   (args as any).data = data;
-  const assetId: string = await getAssetID(args);
-  const assetType: string = await getAssetType(args);
+  const assetId: string = getAssetID(args);
+  const assetType: string = getAssetType(args);
   return { assetId, assetType };
 };
