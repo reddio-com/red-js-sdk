@@ -35,13 +35,13 @@ export const getAssetID = (args: Asset) => {
 
 export const getAssetTypeAndId = async (
   request: AxiosInstance,
-  args: Asset
+  args: Asset,
 ) => {
   if (args.type === 'ERC721M') {
     assert(args.tokenId, 'tokenId is required');
     (args as any).type = 'MINTABLE_ERC721';
     (args as any).blob = hexToBuffer(
-      ethers.utils.hexlify(Number(args.tokenId))
+      ethers.utils.hexlify(Number(args.tokenId)),
     );
   }
   await setQuantum(request, args);

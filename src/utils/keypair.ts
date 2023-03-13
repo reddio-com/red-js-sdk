@@ -13,7 +13,6 @@ export const generateFromEthSignature = async (
     message: {
       contents: 'Generate layer 2 key',
     },
-    primaryType: 'reddio',
     types: {
       EIP712Domain: [{ name: 'chainId', type: 'uint256' }],
       [domain]: [{ name: 'contents', type: 'string' }],
