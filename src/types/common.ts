@@ -1,3 +1,4 @@
+import type { Client as WagmiClient } from '@wagmi/core';
 import { Types } from '../utils';
 
 export interface RequestCommonParams {
@@ -62,3 +63,5 @@ export interface PageParams {
   page: number;
   limit: number;
 }
+
+export type Client = WagmiClient<any, any>;

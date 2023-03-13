@@ -20,7 +20,6 @@
     "analyze": "size-limit --why",
     "deploy-sdk": "rm -rf ./dist && yarn build && yarn changeset publish"
   },
-  "peerDependencies": {},
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
@@ -67,15 +66,19 @@
     "size-limit": "^7.0.8",
     "tsdx": "^0.14.1",
     "tslib": "^2.4.0",
-    "typescript": "^4.7.2"
+    "typescript": "^4.7.2",
+    "@wagmi/core": "^0.10.1",
+    "ethers": "^5.6.8"
   },
   "dependencies": {
     "@starkware-industries/starkware-crypto-utils": "^0.0.2",
-    "@wagmi/core": "^0.10.1",
     "assert": "^2.0.0",
     "axios": "^0.27.2",
     "bn.js": "^5.2.1",
-    "enc-utils": "^3.0.0",
+    "enc-utils": "^3.0.0"
+  },
+  "peerDependencies": {
+    "@wagmi/core": "^0.10.1",
     "ethers": "^5.6.8"
   },
   "jest": {

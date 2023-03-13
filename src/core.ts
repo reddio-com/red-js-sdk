@@ -47,6 +47,7 @@ import {
   CancelOrderRequestParams,
   CollectionParams,
   RecordsParams,
+  Client,
 } from './types';
 import {
   Env,
@@ -59,6 +60,8 @@ import { getRecord, getRecords } from './api/rocord';
 interface ReddioOptions {
   env?: 'test' | 'main';
   provider: JsonRpcProvider;
+  wagmiClient: Client;
+  domain?: string;
 }
 
 interface CacheType {
@@ -77,36 +80,39 @@ class Reddio {
 
   protected contractAddress: string | undefined;
 
+  protected client: Client;
+
+  protected domain: string | undefined;
+
   constructor(options: ReddioOptions) {
     this.options = options;
     this.request = this.initRequest(options);
     this.cache = {} as CacheType;
     this.provider = options.provider;
+    this.client = options.wagmiClient;
+    this.domain = options.domain;
   }
 
-  private initRequest = (options: ReddioOptions) =>
-    axios.create({
-      baseURL: config.baseUrl[options.env || 'test'],
-    });
+  private initRequest = (options: ReddioOptions) => axios.create({
+    baseURL: config.baseUrl[options.env || 'test'],
+  });
 
   public readonly apis = {
     transfer: (args: SignTransferParams) => transfer(this.request, args),
     getVaultID: (args: VaultParams) => getVaultID(this.request, args),
-    withdrawalFromL2: (args: SignTransferParams) =>
-      withdrawalFromL2(this.request, args),
+    withdrawalFromL2: (args: SignTransferParams) => withdrawalFromL2(this.request, args),
     withdrawalFromL1: async (args: WithdrawalFromL1Params) => {
       await this.getContractAddress();
       return withdrawalFromL1(this.provider, this.contractAddress!, args);
     },
-    withdrawalStatus: async (args: WithdrawalStatusParams) =>
-      withdrawalStatus(this.request, args),
+    withdrawalStatus: async (args: WithdrawalStatusParams) => withdrawalStatus(this.request, args),
     depositERC20: async (args: DepositERC20Params) => {
       await this.getContractAddress();
       return depositERC20(
         this.request,
         this.provider,
         this.contractAddress!,
-        args
+        args,
       );
     },
     depositETH: async (args: DepositParams) => {
@@ -115,7 +121,7 @@ class Reddio {
         this.request,
         this.provider,
         this.contractAddress!,
-        args
+        args,
       );
     },
     depositERC721: async (args: Deposit721Params) => {
@@ -124,25 +130,19 @@ class Reddio {
         this.request,
         this.provider,
         this.contractAddress!,
-        args
+        args,
       );
     },
     getBalance: async (args: BalanceParams) => getBalance(this.request, args),
-    getBalances: async (args: BalancesParams) =>
-      getBalances(this.request, args),
-    getBalancesV2: async (args: BalancesV2Params) =>
-      getBalancesV2(this.request, args),
+    getBalances: async (args: BalancesParams) => getBalances(this.request, args),
+    getBalancesV2: async (args: BalancesV2Params) => getBalancesV2(this.request, args),
     getRecord: async (args: RecordParams) => getRecord(this.request, args),
     getRecords: async (args: RecordsParams) => getRecords(this.request, args),
     order: async (args: OrderRequestParams) => order(this.request, args),
-    getOrderInfoWithId: async (id: number) =>
-      getOrderInfoWithId(this.request, id),
-    orderList: async (args: OrderListRequestParams) =>
-      orderList(this.request, args),
-    cancelOrder: async (args: CancelOrderRequestParams) =>
-      cancelOrder(this.request, args),
-    getCollection: async (arg: CollectionParams) =>
-      getCollection(this.request, arg),
+    getOrderInfoWithId: async (id: number) => getOrderInfoWithId(this.request, id),
+    orderList: async (args: OrderListRequestParams) => orderList(this.request, args),
+    cancelOrder: async (args: CancelOrderRequestParams) => cancelOrder(this.request, args),
+    getCollection: async (arg: CollectionParams) => getCollection(this.request, arg),
   };
 
   public readonly erc20 = {
@@ -176,9 +176,9 @@ class Reddio {
       }
 
       return generateFromEthSignature(
-        this.provider,
-        this.options.env || 'test'
-      ).then(res => {
+        this.options.env || 'test',
+        this.domain,
+      ).then((res) => {
         this.cache.privateKey = res.privateKey;
         this.cache.publicKey = res.publicKey;
         return res;
@@ -188,18 +188,15 @@ class Reddio {
 
   public readonly utils = {
     getAssetTypeAndId: async (
-      args: Asset
-    ): Promise<{ assetId: string; assetType: string }> =>
-      getAssetTypeAndId(this.request, args),
-    getOrderParams: async (args: OrderParams) =>
-      getOrderParams(this.request, args),
+      args: Asset,
+    ): Promise<{ assetId: string; assetType: string }> => getAssetTypeAndId(this.request, args),
+    getOrderParams: async (args: OrderParams) => getOrderParams(this.request, args),
   };
 
   private getContractAddress = async () => {
     if (this.contractAddress) return;
     const { data } = await getContractAddress(this.request);
-    this.contractAddress =
-      this.options.env === Env.Test ? data.data.testnet : data.data.mainnet;
+    this.contractAddress = this.options.env === Env.Test ? data.data.testnet : data.data.mainnet;
   };
 }
 

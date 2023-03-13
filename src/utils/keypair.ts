@@ -1,13 +1,11 @@
 // @eslint-ignore
 import { keyDerivation } from '@starkware-industries/starkware-crypto-utils';
-import { JsonRpcProvider } from '@ethersproject/providers';
+import { signTypedData } from '@wagmi/core';
 
 export const generateFromEthSignature = async (
-  provider: JsonRpcProvider,
   env: 'test' | 'main',
+  domain = 'reddio',
 ) => {
-  const method = 'eth_signTypedData_v4';
-  const from = await provider.getSigner().getAddress();
   const value = {
     domain: {
       chainId: env === 'test' ? 5 : 1,
@@ -18,11 +16,14 @@ export const generateFromEthSignature = async (
     primaryType: 'reddio',
     types: {
       EIP712Domain: [{ name: 'chainId', type: 'uint256' }],
-      reddio: [{ name: 'contents', type: 'string' }],
-    },
+      [domain]: [{ name: 'contents', type: 'string' }],
+    } as any,
   };
-  const msgParams = JSON.stringify(value);
-  const result = await provider.send(method, [from, msgParams]);
+  const result = await signTypedData({
+    domain: value.domain,
+    value: value.message,
+    types: value.types,
+  });
   const privateKey: string = keyDerivation.getPrivateKeyFromEthSignature(
     result,
   );
