@@ -1,5 +1,4 @@
 import axios, { AxiosInstance } from 'axios';
-import { JsonRpcProvider } from '@ethersproject/providers';
 import config from './config';
 import {
   depositERC20,
@@ -31,7 +30,6 @@ import {
   SignTransferParams,
   VaultParams,
   ApproveErc20Params,
-  ErcCommonParams,
   Asset,
   ApproveErc721Params,
   WithdrawalFromL1Params,
@@ -58,7 +56,6 @@ import { getRecord, getRecords } from './api/rocord';
 
 interface ReddioOptions {
   env?: 'test' | 'main';
-  provider: JsonRpcProvider;
   wagmiClient: Client;
   domain?: string;
 }
@@ -73,8 +70,6 @@ class Reddio {
 
   protected request: AxiosInstance;
 
-  protected provider: JsonRpcProvider;
-
   protected cache: CacheType;
 
   protected contractAddress: string | undefined;
@@ -87,7 +82,6 @@ class Reddio {
     this.options = options;
     this.request = this.initRequest(options);
     this.cache = {} as CacheType;
-    this.provider = options.provider;
     this.client = options.wagmiClient;
     this.domain = options.domain;
   }
@@ -102,7 +96,7 @@ class Reddio {
     withdrawalFromL2: (args: SignTransferParams) => withdrawalFromL2(this.request, args),
     withdrawalFromL1: async (args: WithdrawalFromL1Params) => {
       await this.getContractAddress();
-      return withdrawalFromL1(this.provider, this.contractAddress!, args);
+      return withdrawalFromL1(this.contractAddress!, args);
     },
     withdrawalStatus: async (args: WithdrawalStatusParams) => withdrawalStatus(this.request, args),
     depositERC20: async (args: DepositERC20Params) => {
