@@ -46,7 +46,8 @@
                     "error",
                     200
                 ],
-                "import/no-cycle": "off"
+                "import/no-cycle": "off",
+                "no-console": "off"
             }
         }
     ]

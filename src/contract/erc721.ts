@@ -1,16 +1,18 @@
-import { ethers } from 'ethers';
-import { JsonRpcProvider } from '@ethersproject/providers';
-import { TransactionResponse } from '@ethersproject/abstract-provider';
+import { prepareWriteContract, writeContract } from '@wagmi/core';
+import type { WriteContractResult } from '@wagmi/core';
 import { ApproveErc721Params } from '../types';
 import abi from '../abi/Erc721.abi.json';
 
 export const erc721Approve = async (
-  provider: JsonRpcProvider,
   contractAddress: string,
   params: ApproveErc721Params,
-): Promise<TransactionResponse> => {
-  const signer = provider.getSigner();
+): Promise<WriteContractResult> => {
   const { tokenAddress, tokenId } = params;
-  const contract = new ethers.Contract(tokenAddress, abi, signer);
-  return contract.approve(contractAddress, tokenId);
+  const config = await prepareWriteContract({
+    address: tokenAddress as `0x${string}`,
+    abi,
+    functionName: 'approve',
+    args: [contractAddress, tokenId],
+  });
+  return writeContract(config);
 };

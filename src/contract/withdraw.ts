@@ -1,41 +1,52 @@
-import { JsonRpcProvider } from '@ethersproject/providers';
 import assert from 'assert';
 import { ethers } from 'ethers';
-import { TransactionResponse } from '@ethersproject/abstract-provider';
+import { prepareWriteContract, writeContract } from '@wagmi/core';
+import type { WriteContractResult } from '@wagmi/core';
 import { WithdrawalFromL1Params } from '../types';
 import abi from '../abi/Withdraw.abi.json';
 import { Types } from '../utils';
 
 export const withdrawalFromL1 = async (
-  provider: JsonRpcProvider,
   contractAddress: string,
   params: WithdrawalFromL1Params,
-): Promise<TransactionResponse> => {
-  const signer = provider.getSigner();
+): Promise<WriteContractResult> => {
   const {
     ethAddress, type, assetType, tokenId,
   } = params;
-  const contract = new ethers.Contract(contractAddress, abi, signer);
   switch (type) {
     case Types.ETH:
     case Types.ERC20: {
-      return contract.withdraw(ethAddress, assetType);
+      const config = await prepareWriteContract({
+        address: contractAddress as `0x${string}`,
+        abi,
+        functionName: 'withdraw',
+        args: [ethAddress, assetType],
+      });
+      return writeContract(config);
     }
     case Types.ERC721: {
       assert(tokenId, 'tokenId is required');
-      return contract.withdrawNft(
-        ethAddress,
-        assetType,
-        ethers.BigNumber.from(tokenId),
-      );
+      const config = await prepareWriteContract({
+        address: contractAddress as `0x${string}`,
+        abi,
+        functionName: 'withdrawNft',
+        args: [ethAddress,
+          assetType,
+          ethers.BigNumber.from(tokenId)],
+      });
+      return writeContract(config);
     }
     default: {
       assert(tokenId, 'tokenId is required');
-      return contract.withdrawAndMint(
-        ethAddress,
-        assetType,
-        ethers.utils.arrayify(ethers.utils.hexlify(Number(tokenId))),
-      );
+      const config = await prepareWriteContract({
+        address: contractAddress as `0x${string}`,
+        abi,
+        functionName: 'withdrawAndMint',
+        args: [ethAddress,
+          assetType,
+          ethers.utils.arrayify(ethers.utils.hexlify(Number(tokenId)))],
+      });
+      return writeContract(config);
     }
   }
 };

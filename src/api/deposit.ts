@@ -1,161 +1,98 @@
-import { BigNumber, ethers } from 'ethers';
-import { JsonRpcProvider } from '@ethersproject/providers';
+import { ethers } from 'ethers';
 import { AxiosInstance } from 'axios';
 import {
-  Deposit721Params, DepositParams, LogDeposit, DepositERC20Params, LogDepositWithTokenId,
+  prepareWriteContract,
+  writeContract,
+} from '@wagmi/core';
+import type { WriteContractResult } from '@wagmi/core';
+import {
+  Deposit721Params,
+  DepositParams,
+  DepositERC20Params,
 } from '../types';
 import abi from '../abi/Deposits.json';
 import { getAssetTypeAndId } from '../utils/asset';
 import { getVaultID } from './vault';
 
-export const depositERC20 = (
+export const depositERC20 = async (
   request: AxiosInstance,
-  provider: JsonRpcProvider,
   contractAddress: string,
   params: DepositERC20Params,
-): Promise<LogDeposit> => new Promise(async (resolve, reject) => {
-  try {
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(contractAddress, abi, signer);
-    const { starkKey, quantizedAmount, tokenAddress } = params;
-    const { assetId, assetType } = await getAssetTypeAndId(request, {
-      type: 'ERC20',
-      tokenAddress,
-    });
-    const { data } = await getVaultID(request, {
-      starkKeys: starkKey,
-      assetId,
-    });
-    await contract.depositERC20(
+): Promise<WriteContractResult> => {
+  const { starkKey, quantizedAmount, tokenAddress } = params;
+  const { assetId, assetType } = await getAssetTypeAndId(request, {
+    type: 'ERC20',
+    tokenAddress,
+  });
+  const { data } = await getVaultID(request, {
+    starkKeys: starkKey,
+    assetId,
+  });
+
+  const config = await prepareWriteContract({
+    address: contractAddress as `0x${string}`,
+    abi,
+    functionName: 'depositERC20',
+    args: [
       starkKey,
       assetType,
       data.data.vault_ids[0],
       ethers.utils.parseUnits(quantizedAmount.toString(), 6),
-    );
+    ],
+  });
+  return writeContract(config);
+};
 
-    contract.on(
-      'LogDeposit',
-      (
-        depositorEthKey: string,
-        key: BigNumber,
-        vaultId: BigNumber,
-        type: BigNumber,
-        nonQuantizedAmount: BigNumber,
-        amount: BigNumber,
-        raw: Record<string, any>,
-      ) => {
-        resolve({
-          depositorEthKey,
-          starkKey: key,
-          vaultId,
-          assetType: type,
-          nonQuantizedAmount,
-          quantizedAmount: amount,
-          raw,
-        });
-      },
-    );
-  } catch (e) {
-    reject(e);
-  }
-});
-
-export const depositETH = (
+export const depositETH = async (
   request: AxiosInstance,
-  provider: JsonRpcProvider,
   contractAddress: string,
   params: DepositParams,
-): Promise<LogDeposit> => new Promise(async (resolve, reject) => {
-  try {
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(contractAddress, abi, signer);
-    const { starkKey, quantizedAmount } = params;
-    const { assetType, assetId } = await getAssetTypeAndId(request, {
-      type: 'ETH',
-    });
-    const { data } = await getVaultID(request, {
-      starkKeys: starkKey,
-      assetId,
-    });
-    await contract.depositEth(starkKey, assetType, data.data.vault_ids[0], {
+): Promise<WriteContractResult> => {
+  const { starkKey, quantizedAmount } = params;
+  const { assetType, assetId } = await getAssetTypeAndId(request, {
+    type: 'ETH',
+  });
+  const { data } = await getVaultID(request, {
+    starkKeys: starkKey,
+    assetId,
+  });
+
+  const config = await prepareWriteContract({
+    address: contractAddress as `0x${string}`,
+    abi,
+    functionName: 'depositEth',
+    args: [starkKey, assetType, data.data.vault_ids[0]],
+    overrides: {
       value: ethers.utils.parseEther(quantizedAmount.toString()),
-    });
+    },
+  });
+  return writeContract(config);
+};
 
-    contract.on(
-      'LogDeposit',
-      (
-        depositorEthKey: string,
-        key: BigNumber,
-        vaultId: BigNumber,
-        type: BigNumber,
-        nonQuantizedAmount: BigNumber,
-        amount: BigNumber,
-        raw: Record<string, any>,
-      ) => {
-        resolve({
-          depositorEthKey,
-          starkKey: key,
-          vaultId,
-          assetType: type,
-          nonQuantizedAmount,
-          quantizedAmount: amount,
-          raw,
-        });
-      },
-    );
-  } catch (e) {
-    reject(e);
-  }
-});
-
-export const depositERC721 = (
+export const depositERC721 = async (
   request: AxiosInstance,
-  provider: JsonRpcProvider,
   contractAddress: string,
   params: Deposit721Params,
-): Promise<LogDepositWithTokenId> => new Promise(async (resolve, reject) => {
-  try {
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(contractAddress, abi, signer);
-    const { starkKey, tokenAddress, tokenId } = params;
-    const { assetId, assetType } = await getAssetTypeAndId(request, {
-      type: 'ERC721',
-      tokenAddress,
-      tokenId,
-    });
-    const { data } = await getVaultID(request, {
-      starkKeys: starkKey,
-      assetId,
-    });
-    await contract.depositNft(starkKey, assetType, data.data.vault_ids[0], tokenId);
+): Promise<WriteContractResult> => {
+  const { starkKey, tokenAddress, tokenId } = params;
+  const { assetId, assetType } = await getAssetTypeAndId(request, {
+    type: 'ERC721',
+    tokenAddress,
+    tokenId,
+  });
+  const { data } = await getVaultID(request, {
+    starkKeys: starkKey,
+    assetId,
+  });
 
-    contract.on(
-      'LogDepositWithTokenId',
-      (
-        depositorEthKey: string,
-        key: BigNumber,
-        vaultId: BigNumber,
-        type: BigNumber,
-        curTokenId: BigNumber,
-        curAssetId: BigNumber,
-        nonQuantizedAmount: BigNumber,
-        quantizedAmount: BigNumber,
-        raw: Record<string, any>,
-      ) => {
-        resolve({
-          depositorEthKey,
-          starkKey: key,
-          vaultId,
-          assetType: type,
-          tokenId: curTokenId,
-          assetId: curAssetId,
-          nonQuantizedAmount,
-          quantizedAmount,
-          raw,
-        });
-      },
-    );
-  } catch (e) {
-    reject(e);
-  }
-});
+  const config = await prepareWriteContract({
+    address: contractAddress as `0x${string}`,
+    abi,
+    functionName: 'depositNft',
+    args: [starkKey,
+      assetType,
+      data.data.vault_ids[0],
+      tokenId],
+  });
+  return writeContract(config);
+};

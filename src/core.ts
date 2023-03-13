@@ -21,7 +21,6 @@ import {
 } from './api';
 import {
   erc20Approve,
-  erc20Allowance,
   erc721Approve,
   withdrawalFromL1,
 } from './contract';
@@ -108,30 +107,15 @@ class Reddio {
     withdrawalStatus: async (args: WithdrawalStatusParams) => withdrawalStatus(this.request, args),
     depositERC20: async (args: DepositERC20Params) => {
       await this.getContractAddress();
-      return depositERC20(
-        this.request,
-        this.provider,
-        this.contractAddress!,
-        args,
-      );
+      return depositERC20(this.request, this.contractAddress!, args);
     },
     depositETH: async (args: DepositParams) => {
       await this.getContractAddress();
-      return depositETH(
-        this.request,
-        this.provider,
-        this.contractAddress!,
-        args,
-      );
+      return depositETH(this.request, this.contractAddress!, args);
     },
     depositERC721: async (args: Deposit721Params) => {
       await this.getContractAddress();
-      return depositERC721(
-        this.request,
-        this.provider,
-        this.contractAddress!,
-        args,
-      );
+      return depositERC721(this.request, this.contractAddress!, args);
     },
     getBalance: async (args: BalanceParams) => getBalance(this.request, args),
     getBalances: async (args: BalancesParams) => getBalances(this.request, args),
@@ -148,18 +132,14 @@ class Reddio {
   public readonly erc20 = {
     approve: async (args: ApproveErc20Params) => {
       await this.getContractAddress();
-      return erc20Approve(this.provider, this.contractAddress!, args);
-    },
-    allowance: async (args: ErcCommonParams) => {
-      await this.getContractAddress();
-      return erc20Allowance(this.provider, this.contractAddress!, args);
+      return erc20Approve(this.contractAddress!, args);
     },
   };
 
   public readonly erc721 = {
     approve: async (args: ApproveErc721Params) => {
       await this.getContractAddress();
-      return erc721Approve(this.provider, this.contractAddress!, args);
+      return erc721Approve(this.contractAddress!, args);
     },
   };
 
