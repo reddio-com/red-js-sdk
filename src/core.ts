@@ -145,7 +145,7 @@ class Reddio {
       publicKey: string;
     }> => {
       const address = this.options.wagmiClient.data?.account;
-      if (this.walletAddress && this.walletAddress === address) {
+      if (this.walletAddress && address && this.walletAddress === address) {
         if (this.cache.privateKey && this.cache.publicKey) {
           return Promise.resolve({
             privateKey: this.cache.privateKey,
