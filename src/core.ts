@@ -78,6 +78,8 @@ class Reddio {
 
   protected domain: string | undefined;
 
+  protected walletAddress: string | undefined;
+
   constructor(options: ReddioOptions) {
     this.options = options;
     this.request = this.initRequest(options);
@@ -142,12 +144,16 @@ class Reddio {
       privateKey: string;
       publicKey: string;
     }> => {
-      if (this.cache.privateKey && this.cache.publicKey) {
-        return Promise.resolve({
-          privateKey: this.cache.privateKey,
-          publicKey: this.cache.publicKey,
-        });
+      const address = this.options.wagmiClient.data?.account;
+      if (this.walletAddress && this.walletAddress === address) {
+        if (this.cache.privateKey && this.cache.publicKey) {
+          return Promise.resolve({
+            privateKey: this.cache.privateKey,
+            publicKey: this.cache.publicKey,
+          });
+        }
       }
+      this.walletAddress = address;
 
       return generateFromEthSignature(
         this.options.env || 'test',
