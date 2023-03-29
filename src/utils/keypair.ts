@@ -3,12 +3,12 @@ import { keyDerivation } from '@starkware-industries/starkware-crypto-utils';
 import { signTypedData } from '@wagmi/core';
 
 export const generateFromEthSignature = async (
-  env: 'test' | 'main',
+  env: 'test' | 'main' | 'mini',
   domain = 'reddio',
 ) => {
   const value = {
     domain: {
-      chainId: env === 'test' ? 5 : 1,
+      chainId: env === 'main' ? 1 : 5,
     },
     message: {
       contents: 'Generate layer 2 key',

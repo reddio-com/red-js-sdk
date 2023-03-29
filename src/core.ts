@@ -55,7 +55,7 @@ import {
 import { getRecord, getRecords } from './api/rocord';
 
 interface ReddioOptions {
-  env?: 'test' | 'main';
+  env?: 'test' | 'main' | 'mini';
   wagmiClient: Client;
   domain?: string;
 }
@@ -82,6 +82,7 @@ class Reddio {
 
   constructor(options: ReddioOptions) {
     this.options = options;
+    this.options.env = this.options.env || 'test';
     this.request = this.initRequest(options);
     this.cache = {} as CacheType;
     this.client = options.wagmiClient;
@@ -176,7 +177,7 @@ class Reddio {
   private getContractAddress = async () => {
     if (this.contractAddress) return;
     const { data } = await getContractAddress(this.request);
-    this.contractAddress = this.options.env === Env.Test ? data.data.testnet : data.data.mainnet;
+    this.contractAddress = this.options.env === Env.Main ? data.data.mainnet : data.data.testnet;
   };
 }
 
