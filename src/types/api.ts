@@ -262,6 +262,8 @@ export interface OrderParams {
   marketplaceUuid?: string;
   tokenType: `${Types}`;
   orderType: 'buy' | 'sell';
+  baseTokenAddress?: string;
+  baseTokenType?: `${Types}`;
 }
 
 export interface OrderRequestParams {

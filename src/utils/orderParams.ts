@@ -1,5 +1,6 @@
 import { ethers } from 'ethers';
 import { AxiosInstance } from 'axios';
+import assert from 'assert';
 import { OrderParams, OrderRequestParams, SignOrderParams } from '../types';
 import { info } from '../api';
 import { signOrder } from './sign';
@@ -18,11 +19,23 @@ export async function getOrderParams(
     tokenId,
     tokenAddress,
     marketplaceUuid,
+    baseTokenAddress,
+    baseTokenType,
   } = params;
   const starkKey = keypair.publicKey;
+  let contract1 = 'ETH:ETH';
+  if (baseTokenAddress) {
+    assert(baseTokenType, 'baseTokenType is required');
+  }
+  if (baseTokenType) {
+    assert(baseTokenAddress, 'baseTokenAddress is required');
+  }
+  if (baseTokenType && baseTokenAddress) {
+    contract1 = `${baseTokenType}:${baseTokenAddress}`;
+  }
   const { data } = await info(request, {
     starkKey,
-    contract1: 'ETH:ETH',
+    contract1,
     contract2: `${tokenType}:${tokenAddress}:${tokenId}`,
   });
   const { vault_ids } = data.data;
