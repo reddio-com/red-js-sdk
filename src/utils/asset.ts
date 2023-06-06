@@ -1,5 +1,6 @@
 import { asset } from '@starkware-industries/starkware-crypto-utils';
 import { AxiosInstance } from 'axios';
+import { keccak256, sha3_256 } from 'js-sha3';
 import assert from 'assert';
 import { hexToBuffer } from 'enc-utils';
 import { ethers } from 'ethers';
@@ -33,21 +34,73 @@ export const getAssetID = (args: Asset) => {
   return asset.getAssetId({ type, data });
 };
 
+function bigIntToUint8Array(bigint: bigint) {
+  let hex = bigint.toString(16);
+  if (hex.length % 2) {
+    hex = `0${hex}`;
+  }
+
+  const len = hex.length / 2;
+  const u8 = new Uint8Array(len);
+
+  let i = 0;
+  let j = 0;
+  while (i < len) {
+    u8[i] = parseInt(hex.slice(j, j + 2), 16);
+    i += 1;
+    j += 2;
+  }
+
+  return u8;
+}
+
+const getERC721MBlob = (url: string, tokenId: string) => {
+  const tokenIdBytes = bigIntToUint8Array(BigInt(tokenId));
+  const urlHash = sha3_256.array(Buffer.from(url));
+  const tokenIdHash = sha3_256.array(tokenIdBytes);
+
+  const combinedHash = new Uint8Array([...urlHash, ...tokenIdHash]);
+
+  let combinedHashStr = combinedHash.reduce(
+    (str, byte) => str + byte.toString(16).padStart(2, '0'),
+    '',
+  );
+
+  if (combinedHashStr.length % 2 !== 0) {
+    combinedHashStr = `0${combinedHashStr}`;
+  }
+
+  const hash = keccak256.create();
+
+  hash.update(Buffer.from(combinedHashStr, 'hex'));
+
+  const blobHashHex = hash.array();
+
+  return blobHashHex.reduce(
+    (str, byte) => str + byte.toString(16).padStart(2, '0'),
+    '',
+  );
+};
+
 export const getAssetTypeAndId = async (
   request: AxiosInstance,
   args: Asset,
 ) => {
-  if (args.type === 'ERC721M') {
-    assert(args.tokenId, 'tokenId is required');
-    (args as any).type = 'MINTABLE_ERC721';
-    (args as any).blob = hexToBuffer(
-      ethers.utils.hexlify(Number(args.tokenId)),
-    );
+  const params: any = args;
+  await setQuantum(request, params);
+  if (params.type.includes('ERC721M')) {
+    assert(params.tokenId, 'tokenId is required');
+    if (params.type === 'ERC721MC') {
+      assert(params.tokenUri, 'tokenUri is required');
+    }
+    params.type = 'MINTABLE_ERC721';
+    params.blob = params.type === 'ERC721M'
+      ? hexToBuffer(ethers.utils.hexlify(Number(params.tokenId)))
+      : getERC721MBlob(params.tokenUri, params.tokenId.toString());
   }
-  await setQuantum(request, args);
-  const { type, ...data } = args;
-  (args as any).data = data;
-  const assetId: string = getAssetID(args);
-  const assetType: string = getAssetType(args);
+  const { type, ...data } = params;
+  params.data = data;
+  const assetId: string = getAssetID(params);
+  const assetType: string = getAssetType(params);
   return { assetId, assetType };
 };

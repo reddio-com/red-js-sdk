@@ -137,6 +137,7 @@ export interface ContractInfoResponse {
   contract_uuid: string;
   chain_status: string;
   contract_address: string;
+  metadata_url: string;
 }
 
 /**
