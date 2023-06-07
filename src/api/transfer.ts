@@ -29,7 +29,7 @@ export const getTransferParams = async (request: AxiosInstance, data: any) => {
   if (type !== 'ETH') {
     assetInfoParams.tokenAddress = contractAddress;
   }
-  if (type === 'ERC721' || type === 'ERC721M') {
+  if (type.includes('ERC721')) {
     assetInfoParams.tokenId = tokenId;
   }
   if (type === 'ERC721MC') {
@@ -42,7 +42,7 @@ export const getTransferParams = async (request: AxiosInstance, data: any) => {
   });
   const { data: result } = await getNonce(request, { starkKey });
   const { nonce } = result.data;
-  if (!data.amount || type === 'ERC721' || type === 'ERC721M') {
+  if (!data.amount || type.includes('ERC721')) {
     data.amount = '1';
   } else {
     data.amount = ethers.utils.parseUnits(data.amount.toString(), 6).toString();
