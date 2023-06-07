@@ -21,6 +21,7 @@ export const getTransferParams = async (request: AxiosInstance, data: any) => {
     contractAddress,
     tokenId,
     expirationTimestamp = 4194303,
+    tokenUrl,
   } = data;
   const assetInfoParams: Asset = {
     type,
@@ -30,6 +31,9 @@ export const getTransferParams = async (request: AxiosInstance, data: any) => {
   }
   if (type === 'ERC721' || type === 'ERC721M') {
     assetInfoParams.tokenId = tokenId;
+  }
+  if (type === 'ERC721MC') {
+    assetInfoParams.tokenUrl = tokenUrl;
   }
   const { assetId } = await getAssetTypeAndId(request, assetInfoParams);
   const { data: vaultData } = await getVaultID(request, {
@@ -60,7 +64,7 @@ export const getTransferParams = async (request: AxiosInstance, data: any) => {
 
 export const transfer = async (
   request: AxiosInstance,
-  data: SignTransferParams,
+  data: SignTransferParams
 ) => {
   const params = await getTransferParams(request, data);
   return request.post<Response<TransferResponse>>('/v1/transfers', {

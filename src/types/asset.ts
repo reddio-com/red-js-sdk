@@ -5,5 +5,5 @@ export interface Asset {
   tokenAddress?: string;
   tokenId?: number | string;
   quantum?: number | string;
-  tokenUri?: string;
+  tokenUrl?: string;
 }

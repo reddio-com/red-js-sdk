@@ -38,6 +38,7 @@ export interface SignTransferParams {
   privateKey: string;
   amount?: number | string;
   contractAddress?: string;
+  tokenUrl?: string;
   tokenId?: string | number;
   type: `${Types}`;
   receiver: string;

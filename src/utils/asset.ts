@@ -54,7 +54,7 @@ function bigIntToUint8Array(bigint: bigint) {
   return u8;
 }
 
-const getERC721MBlob = (url: string, tokenId: string) => {
+const getERC721MBlob = (url: string = '', tokenId: string) => {
   const tokenIdBytes = bigIntToUint8Array(BigInt(tokenId));
   const urlHash = sha3_256.array(Buffer.from(url));
   const tokenIdHash = sha3_256.array(tokenIdBytes);
@@ -63,7 +63,7 @@ const getERC721MBlob = (url: string, tokenId: string) => {
 
   let combinedHashStr = combinedHash.reduce(
     (str, byte) => str + byte.toString(16).padStart(2, '0'),
-    '',
+    ''
   );
 
   if (combinedHashStr.length % 2 !== 0) {
@@ -78,25 +78,26 @@ const getERC721MBlob = (url: string, tokenId: string) => {
 
   return blobHashHex.reduce(
     (str, byte) => str + byte.toString(16).padStart(2, '0'),
-    '',
+    ''
   );
 };
 
 export const getAssetTypeAndId = async (
   request: AxiosInstance,
-  args: Asset,
+  args: Asset
 ) => {
   const params: any = args;
   await setQuantum(request, params);
   if (params.type.includes('ERC721M')) {
     assert(params.tokenId, 'tokenId is required');
     if (params.type === 'ERC721MC') {
-      assert(params.tokenUri, 'tokenUri is required');
+      assert(params.tokenUrl, 'tokenUrl is required');
     }
     params.type = 'MINTABLE_ERC721';
-    params.blob = params.type === 'ERC721M'
-      ? hexToBuffer(ethers.utils.hexlify(Number(params.tokenId)))
-      : getERC721MBlob(params.tokenUri, params.tokenId.toString());
+    params.blob =
+      params.type === 'ERC721M'
+        ? hexToBuffer(ethers.utils.hexlify(Number(params.tokenId)))
+        : getERC721MBlob(params.tokenUrl, params.tokenId.toString());
   }
   const { type, ...data } = params;
   params.data = data;

@@ -158,6 +158,7 @@ export interface Deposit721Params {
   starkKey: string;
   tokenId: number;
   tokenAddress: string;
+  tokenUrl?: string;
 }
 
 export interface LogDeposit {
