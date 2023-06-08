@@ -70,8 +70,8 @@ export interface BalancesV3Response {
   decimals: number;
   symbol: string;
   quantum: number;
-  available_token_ids: Tokens[];
-  frozen_token_ids: Tokens[];
+  available_tokens: Tokens[];
+  frozen_tokens: Tokens[];
   base_uri: string;
 }
 
