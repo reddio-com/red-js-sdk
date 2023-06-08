@@ -19,4 +19,5 @@ export interface WithdrawalFromL1Params {
   assetType: string;
   type: `${Types}`
   tokenId?: number;
+  tokenUrl?: string;
 }

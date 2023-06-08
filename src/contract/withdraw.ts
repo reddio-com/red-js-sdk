@@ -4,14 +4,14 @@ import { prepareWriteContract, writeContract } from '@wagmi/core';
 import type { WriteContractResult } from '@wagmi/core';
 import { WithdrawalFromL1Params } from '../types';
 import abi from '../abi/Withdraw.abi.json';
-import { Types } from '../utils';
+import { getERC721MBlob, Types } from '../utils';
 
 export const withdrawalFromL1 = async (
   contractAddress: string,
   params: WithdrawalFromL1Params,
 ): Promise<WriteContractResult> => {
   const {
-    ethAddress, type, assetType, tokenId,
+    ethAddress, type, assetType, tokenId, tokenUrl,
   } = params;
   switch (type) {
     case Types.ETH:
@@ -38,13 +38,17 @@ export const withdrawalFromL1 = async (
     }
     default: {
       assert(tokenId, 'tokenId is required');
+      if (type === Types.ERC721MC) {
+        assert(tokenUrl, 'tokenUrl is required');
+      }
+      const blob = type === Types.ERC721M ? ethers.utils.arrayify(ethers.utils.hexlify(Number(tokenId))) : ethers.utils.arrayify(getERC721MBlob(tokenUrl, tokenId.toString()));
       const config = await prepareWriteContract({
         address: contractAddress as `0x${string}`,
         abi,
         functionName: 'withdrawAndMint',
         args: [ethAddress,
           assetType,
-          ethers.utils.arrayify(ethers.utils.hexlify(Number(tokenId)))],
+          blob],
       });
       return writeContract(config);
     }
