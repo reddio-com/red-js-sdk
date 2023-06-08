@@ -8,9 +8,9 @@ describe('orderParams', () => {
     });
     const params = await getAssetTypeAndId(request, {
       type: 'ERC721MC',
-      tokenId: '12',
-      tokenAddress: '0x823e0E1E0a3122177DcEaF7162669d93Edea7A42',
-      tokenUrl: 'https://www.google.com',
+      tokenId: '1100',
+      tokenAddress: '0xb95623b1d26a6e892c5B4e7B15B83D134156f3AA',
+      tokenUrl: 'https://api-dev.reddio.com/v3/balances?stark_key=0x179be264ab70bdc0949bbf3ae2ae3dcefd74562f24bd33459754df1c321f93',
     });
     console.log(params, 111111);
   });

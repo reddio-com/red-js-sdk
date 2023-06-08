@@ -5,6 +5,7 @@ import { hexToBuffer } from 'enc-utils';
 import { ethers } from 'ethers';
 import { getContractInfo } from '../api/contractInfo';
 import { Asset } from '../types';
+import { getAssetId } from '../lib/asset';
 
 const setQuantum = async (request: AxiosInstance, data: Asset) => {
   if (!data.quantum) {
@@ -30,18 +31,19 @@ export const getAssetType = (args: Omit<Asset, 'tokenId' | 'blob'>) => {
 
 export const getAssetID = (args: Asset) => {
   const { type, ...data } = args;
-  return asset.getAssetId({ type, data });
+  return getAssetId({ type, data });
 };
 
 // eslint-disable-next-line @typescript-eslint/default-param-last
-export const getERC721MBlob = (url = '', tokenId: string) => ethers.utils.defaultAbiCoder.encode(
-  ['uint256', 'bytes'],
-  [tokenId, ethers.utils.hexlify(ethers.utils.toUtf8Bytes(url))],
-);
+export const getERC721MBlob = (url = '', tokenId: string) =>
+  ethers.utils.defaultAbiCoder.encode(
+    ['uint256', 'bytes'],
+    [tokenId, ethers.utils.hexlify(ethers.utils.toUtf8Bytes(url))]
+  );
 
 export const getAssetTypeAndId = async (
   request: AxiosInstance,
-  args: Asset,
+  args: Asset
 ) => {
   const params: any = args;
   await setQuantum(request, params);
@@ -51,9 +53,10 @@ export const getAssetTypeAndId = async (
       assert(params.tokenUrl, 'tokenUrl is required');
     }
     params.type = 'MINTABLE_ERC721';
-    params.blob = params.type === 'ERC721M'
-      ? hexToBuffer(ethers.utils.hexlify(Number(params.tokenId)))
-      : getERC721MBlob(params.tokenUrl, params.tokenId.toString());
+    params.blob =
+      params.type === 'ERC721M'
+        ? hexToBuffer(ethers.utils.hexlify(Number(params.tokenId)))
+        : getERC721MBlob(params.tokenUrl, params.tokenId.toString());
   }
   const { type, ...data } = params;
   params.data = data;
