@@ -74,12 +74,14 @@ export const depositERC721 = async (
   contractAddress: string,
   params: Deposit721Params,
 ): Promise<WriteContractResult> => {
-  const { starkKey, tokenAddress, tokenId, tokenUrl } = params;
+  const {
+    starkKey, tokenAddress, tokenId, tokenUrl,
+  } = params;
   const { assetId, assetType } = await getAssetTypeAndId(request, {
     type: 'ERC721',
     tokenAddress,
     tokenId,
-    tokenUrl
+    tokenUrl,
   });
   const { data } = await getVaultID(request, {
     starkKeys: starkKey,

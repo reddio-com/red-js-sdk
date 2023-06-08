@@ -17,12 +17,9 @@ import {
   cancelOrder,
   getBalancesV2,
   getCollection,
+  getBalancesV3,
 } from './api';
-import {
-  erc20Approve,
-  erc721Approve,
-  withdrawalFromL1,
-} from './contract';
+import { erc20Approve, erc721Approve, withdrawalFromL1 } from './contract';
 import {
   DepositParams,
   DepositERC20Params,
@@ -36,7 +33,6 @@ import {
   BalanceParams,
   RecordParams,
   BalancesParams,
-  BalancesV2Params,
   OrderParams,
   OrderRequestParams,
   WithdrawalStatusParams,
@@ -116,7 +112,8 @@ class Reddio {
     },
     getBalance: async (args: BalanceParams) => getBalance(this.request, args),
     getBalances: async (args: BalancesParams) => getBalances(this.request, args),
-    getBalancesV2: async (args: BalancesV2Params) => getBalancesV2(this.request, args),
+    getBalancesV2: async (args: BalancesParams) => getBalancesV2(this.request, args),
+    getBalancesV3: async (args: BalancesParams) => getBalancesV3(this.request, args),
     getRecord: async (args: RecordParams) => getRecord(this.request, args),
     getRecords: async (args: RecordsParams) => getRecords(this.request, args),
     order: async (args: OrderRequestParams) => order(this.request, args),

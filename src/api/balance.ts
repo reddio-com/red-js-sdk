@@ -4,9 +4,9 @@ import {
   BalanceResponse,
   BalanceParams,
   BalancesParams,
-  BalancesV2Params,
   PaginateResponse,
   BalancesV2Response,
+  BalancesV3Response,
 } from '../types';
 import { parseParams } from '../utils/common';
 
@@ -34,9 +34,20 @@ export async function getBalances(
 
 export async function getBalancesV2(
   request: AxiosInstance,
-  params: BalancesV2Params,
+  params: BalancesParams,
 ) {
   return request.get<Response<BalancesV2Response[]>>('/v2/balances', {
+    params: {
+      ...parseParams(params),
+    },
+  });
+}
+
+export async function getBalancesV3(
+  request: AxiosInstance,
+  params: BalancesParams,
+) {
+  return request.get<Response<BalancesV3Response[]>>('/v3/balances', {
     params: {
       ...parseParams(params),
     },

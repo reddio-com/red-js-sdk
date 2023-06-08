@@ -15,7 +15,7 @@ export interface BalanceParams extends StarkKeyParams {
 }
 
 export interface BalancesParams extends StarkKeyParams, Partial<PageParams> {
-  type?: string;
+  type?: `${Types}`;
   contractAddress?: string;
 }
 
@@ -51,6 +51,27 @@ export interface BalancesV2Response {
   asset_id: string;
   available_token_ids: number[] | null;
   frozen_token_ids: number[] | null;
+  base_uri: string;
+}
+
+interface Tokens {
+  token_id: string;
+  token_uri: string;
+  asset_id: string;
+}
+
+export interface BalancesV3Response {
+  asset_id: string;
+  contract_address: string;
+  balance_available: number;
+  balance_frozen: number;
+  withdraw_frozen: number;
+  type: `${Types}`;
+  decimals: number;
+  symbol: string;
+  quantum: number;
+  available_token_ids: Tokens[];
+  frozen_token_ids: Tokens[];
   base_uri: string;
 }
 

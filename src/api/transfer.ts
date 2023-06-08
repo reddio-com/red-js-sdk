@@ -64,7 +64,7 @@ export const getTransferParams = async (request: AxiosInstance, data: any) => {
 
 export const transfer = async (
   request: AxiosInstance,
-  data: SignTransferParams
+  data: SignTransferParams,
 ) => {
   const params = await getTransferParams(request, data);
   return request.post<Response<TransferResponse>>('/v1/transfers', {
