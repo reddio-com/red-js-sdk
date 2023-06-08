@@ -41,7 +41,7 @@ export const withdrawalFromL1 = async (
       if (type === Types.ERC721MC) {
         assert(tokenUrl, 'tokenUrl is required');
       }
-      const blob = type === Types.ERC721M ? ethers.utils.arrayify(ethers.utils.hexlify(Number(tokenId))) : ethers.utils.arrayify(getERC721MBlob(tokenUrl, tokenId.toString()));
+      const blob = type === Types.ERC721M ? ethers.utils.arrayify(ethers.utils.hexlify(Number(tokenId))) : getERC721MBlob(tokenUrl, tokenId.toString());
       const config = await prepareWriteContract({
         address: contractAddress as `0x${string}`,
         abi,
