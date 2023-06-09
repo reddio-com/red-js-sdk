@@ -29,9 +29,11 @@ export const getAssetType = (args: Omit<Asset, 'tokenId' | 'blob'>) => {
   return asset.getAssetType({ type, data });
 };
 
-export const getAssetID = (args: Asset) => {
+export const getAssetID = (args: Asset, contractType: string) => {
   const { type, ...data } = args;
-  return getAssetId({ type, data });
+  return contractType === 'ERC721MC'
+    ? getAssetId({ type, data })
+    : asset.getAssetId({ type, data });
 };
 
 // eslint-disable-next-line @typescript-eslint/default-param-last
@@ -46,21 +48,22 @@ export const getAssetTypeAndId = async (
   args: Asset
 ) => {
   const params: any = args;
+  const contractType = params.type;
   await setQuantum(request, params);
-  if (params.type.includes('ERC721M')) {
+  if (contractType.includes('ERC721M')) {
     assert(params.tokenId, 'tokenId is required');
-    if (params.type === 'ERC721MC') {
+    if (contractType === 'ERC721MC') {
       assert(params.tokenUrl, 'tokenUrl is required');
     }
-    params.type = 'MINTABLE_ERC721';
     params.blob =
-      params.type === 'ERC721M'
+      contractType === 'ERC721M'
         ? hexToBuffer(ethers.utils.hexlify(Number(params.tokenId)))
         : getERC721MBlob(params.tokenUrl, params.tokenId.toString());
+    params.type = 'MINTABLE_ERC721';
   }
   const { type, ...data } = params;
   params.data = data;
-  const assetId: string = getAssetID(params);
+  const assetId: string = getAssetID(params, contractType);
   const assetType: string = getAssetType(params);
   return { assetId, assetType };
 };

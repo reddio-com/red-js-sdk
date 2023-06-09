@@ -7,11 +7,12 @@ describe('orderParams', () => {
       baseURL: 'https://api-dev.reddio.com',
     });
     const params = await getAssetTypeAndId(request, {
-      type: 'ERC721MC',
-      tokenId: '1100',
-      tokenAddress: '0xb95623b1d26a6e892c5B4e7B15B83D134156f3AA',
-      tokenUrl: 'https://api-dev.reddio.com/v3/balances?stark_key=0x179be264ab70bdc0949bbf3ae2ae3dcefd74562f24bd33459754df1c321f93',
+      type: 'ERC721',
+      tokenId: '2',
+      tokenAddress: '0x941661bd1134dc7cc3d107bf006b8631f6e65ad5',
+      // tokenUrl:
+      //   'https://api-dev.reddio.com/v3/balances?stark_key=0x179be264ab70bdc0949bbf3ae2ae3dcefd74562f24bd33459754df1c321f93',
     });
-    console.log(params, 111111);
+    console.log(params);
   });
 });
