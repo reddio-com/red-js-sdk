@@ -84,56 +84,57 @@ export interface RecordsParams extends StarkKeyParams, Partial<PageParams> {
   recordType?: number;
 }
 
-export interface TransferRecordResponse {
-  stark_key: string;
-  amount: string;
-  asset_id: string;
-  asset_type: `${Types}`;
-  asset_name: string;
-  contract_address: string;
-  record_type: number;
-  sequence_id: number;
-  reason: string;
-  status: number;
-  time: number;
-  display_value: string;
-  token_id?: string;
-  from?: string;
-  to?: string;
-  resp?: string;
-}
-
 export interface OrderRecordInfoResponse {
+  base_asset_id: string;
+  base_asset_name: string;
+  base_contract_address: string;
   direction: number;
-  filled: string;
-  volume: string;
-  price: string;
+  display_price: string;
+  fee_asset_name: string;
   fee_taken: string;
   fee_token_asset: string;
-  fee_asset_name: string;
-  quote_asset_name: string;
+  filled: string;
+  price: string;
   quote_asset_id: string;
-  base_asset_name: string;
-  base_asset_id: string;
-  base_contract_address: string;
-  quote_contract_address: string;
+  quote_asset_name: string;
   quote_asset_type: `${Types}`;
-  token_id?: string;
-  display_price: string;
+  quote_contract_address: string;
+  token_id: string;
+  volume: string;
 }
 
 export interface OrderRecordResponse {
   amount: string;
-  record_type: number;
+  order: OrderRecordInfoResponse;
+  record_type: 7 | 8;
   sequence_id: number;
   stark_key: string;
-  time: number;
   status: number;
-  order: OrderRecordInfoResponse;
-  resp?: string;
+  time: number;
 }
 
-export type RecordResponse = TransferRecordResponse | OrderRecordResponse;
+export interface AssetRecord {
+  amount: string;
+  asset_id: string;
+  asset_name: string;
+  asset_type: `${Types}`;
+  contract_address: string;
+  display_value: string;
+  record_type: 1 | 2 | 4;
+  sequence_id: number;
+  stark_key: string;
+  status: number;
+  time: number;
+  token_id: string;
+}
+
+export interface TransferFromRecordResponse extends Omit<AssetRecord, 'record_type'>{
+  from: string;
+  record_type: 3;
+  to: string;
+}
+
+export type RecordResponse = AssetRecord | TransferFromRecordResponse | OrderRecordResponse;
 
 /**
  * Contract
