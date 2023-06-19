@@ -47,7 +47,10 @@ export interface AssetInfo {
 
 export type BalanceResponse  = AssetInfo;
 
-export type BalancesV2Response = AssetInfo;
+export interface BalancesV2Response extends Omit<AssetInfo, 'token_uri'> {
+  available_token_ids: string[];
+  frozen_token_ids: string[]
+}
 
 interface Tokens {
   token_id: string;
