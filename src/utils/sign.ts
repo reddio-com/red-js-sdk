@@ -1,11 +1,13 @@
-import {
+import cryptoUtils from '@starkware-industries/starkware-crypto-utils';
+import { CancelOrderRequestParams, SignOrderParams } from '../types';
+
+const {
   getTransferMsgHash,
   getLimitOrderMsgHashWithFee,
-  sign as starkexSign,
+  sign: starkexSign,
   ec,
   pedersen,
-} from '@starkware-industries/starkware-crypto-utils';
-import { CancelOrderRequestParams, SignOrderParams } from '../types';
+} = cryptoUtils;
 
 export const signTransfer = (nonce: number, data: any) => {
   const {
@@ -27,7 +29,7 @@ export const signTransfer = (nonce: number, data: any) => {
     assetId,
     receiverVaultId,
     receiver,
-    expirationTimestamp,
+    expirationTimestamp
   );
   const keyPair = ec.keyFromPrivate(privateKey, 'hex');
   const msgSignature = starkexSign(keyPair, msgHash);
@@ -66,7 +68,7 @@ export const signOrder = (data: SignOrderParams) => {
     expirationTimestamp,
     feeToken,
     feeVaultId,
-    feeLimit,
+    feeLimit
   );
   const keyPair = ec.keyFromPrivate(data.privateKey, 'hex');
   const msgSignature = starkexSign(keyPair, msgHash);
