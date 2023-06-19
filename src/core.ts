@@ -30,7 +30,7 @@ import {
   Asset,
   ApproveErc721Params,
   WithdrawalFromL1Params,
-  BalanceV1Params,
+  BalanceParams,
   RecordParams,
   BalancesParams,
   OrderParams,
@@ -113,7 +113,7 @@ class Reddio {
       await this.getContractAddress();
       return depositERC721(this.request, this.contractAddress!, args);
     },
-    getBalance: async (args: BalanceV1Params) => getBalance(this.request, args),
+    getBalance: async (args: BalanceParams) => getBalance(this.request, args),
     getBalances: async (args: BalancesParams) =>
       getBalances(this.request, args),
     getBalancesV2: async (args: BalancesParams) =>

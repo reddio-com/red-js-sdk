@@ -2,7 +2,7 @@ import { AxiosInstance } from 'axios';
 import {
   Response,
   BalanceResponse,
-  BalanceV1Params,
+  BalanceParams,
   BalancesParams,
   PaginateResponse,
   BalancesV2Response,
@@ -12,7 +12,7 @@ import { parseParams } from '../utils/common';
 
 export async function getBalance(
   request: AxiosInstance,
-  params: BalanceV1Params
+  params: BalanceParams
 ) {
   return request.get<Response<BalanceResponse>>('/v1/balance', {
     params: {

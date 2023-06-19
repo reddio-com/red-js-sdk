@@ -10,7 +10,7 @@ import { Types } from '../utils';
 /**
  * Balance
  */
-export interface BalanceV1Params extends StarkKeyParams {
+export interface BalanceParams extends StarkKeyParams {
   assetId: string;
 }
 
