@@ -42,6 +42,7 @@ import {
   CollectionParams,
   RecordsParams,
   Client,
+  RecordsBySignatureParams,
 } from './types';
 import {
   Env,
@@ -49,7 +50,7 @@ import {
   generateFromEthSignature,
   getOrderParams,
 } from './utils';
-import { getRecord, getRecords } from './api/rocord';
+import { getRecord, getRecords, getRecordsBySignature } from './api/rocord';
 
 interface ReddioOptions {
   env?: 'test' | 'main' | 'mini';
@@ -123,6 +124,8 @@ class Reddio {
       getBalancesV3(this.request, args),
     getRecord: async (args: RecordParams) => getRecord(this.request, args),
     getRecords: async (args: RecordsParams) => getRecords(this.request, args),
+    getRecordsBySignature: async (args: RecordsBySignatureParams) =>
+      getRecordsBySignature(this.request, args),
     order: async (args: OrderRequestParams) => order(this.request, args),
     getOrderInfoWithId: async (id: number) =>
       getOrderInfoWithId(this.request, id),

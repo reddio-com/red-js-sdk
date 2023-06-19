@@ -5,6 +5,7 @@ import {
   RecordsParams,
   RecordResponse,
   PaginateResponse,
+  RecordsBySignatureParams,
 } from '../types';
 import { parseParams } from '../utils';
 
@@ -29,9 +30,9 @@ export async function getRecords(
 
 export async function getRecordsBySignature(
   request: AxiosInstance,
-  params: RecordsParams
+  params: RecordsBySignatureParams
 ) {
-  return request.get<PaginateResponse<[RecordResponse]>>(
+  return request.get<PaginateResponse<RecordResponse>>(
     '/v1/record/by/signature',
     {
       params: {

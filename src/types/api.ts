@@ -84,6 +84,11 @@ export interface RecordsParams extends StarkKeyParams, Partial<PageParams> {
   recordType?: number;
 }
 
+export interface RecordsBySignatureParams {
+  s: string;
+  r: number;
+}
+
 export interface OrderRecordInfoResponse {
   base_asset_id: string;
   base_asset_name: string;
