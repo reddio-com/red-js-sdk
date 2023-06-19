@@ -390,3 +390,12 @@ export interface CollectionResponse {
   quote_contract_address: string;
   base_contract_address: string;
 }
+
+export interface CollectionsResponse {
+  contract_address: string;
+  symbol: string;
+  type: `${Types}`;
+  total_supply: string;
+  asset_type: string;
+  base_uri: string;
+}

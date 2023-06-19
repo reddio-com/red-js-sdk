@@ -18,6 +18,7 @@ import {
   getBalancesV2,
   getCollection,
   getBalancesV3,
+  getCollections,
 } from './api';
 import { erc20Approve, erc721Approve, withdrawalFromL1 } from './contract';
 import {
@@ -131,6 +132,7 @@ class Reddio {
       cancelOrder(this.request, args),
     getCollection: async (arg: CollectionParams) =>
       getCollection(this.request, arg),
+    getCollections: async () => getCollections(this.request),
   };
 
   public readonly erc20 = {
