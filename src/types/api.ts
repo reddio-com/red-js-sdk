@@ -15,7 +15,6 @@ export interface BalanceParams extends StarkKeyParams {
 }
 
 export interface BalancesParams extends StarkKeyParams, Partial<PageParams> {
-  type?: `${Types}`;
   contractAddress?: string;
 }
 
