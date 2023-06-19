@@ -2,7 +2,7 @@ import { AxiosInstance } from 'axios';
 import {
   Response,
   BalanceResponse,
-  BalanceParams,
+  BalanceV1Params,
   BalancesParams,
   PaginateResponse,
   BalancesV2Response,
@@ -12,7 +12,7 @@ import { parseParams } from '../utils/common';
 
 export async function getBalance(
   request: AxiosInstance,
-  params: BalanceParams,
+  params: BalanceV1Params
 ) {
   return request.get<Response<BalanceResponse>>('/v1/balance', {
     params: {
@@ -23,7 +23,7 @@ export async function getBalance(
 
 export async function getBalances(
   request: AxiosInstance,
-  params: BalancesParams,
+  params: BalancesParams
 ) {
   return request.get<PaginateResponse<BalanceResponse[]>>('/v1/balances', {
     params: {
@@ -34,7 +34,7 @@ export async function getBalances(
 
 export async function getBalancesV2(
   request: AxiosInstance,
-  params: BalancesParams,
+  params: BalancesParams
 ) {
   return request.get<Response<BalancesV2Response[]>>('/v2/balances', {
     params: {
@@ -45,7 +45,7 @@ export async function getBalancesV2(
 
 export async function getBalancesV3(
   request: AxiosInstance,
-  params: BalancesParams,
+  params: BalancesParams
 ) {
   return request.get<Response<BalancesV3Response[]>>('/v3/balances', {
     params: {

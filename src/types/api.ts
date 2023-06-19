@@ -10,8 +10,8 @@ import { Types } from '../utils';
 /**
  * Balance
  */
-export interface BalanceParams extends StarkKeyParams {
-  assetId?: string;
+export interface BalanceV1Params extends StarkKeyParams {
+  assetId: string;
 }
 
 export interface BalancesParams extends StarkKeyParams, Partial<PageParams> {
@@ -24,19 +24,28 @@ export interface BalancesV2Params extends StarkKeyParams {
   contractAddress?: string;
 }
 
-export interface BalanceResponse {
+export interface AssetInfo {
   asset_id: string;
   contract_address: string;
   balance_available: number;
   balance_frozen: number;
+  withdraw_frozen: number;
   type: `${Types}`;
   decimals: number;
   symbol: string;
   quantum: number;
   display_value: string;
   display_frozen: string;
+  display_withdraw: string;
+  available: string;
+  frozen: string;
+  withdraw: string;
   token_id: string;
+  base_uri: string;
+  token_uri: string;
 }
+
+export type BalanceResponse  = AssetInfo;
 
 export interface BalancesV2Response {
   contract_address: string;
