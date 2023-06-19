@@ -50,7 +50,12 @@ import {
   generateFromEthSignature,
   getOrderParams,
 } from './utils';
-import { getRecord, getRecords, getRecordsBySignature } from './api/rocord';
+import {
+  getRecord,
+  getRecords,
+  getRecordsBySignature,
+  getTokenIdBySeqId,
+} from './api/rocord';
 
 interface ReddioOptions {
   env?: 'test' | 'main' | 'mini';
@@ -126,6 +131,8 @@ class Reddio {
     getRecords: async (args: RecordsParams) => getRecords(this.request, args),
     getRecordsBySignature: async (args: RecordsBySignatureParams) =>
       getRecordsBySignature(this.request, args),
+    getTokenIdBySeqId: async (args: number) =>
+      getTokenIdBySeqId(this.request, args),
     order: async (args: OrderRequestParams) => order(this.request, args),
     getOrderInfoWithId: async (id: number) =>
       getOrderInfoWithId(this.request, id),

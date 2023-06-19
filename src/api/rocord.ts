@@ -41,3 +41,7 @@ export async function getRecordsBySignature(
     }
   );
 }
+
+export async function getTokenIdBySeqId(request: AxiosInstance, id: number) {
+  return request.get<Response<{ token_id: number }>>(`/v1/token?seq_id=${id}`);
+}
