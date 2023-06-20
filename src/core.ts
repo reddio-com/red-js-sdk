@@ -41,7 +41,6 @@ import {
   CancelOrderRequestParams,
   CollectionParams,
   RecordsParams,
-  Client,
   RecordsBySignatureParams,
 } from './types';
 import {
@@ -56,10 +55,10 @@ import {
   getRecordsBySignature,
   getTokenIdBySeqId,
 } from './api/rocord';
+import { getAccount } from '@wagmi/core';
 
 interface ReddioOptions {
   env?: 'test' | 'main' | 'mini';
-  wagmiClient: Client;
   domain?: string;
 }
 
@@ -77,8 +76,6 @@ class Reddio {
 
   protected contractAddress: string | undefined;
 
-  protected client: Client;
-
   protected domain: string | undefined;
 
   protected walletAddress: string | undefined;
@@ -88,7 +85,6 @@ class Reddio {
     this.options.env = this.options.env || 'test';
     this.request = this.initRequest(options);
     this.cache = {} as CacheType;
-    this.client = options.wagmiClient;
     this.domain = options.domain;
   }
 
@@ -164,8 +160,12 @@ class Reddio {
       privateKey: string;
       publicKey: string;
     }> => {
-      const address = this.options.wagmiClient.data?.account;
-      if (this.walletAddress && address && this.walletAddress === address) {
+      const account = getAccount();
+      if (
+        this.walletAddress &&
+        account.address &&
+        this.walletAddress === account.address
+      ) {
         if (this.cache.privateKey && this.cache.publicKey) {
           return Promise.resolve({
             privateKey: this.cache.privateKey,
@@ -173,7 +173,7 @@ class Reddio {
           });
         }
       }
-      this.walletAddress = address;
+      this.walletAddress = account.address;
 
       return generateFromEthSignature(
         this.options.env || 'test',

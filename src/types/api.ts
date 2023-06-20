@@ -77,7 +77,7 @@ export interface BalancesV3Response {
  * Record
  */
 export interface RecordParams extends StarkKeyParams {
-  sequenceId?: number;
+  sequenceId: number;
 }
 export interface RecordsParams extends StarkKeyParams, Partial<PageParams> {
   contractAddress?: string;
