@@ -48,6 +48,7 @@ import {
   getAssetTypeAndId,
   generateFromEthSignature,
   getOrderParams,
+  generateFromSignTypedData,
 } from './utils';
 import {
   getRecord,
@@ -183,6 +184,14 @@ class Reddio {
         this.cache.publicKey = res.publicKey;
         return res;
       });
+    },
+    generateFromSignTypedData: (
+      data: string
+    ): {
+      privateKey: string;
+      publicKey: string;
+    } => {
+      return generateFromSignTypedData(data);
     },
   };
 

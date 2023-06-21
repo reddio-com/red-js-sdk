@@ -4,7 +4,7 @@ import { signTypedData } from '@wagmi/core';
 
 export const generateFromEthSignature = async (
   env: 'test' | 'main' | 'mini',
-  domain = 'reddio',
+  domain = 'reddio'
 ) => {
   const value = {
     domain: {
@@ -24,8 +24,14 @@ export const generateFromEthSignature = async (
     types: value.types,
   });
   const privateKey: string = keyDerivation.getPrivateKeyFromEthSignature(
-    result,
+    result
   );
+  const publicKey = `0x${keyDerivation.privateToStarkKey(privateKey)}`;
+  return { privateKey, publicKey };
+};
+
+export const generateFromSignTypedData = (data: string) => {
+  const privateKey: string = keyDerivation.getPrivateKeyFromEthSignature(data);
   const publicKey = `0x${keyDerivation.privateToStarkKey(privateKey)}`;
   return { privateKey, publicKey };
 };
