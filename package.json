@@ -31,11 +31,6 @@
     "analyze": "size-limit --why",
     "deploy-sdk": "rm -rf ./dist && yarn build && yarn changeset publish"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
     "*.ts": "yarn lint"
   },
