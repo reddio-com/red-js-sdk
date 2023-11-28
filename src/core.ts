@@ -20,7 +20,12 @@ import {
   getBalancesV3,
   getCollections,
 } from './api';
-import { erc20Approve, erc721Approve, withdrawalFromL1 } from './contract';
+import {
+  erc20Allowance,
+  erc20Approve,
+  erc721Approve,
+  withdrawalFromL1,
+} from './contract';
 import {
   DepositParams,
   DepositERC20Params,
@@ -42,9 +47,9 @@ import {
   CollectionParams,
   RecordsParams,
   RecordsBySignatureParams,
+  AllowanceErc20Params,
 } from './types';
 import {
-  Env,
   getAssetTypeAndId,
   generateFromEthSignature,
   getOrderParams,
@@ -147,6 +152,10 @@ class Reddio {
       await this.getContractAddress();
       return erc20Approve(this.contractAddress!, args);
     },
+    allowance: async (args: AllowanceErc20Params) => {
+      await this.getContractAddress();
+      return erc20Allowance(this.contractAddress!, args);
+    },
   };
 
   public readonly erc721 = {
@@ -157,7 +166,7 @@ class Reddio {
   };
 
   public readonly keypair = {
-    generateFromEthSignature: (): Promise<{
+    generateFromEthSignature: async (): Promise<{
       privateKey: string;
       publicKey: string;
     }> => {
@@ -176,14 +185,13 @@ class Reddio {
       }
       this.walletAddress = account.address;
 
-      return generateFromEthSignature(
+      const res = await generateFromEthSignature(
         this.options.env || 'test',
         this.domain
-      ).then(res => {
-        this.cache.privateKey = res.privateKey;
-        this.cache.publicKey = res.publicKey;
-        return res;
-      });
+      );
+      this.cache.privateKey = res.privateKey;
+      this.cache.publicKey = res.publicKey;
+      return res;
     },
     generateFromSignTypedData: (
       data: string
@@ -207,8 +215,8 @@ class Reddio {
   private getContractAddress = async () => {
     if (this.contractAddress) return;
     const { data } = await getContractAddress(this.request);
-    this.contractAddress =
-      this.options.env === Env.Main ? data.data.mainnet : data.data.testnet;
+    // @ts-ignore
+    this.contractAddress = data.data[this.options.env];
   };
 }
 

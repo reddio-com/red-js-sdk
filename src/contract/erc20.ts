@@ -1,7 +1,7 @@
 import { BigNumber, ethers } from 'ethers';
 import { prepareWriteContract, writeContract, readContract } from '@wagmi/core';
 import type { WriteContractResult } from '@wagmi/core';
-import { ApproveErc20Params } from '../types';
+import { AllowanceErc20Params, ApproveErc20Params } from '../types';
 import abi from '../abi/Erc20.abi.json';
 
 export const erc20Approve = async (
@@ -21,4 +21,17 @@ export const erc20Approve = async (
     args: [contractAddress, ethers.utils.parseUnits(amount.toString(), decimals)],
   });
   return writeContract(config);
+};
+
+export const erc20Allowance = async (
+  contractAddress: string,
+  params: AllowanceErc20Params,
+): Promise<any> => {
+  const { tokenAddress, ethAddress } = params;
+  return readContract({
+    address: tokenAddress as `0x${string}`,
+    abi,
+    functionName: 'allowance',
+    args: [ethAddress, contractAddress]
+  })
 };

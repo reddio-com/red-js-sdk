@@ -1,6 +1,7 @@
 // @eslint-ignore
 import { keyDerivation } from '@starkware-industries/starkware-crypto-utils';
 import { signTypedData } from '@wagmi/core';
+import { sepolia, mainnet } from '@wagmi/chains';
 
 export const generateFromEthSignature = async (
   env: 'test' | 'main' | 'mini',
@@ -8,7 +9,7 @@ export const generateFromEthSignature = async (
 ) => {
   const value = {
     domain: {
-      chainId: env === 'main' ? 1 : 5,
+      chainId: env === 'main' ? mainnet.id : sepolia.id,
     },
     message: {
       contents: 'Generate layer 2 key',

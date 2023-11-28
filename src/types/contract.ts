@@ -10,6 +10,10 @@ export interface ApproveErc20Params extends ErcCommonParams {
   amount: string | number;
 }
 
+export interface AllowanceErc20Params extends ErcCommonParams {
+  ethAddress: string;
+}
+
 export interface ApproveErc721Params extends ErcCommonParams {
   tokenId: string | number;
 }

@@ -272,6 +272,7 @@ export interface WithdrawalStatusResponse {
 export interface ContractsAddressResponse {
   mainnet: string;
   testnet: string;
+  sepolia: string;
 }
 
 /**
