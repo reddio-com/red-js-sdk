@@ -54,6 +54,7 @@ import {
   generateFromEthSignature,
   getOrderParams,
   generateFromSignTypedData,
+  Env,
 } from './utils';
 import {
   getRecord,
@@ -216,7 +217,8 @@ class Reddio {
     if (this.contractAddress) return;
     const { data } = await getContractAddress(this.request);
     // @ts-ignore
-    this.contractAddress = data.data[this.options.env];
+    this.contractAddress =
+      this.options.env === Env.Main ? data.data.mainnet : data.data.sepolia;
   };
 }
 
