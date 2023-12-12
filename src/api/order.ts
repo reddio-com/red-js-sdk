@@ -10,6 +10,8 @@ import {
   CancelOrderRequestParams,
   SequenceIdResponse,
   PaginateResponse,
+  GetDepthRequestParams,
+  GetDepthResponse,
 } from '../types';
 import { parseParams } from '../utils/common';
 import { signCancelOrder } from '../utils/sign';
@@ -63,4 +65,15 @@ export async function cancelOrder(
       },
     }
   );
+}
+
+export async function getDepth(
+  request: AxiosInstance,
+  params: GetDepthRequestParams
+) {
+  return request.get<Response<GetDepthResponse>>('/v1/depth', {
+    params: {
+      ...parseParams(params),
+    },
+  });
 }

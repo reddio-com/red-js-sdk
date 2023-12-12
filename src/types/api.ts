@@ -337,6 +337,11 @@ export interface OrderListRequestParams extends Partial<PageParams> {
   token_ids?: string;
 }
 
+export interface GetDepthRequestParams {
+  baseContract?: string;
+  quoteContract?: string;
+}
+
 export interface OrderResponse {
   sequence_id: number;
 }
@@ -380,6 +385,11 @@ export interface OrderListResponse {
   un_filled: string;
   symbol: OrderSymbol;
   fee_rate: string;
+}
+
+export interface GetDepthResponse {
+  bids: Array<[string, string]> | null;
+  asks: Array<[string, string]> | null;
 }
 
 export interface CollectionParams {
