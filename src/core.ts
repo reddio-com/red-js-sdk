@@ -19,6 +19,8 @@ import {
   getCollection,
   getBalancesV3,
   getCollections,
+  getDepth,
+  getTrades,
 } from './api';
 import {
   erc20Allowance,
@@ -48,6 +50,8 @@ import {
   RecordsParams,
   RecordsBySignatureParams,
   AllowanceErc20Params,
+  GetDepthRequestParams,
+  GetTradesRequestParams,
 } from './types';
 import {
   getAssetTypeAndId,
@@ -143,6 +147,10 @@ class Reddio {
       orderList(this.request, args),
     cancelOrder: async (args: CancelOrderRequestParams) =>
       cancelOrder(this.request, args),
+    getDepth: async (args: GetDepthRequestParams) =>
+      getDepth(this.request, args),
+    getTrades: async (args: GetTradesRequestParams) =>
+      getTrades(this.request, args),
     getCollection: async (arg: CollectionParams) =>
       getCollection(this.request, arg),
     getCollections: async () => getCollections(this.request),
