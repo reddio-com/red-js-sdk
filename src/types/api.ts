@@ -342,6 +342,13 @@ export interface GetDepthRequestParams {
   quoteContract?: string;
 }
 
+export interface GetTradesRequestParams extends Partial<PageParams>{
+  orderId?: number;
+  starkKey?: string;
+  baseTokenContractAddr?: string;
+  quoteTokenContractAddr?: string;
+}
+
 export interface OrderResponse {
   sequence_id: number;
 }
@@ -390,6 +397,23 @@ export interface OrderListResponse {
 export interface GetDepthResponse {
   bids: Array<[string, string]> | null;
   asks: Array<[string, string]> | null;
+}
+
+export interface GetTradesResponse extends OrderSymbol{
+  taker_order_id: number;
+  maker_order_id: number;
+  price: string;
+  orig_qty: string;
+  executed_qty: string;
+  time: number;
+  status: string;
+  type: string;
+  side: string;
+  fee: string;
+  is_taker: boolean;
+  taker: string;
+  maker: string;
+  direction: number;
 }
 
 export interface CollectionParams {

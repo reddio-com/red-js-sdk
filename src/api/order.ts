@@ -12,9 +12,12 @@ import {
   PaginateResponse,
   GetDepthRequestParams,
   GetDepthResponse,
+  GetTradesRequestParams,
+  GetTradesResponse,
 } from '../types';
 import { parseParams } from '../utils/common';
 import { signCancelOrder } from '../utils/sign';
+import assert from 'assert';
 
 export async function order(
   request: AxiosInstance,
@@ -72,6 +75,28 @@ export async function getDepth(
   params: GetDepthRequestParams
 ) {
   return request.get<Response<GetDepthResponse>>('/v1/depth', {
+    params: {
+      ...parseParams(params),
+    },
+  });
+}
+
+export async function getTrades(
+  request: AxiosInstance,
+  params: GetTradesRequestParams
+) {
+  if (params.baseTokenContractAddr || params.quoteTokenContractAddr) {
+    assert(
+      params.baseTokenContractAddr && params.quoteTokenContractAddr,
+      'baseTokenContractAddr and quoteTokenContractAddr is required'
+    );
+  } else {
+    assert(
+      params.orderId || params.starkKey,
+      'orderId or starkKey is required'
+    );
+  }
+  return request.get<PaginateResponse<GetTradesResponse>>('/v1/trades', {
     params: {
       ...parseParams(params),
     },
