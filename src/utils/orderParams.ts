@@ -8,7 +8,7 @@ import { parseParams } from './common';
 
 export async function getOrderParams(
   request: AxiosInstance,
-  params: OrderParams,
+  params: OrderParams
 ): Promise<OrderRequestParams> {
   const {
     orderType,
@@ -16,7 +16,7 @@ export async function getOrderParams(
     amount,
     keypair,
     tokenType,
-    tokenId,
+    tokenId = '',
     tokenAddress,
     marketplaceUuid,
     baseTokenAddress,
@@ -33,25 +33,29 @@ export async function getOrderParams(
   if (baseTokenType && baseTokenAddress) {
     contract1 = `${baseTokenType}:${baseTokenAddress}`;
   }
+  const contract2 = tokenId
+    ? `${tokenType}:${tokenAddress}:${tokenId}`
+    : `${tokenType}:${tokenAddress}`;
   const { data } = await info(request, {
     starkKey,
     contract1,
-    contract2: `${tokenType}:${tokenAddress}:${tokenId}`,
+    contract2,
   });
   const { vault_ids } = data.data;
   const quoteToken = data.data.asset_ids[1];
   const direction = Number(orderType === 'buy');
   const amountBuy = ethers.utils.parseUnits(
     (Number(price) * Number(amount)).toString(),
-    6,
+    6
   );
   const formatPrice = ethers.utils.parseUnits(price, 6);
+  const amountSell = tokenId ? amount.toString() : amountBuy.toString();
   let partParams;
   if (!direction) {
     partParams = {
       tokenSell: quoteToken,
       tokenBuy: data.data.base_token,
-      amountSell: amount.toString(),
+      amountSell,
       amountBuy: amountBuy.toString(),
       vaultIdBuy: vault_ids[0],
       vaultIdSell: vault_ids[1],
@@ -60,7 +64,7 @@ export async function getOrderParams(
     partParams = {
       tokenSell: data.data.base_token,
       tokenBuy: quoteToken,
-      amountSell: amountBuy.toString(),
+      amountSell,
       amountBuy: amount.toString(),
       vaultIdBuy: vault_ids[1],
       vaultIdSell: vault_ids[0],
@@ -86,11 +90,11 @@ export async function getOrderParams(
   return parseParams({
     ...obj,
     quoteToken,
-    amount,
+    amount: tokenId ? amount : ethers.utils.parseUnits(amount, 6).toString(),
     starkKey,
     signature,
     direction,
-    price: formatPrice.toString(),
+    price: tokenId ? formatPrice.toString() : price,
     baseToken: data.data.base_token,
     feeInfo: {
       feeLimit,
