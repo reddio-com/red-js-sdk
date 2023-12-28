@@ -116,6 +116,7 @@ export interface OrderRecordResponse {
   stark_key: string;
   status: number;
   time: number;
+  resp?: string;
 }
 
 export interface AssetRecord {
@@ -131,6 +132,7 @@ export interface AssetRecord {
   status: number;
   time: number;
   token_id: string;
+  resp?: string;
 }
 
 export interface TransferFromRecordResponse extends Omit<AssetRecord, 'record_type'>{
