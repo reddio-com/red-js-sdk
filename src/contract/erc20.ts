@@ -14,11 +14,12 @@ export const erc20Approve = async (
     abi,
     functionName: 'decimals',
   }) as BigNumber | undefined;
+  const value = amount === 'max' ? '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff' : ethers.utils.parseUnits(amount.toString(), decimals);
   const config = await prepareWriteContract({
     address: tokenAddress as `0x${string}`,
     abi,
     functionName: 'approve',
-    args: [contractAddress, ethers.utils.parseUnits(amount.toString(), decimals)],
+    args: [contractAddress, value],
   });
   return writeContract(config);
 };

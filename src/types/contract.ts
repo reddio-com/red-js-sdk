@@ -7,7 +7,7 @@ export interface ErcCommonParams {
  * Approve
  */
 export interface ApproveErc20Params extends ErcCommonParams {
-  amount: string | number;
+  amount: string | number | 'max';
 }
 
 export interface AllowanceErc20Params extends ErcCommonParams {
