@@ -9,11 +9,16 @@ export const erc20Approve = async (
   params: ApproveErc20Params,
 ): Promise<WriteContractResult> => {
   const { tokenAddress, amount } = params;
-  const decimals = await readContract({
-    address: tokenAddress as `0x${string}`,
-    abi,
-    functionName: 'decimals',
-  }) as BigNumber | undefined;
+  let decimals: BigNumber = BigNumber.from(18);
+  try {
+    decimals = await readContract({
+      address: tokenAddress as `0x${string}`,
+      abi,
+      functionName: 'decimals',
+    }) as BigNumber;
+  } catch (e) {
+    console.log(e);
+  }
   const value = amount === 'max' ? '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff' : ethers.utils.parseUnits(amount.toString(), decimals);
   const config = await prepareWriteContract({
     address: tokenAddress as `0x${string}`,
